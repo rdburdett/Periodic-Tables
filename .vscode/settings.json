@@ -1,0 +1,14 @@
+{
+  "sqltools.connections": [
+    {
+      "previewLimit": 50,
+      "server": "fanny.db.elephantsql.com",
+      "port": 5432,
+      "driver": "PostgreSQL",
+      "password": "JzKqSXK9LzislmBN4tM8CUfmUimUVNVR",
+      "database": "tlfryhzq",
+      "username": "tlfryhzq",
+      "name": "Restaurant Production"
+    }
+  ]
+}

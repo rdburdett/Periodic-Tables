@@ -17,13 +17,3 @@ function App() {
 }
 
 export default App;
-
-const object = {
-  number1: 1,
-  number2: 3,
-  sum() {
-    return this.number1 + this.number2;
-  }
-}
-
-let sum = object.sum()
