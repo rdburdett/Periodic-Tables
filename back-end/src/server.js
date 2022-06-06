@@ -1,6 +1,6 @@
 const { PORT = 3001 } = process.env;
 
-const app = require("./app");
+const app = require("./index");
 const knex = require("./db/connection");
 
 knex.migrate
