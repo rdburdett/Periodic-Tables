@@ -1,28 +1,33 @@
-const knex = require("/knex")
+const knex = require("../../db/connection.js");
 
-const read = (knex, reservationId) => {
+function read(reservationId) {
   return knex("reservations")
     .select("*")
     .where({ reservation_id: reservationId })
     .first();
 };
 
-const list = (knex) => {
-  return knex("reservations").select("*");
+function list() {
+  return knex("reservations")
+    .select("*");
 };
-const create = (knex, reservation) => {
-  return knex("reservations").insert(reservation).returning("*");
+function create(reservation) {
+  return knex("reservations")
+    .insert(reservation)
+    .returning("*");
 };
-const update = (knex, reservationId, updatedReservation) => {
+function update(reservationId, updatedReservation) {
   return knex("reservations")
     .select("*")
     .where({ reservation_id: reservationId })
     .update(updatedReservation, "*");
 };
-const destroy = (knex, reservationId) => {
-  return knex("reservations").where({ reservation_id: reservationId }).del();
+function destroy(reservationId) {
+  return knex("reservations")
+    .where({ reservation_id: reservationId })
+    .del();
 };
-const listByDate = (knex, date) => {
+function listByDate(date) {
   return knex("reservations")
     .select("*")
     .where({ reservation_date: date })
@@ -31,7 +36,7 @@ const listByDate = (knex, date) => {
     .orderBy("reservation_time", "asc");
 };
 
-const search = (knex, mobile_number) => {
+function search(mobile_number) {
   return knex("reservations")
     .whereRaw(
       "translate(mobile_number, '() -', '') like ?",
