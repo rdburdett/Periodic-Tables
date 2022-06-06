@@ -83,7 +83,7 @@ function hasOnlyValidProperties(req, res, next) {
   if (invalidFields.length) {
     return next({
       status: 400,
-      message: `Invalid field(s): ${invalidFields.join(", ")}`,
+      message: `Invalids field(s): ${invalidFields.join(", ")}`,
     });
   }
   next();
