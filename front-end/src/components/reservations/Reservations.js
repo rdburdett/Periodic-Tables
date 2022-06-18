@@ -7,8 +7,8 @@ function Reservations({ reservations = [] }) {
   return reservations.length > 0 ? (
     <div className="container">
       {reservations.map((element, index) => (
-      <Card key={index} reservation={element} />
-    ))}
+        <Card key={index} reservation={element} />
+      ))}
     </div>
   ) : "No current reservations"
 }
