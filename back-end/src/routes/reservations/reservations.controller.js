@@ -57,8 +57,8 @@
 
 const service = require("./reservations.service");
 const asyncErrorBoundary = require("../../errors/asyncErrorBoundary");
-//list of valid properties for incoming data
 
+//list of valid properties for incoming data
 const VALID_PROPERTIES = [
   "first_name",
   "last_name",
@@ -73,7 +73,6 @@ const VALID_PROPERTIES = [
 ];
 
 //check incoming data only has valid properties
-
 function hasOnlyValidProperties(req, res, next) {
   const { data } = req.body;
   const invalidFields = Object.keys(data).filter(
@@ -83,14 +82,13 @@ function hasOnlyValidProperties(req, res, next) {
   if (invalidFields.length) {
     return next({
       status: 400,
-      message: `Invalids field(s): ${invalidFields.join(", ")}`,
+      message: `Invalid field(s): ${invalidFields.join(", ")}`,
     });
   }
   next();
 }
 
 //check incoming data matches all reservation criteria
-
 function dataValidation(req, res, next) {
   const { data } = req.body;
   //add time stamp of last moment of the day to prevent time zone date mishaps
@@ -106,7 +104,7 @@ function dataValidation(req, res, next) {
   the reservation is made for a date in the past, the reservation is on a
   Tuesday (UTCDay 2) or the reservation is not between 10:30am & 9:30 pm*/
   if (data.people <= 0)
-    return next({ status: 400, message: "Not enough people in the party" });
+    return next({ status: 400, message: "Your party must contain at least one person" });
   if (inputDate < compareDate)
     return next({
       status: 400,
