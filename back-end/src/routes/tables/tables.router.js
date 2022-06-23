@@ -21,13 +21,13 @@ const methodNotAllowed = require("../../errors/methodNotAllowed");
    .post(controller.create)
    .all(methodNotAllowed);
  router
-   .route("/:tablesId")
+   .route("/:tableId")
    .get(controller.read)
    .put(controller.update)
    .delete(controller.destroy)
    .all(methodNotAllowed);
  router
-   .route("/:tablesId/seat")
+   .route("/:tableId/seat")
    .put(controller.seat)
    .delete(controller.unseat)
    .all(methodNotAllowed);
