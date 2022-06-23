@@ -1,4 +1,3 @@
-
 module.exports = [
   {
     "first_name": "Rick",
