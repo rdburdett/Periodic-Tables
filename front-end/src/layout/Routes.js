@@ -1,6 +1,8 @@
 import React from "react";
 
-import { Redirect, Route, Switch } from "react-router-dom";
+import Redirect from "react-router-dom";
+import Route from "react-router-dom";
+import Switch from "react-router-dom";
 import Dashboard from "../dashboard/Dashboard";
 import NewReservation from "../components/reservations/NewReservation";
 import NotFound from "./NotFound";

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { listReservations } from "../utils/api";
 import ErrorAlert from "../layout/ErrorAlert";
-import Card from "../components/reservations/Card";
-import Reservations from "../components/reservations/Reservations";
+// import Card from "../components/reservations/Card.js";
+import Reservations from "../components/reservations/Reservations.js";
 
 
 /**
