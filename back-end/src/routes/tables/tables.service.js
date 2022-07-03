@@ -1,5 +1,6 @@
 const knex = require("../../db/connection.js");
 
+// READ
 function read(tableId) {
   return knex("tables")
     .select("*")
@@ -7,17 +8,20 @@ function read(tableId) {
     .first();
 };
 
+// LIST
 function list() {
   return knex("tables")
     .select("*")
     .orderBy("table_name", "asc");
 };
 
+// CREATE
 function create(newTable) {
   return knex("tables")
-    .insert(newTable)
-    .returning("*");
+    .insert(newTable, "*")
+    .then((createdTable) => createdTable[0]);
 };
+
 
 function update(tableId, updatedTable) {
   return knex("tables")
@@ -25,6 +29,7 @@ function update(tableId, updatedTable) {
     .where({ table_id: tableId })
     .update(updatedTable, "*");
 };
+
 
 function destroy(reservationId) {
   return knex("tables")

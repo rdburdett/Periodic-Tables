@@ -5,6 +5,7 @@ const knex = require("../src/db/connection");
 
 describe("US-08 - Change an existing reservation", () => {
   beforeAll(() => {
+    console.log("Migrating db")
     return knex.migrate
       .forceFreeMigrationsLock()
       .then(() => knex.migrate.rollback(null, true))

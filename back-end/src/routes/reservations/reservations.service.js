@@ -1,5 +1,6 @@
 const knex = require("../../db/connection.js");
 
+// READ
 function read(reservationId) {
   return knex("reservations")
     .select("*")
@@ -7,26 +8,35 @@ function read(reservationId) {
     .first();
 };
 
+// LIST
 function list() {
   return knex("reservations")
     .select("*");
 };
+
+// CREATE
 function create(reservation) {
   return knex("reservations")
-    .insert(reservation)
-    .returning("*");
+    .insert(reservation, "*")
+    .then((createdReservation) => createdReservation[0]);
 };
-function update(reservationId, updatedReservation) {
+
+
+function update(updatedReservation) {
   return knex("reservations")
     .select("*")
-    .where({ reservation_id: reservationId })
+    .where({ reservation_id: updatedReservation.reservation_id })
     .update(updatedReservation, "*");
 };
+
+
 function destroy(reservationId) {
   return knex("reservations")
     .where({ reservation_id: reservationId })
     .del();
 };
+
+
 function listByDate(date) {
   return knex("reservations")
     .select("*")
@@ -35,6 +45,7 @@ function listByDate(date) {
     .whereNot({ status: "Cancelled" })
     .orderBy("reservation_time", "asc");
 };
+
 
 function search(mobile_number) {
   return knex("reservations")

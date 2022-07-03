@@ -17,8 +17,8 @@ function propertyValidation(req, res, next) {
 }
 
 async function tableExists(req, res, next) {
-  const error = { status: 404, message: `Table cannot be found.` };
   const { tableId } = req.params;
+  const error = { status: 404, message: `Table ${tableId} cannot be found.` };
   if (!tableId) return next(error);
 
   let table = await service.read(tableId);

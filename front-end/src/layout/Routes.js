@@ -1,8 +1,6 @@
 import React from "react";
 
-import Redirect from "react-router-dom";
-import Route from "react-router-dom";
-import Switch from "react-router-dom";
+import { Redirect, Route, Switch } from "react-router-dom";
 import Dashboard from "../dashboard/Dashboard";
 import NewReservation from "../components/reservations/NewReservation";
 import NotFound from "./NotFound";
@@ -17,6 +15,7 @@ import NewTable from "../components/tables/NewTable";
  *
  * @returns {JSX.Element}
  */
+
 function Routes() {
   return (
     <Switch>
@@ -42,7 +41,6 @@ function Routes() {
       </Route>
 
       {/* TABLES */}
-
       <Route exact={true} path="/tables/new">
         <NewTable />
       </Route>
