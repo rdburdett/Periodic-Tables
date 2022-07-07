@@ -38,6 +38,7 @@ function validatePeople(req, res, next, data) {
     });
 
   if (typeof data.people !== "number") {
+    console.log("people is not a number", data, typeof data.people)
     return next({
       status: 400,
       message: `Property 'people' must be a number.`,
@@ -111,7 +112,7 @@ function validateStatus(req, res, next, data) {
   const validStatus = ["booked", "seated", "finished", "cancelled"];
 
   if (!data.status) {
-    console.log(data)
+    // console.log(data)
     return next({
       status: 400,
       message: "Status is empty."
@@ -198,8 +199,12 @@ async function reservationExists(req, res, next) {
 }
 // CREATE NEW RESERVATION
 async function create(req, res, next) {
+  console.log("create req.body.data", req.body.data)
+
+  const response = await service.create(req.body.data)
+  console.log("controller respone", response)
   res.status(201).json({
-    data: await service.create(req.body.data)
+    data: response
   });
 }
 
@@ -215,7 +220,6 @@ async function update(req, res, next) {
     post_id: res.locals.reservation.reservation_id
   }
   if (inputDate < compareDate) {
-    console.log("past input date")
     next({
       status: 400,
       message: `Reservation must occur in the future to be updated.`
@@ -234,15 +238,26 @@ async function destroy(req, res, next) {
   res.sendStatus(204);
 }
 
-// SEARCH FOR RESERVATION
-async function search(req, res, next) {
+// SEARCH FOR RESERVATION BY MOBILE NUMBER
+async function searchMobile(req, res, next) {
   let { mobile_number = "xxx-xxx-xxxx" } = req.query;
 
-  let reservations = await service.search(mobile_number);
+  let reservations = await service.searchMobile(mobile_number);
 
   if (reservations instanceof Error)
     return next({ message: reservations.message });
   res.json({ data: reservations });
+}
+
+// SEARCH FOR RESERVATION BY DATE
+async function searchDate(req, res, next) {
+  let { reservation_date } = req.query;
+
+  // let reservations = await service.searchDate(reservation_date);
+
+  // if (reservations instanceof Error)
+  //   return next({ message: reservations.message });
+  res.json({ data: await service.searchDate(reservation_date) });
 }
 
 // GET SPECIFIC RESERVATION
@@ -297,7 +312,7 @@ module.exports = {
     statusUpdate,
   ],
   destroy: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(destroy)],
-  search: [asyncErrorBoundary(search)],
+  search: [asyncErrorBoundary(searchDate)],
   listByDate: [asyncErrorBoundary(listByDate)],
   read: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(read)],
 };

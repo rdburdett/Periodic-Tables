@@ -21,7 +21,7 @@ function create(reservation) {
     .then((createdReservation) => createdReservation[0]);
 };
 
-
+// UPDATE
 function update(updatedReservation) {
   return knex("reservations")
     .select("*")
@@ -29,14 +29,14 @@ function update(updatedReservation) {
     .update(updatedReservation, "*");
 };
 
-
+// DELETE
 function destroy(reservationId) {
   return knex("reservations")
     .where({ reservation_id: reservationId })
     .del();
 };
 
-
+// LIST BY DATE
 function listByDate(date) {
   return knex("reservations")
     .select("*")
@@ -46,8 +46,8 @@ function listByDate(date) {
     .orderBy("reservation_time", "asc");
 };
 
-
-function search(mobile_number) {
+// SEARCH
+function searchMobile(mobile_number) {
   return knex("reservations")
     .whereRaw(
       "translate(mobile_number, '() -', '') like ?",
@@ -56,9 +56,19 @@ function search(mobile_number) {
     .orderBy("reservation_date");
 };
 
+function searchDate(reservation_date) {
+  return knex("reservations")
+    .whereRaw(
+      "translate(reservation_date, '() -', '') like ?",
+      `%${reservation_date.replace(/\D/g, "")}%`
+    )
+    .orderBy("reservation_date");
+};
+
 module.exports = {
   list,
-  search,
+  searchMobile,
+  searchDate,
   create,
   read,
   update,
