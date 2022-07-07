@@ -38,7 +38,6 @@ function validatePeople(req, res, next, data) {
     });
 
   if (typeof data.people !== "number") {
-    console.log("people is not a number", data, typeof data.people)
     return next({
       status: 400,
       message: `Property 'people' must be a number.`,
@@ -112,7 +111,6 @@ function validateStatus(req, res, next, data) {
   const validStatus = ["booked", "seated", "finished", "cancelled"];
 
   if (!data.status) {
-    // console.log(data)
     return next({
       status: 400,
       message: "Status is empty."
@@ -199,10 +197,7 @@ async function reservationExists(req, res, next) {
 }
 // CREATE NEW RESERVATION
 async function create(req, res, next) {
-  console.log("create req.body.data", req.body.data)
-
   const response = await service.create(req.body.data)
-  console.log("controller respone", response)
   res.status(201).json({
     data: response
   });
@@ -251,13 +246,8 @@ async function searchMobile(req, res, next) {
 
 // SEARCH FOR RESERVATION BY DATE
 async function searchDate(req, res, next) {
-  let { reservation_date } = req.query;
-
-  // let reservations = await service.searchDate(reservation_date);
-
-  // if (reservations instanceof Error)
-  //   return next({ message: reservations.message });
-  res.json({ data: await service.searchDate(reservation_date) });
+  let { date } = req.query;
+  res.json({ data: await service.searchDate(date) });
 }
 
 // GET SPECIFIC RESERVATION
@@ -268,18 +258,20 @@ async function read(req, res, next) {
 
 // LIST BY DATE
 async function listByDate(req, res, next) {
-  const { reservation_date } = req.query;
-  const error = { status: 404, message: "Reservation Date cannot be found." };
-  if (!reservation_date) return next(error);
-  let reservations = await service.listByDate(reservation_date);
-  if (reservations instanceof Error) return next({ message: reservations.message });
+  const { date } = req.query;
+  // const error = { status: 404, message: "Reservation Date cannot be found." };
 
+  // if (!date) return next(error);
+
+  let reservations = await service.listByDate(date);
+  // if (reservations instanceof Error) return next({ message: reservations.message });
+  console.log(reservations)
   res.json({ data: reservations });
 
-  res.json({
-    data:
-      await service.listByDate(reservation_date)
-  })
+  // res.json({
+  //   data:
+  //     await service.listByDate(date)
+  // })
 }
 
 // UPDATE SEATING STATUS

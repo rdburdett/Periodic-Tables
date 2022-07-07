@@ -38,6 +38,7 @@ function destroy(reservationId) {
 
 // LIST BY DATE
 function listByDate(date) {
+  console.log("date: ", date)
   return knex("reservations")
     .select("*")
     .where({ reservation_date: date })
