@@ -57,13 +57,10 @@ function searchMobile(mobile_number) {
     .orderBy("reservation_date");
 };
 
-function searchDate(reservation_date) {
+function searchDate(date) {
   return knex("reservations")
-    .whereRaw(
-      "translate(reservation_date, '() -', '') like ?",
-      `%${reservation_date.replace(/\D/g, "")}%`
-    )
-    .orderBy("reservation_date");
+    .where({ reservation_date: date })
+    .orderBy("reservation_time", "asc");
 };
 
 module.exports = {
