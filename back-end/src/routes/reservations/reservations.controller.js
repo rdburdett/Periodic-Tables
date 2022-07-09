@@ -232,15 +232,16 @@ async function destroy(req, res, next) {
   res.sendStatus(204);
 }
 
+async function search(req, res, next) {
+  if (req.query.mobile_number) searchMobile(req, res, next)
+  if (req.query.date) searchDate(req, res, next)
+  // add next?
+}
+
 // SEARCH FOR RESERVATION BY MOBILE NUMBER
 async function searchMobile(req, res, next) {
   let { mobile_number = "xxx-xxx-xxxx" } = req.query;
-
-  let reservations = await service.searchMobile(mobile_number);
-
-  if (reservations instanceof Error)
-    return next({ message: reservations.message });
-  res.json({ data: reservations });
+  res.json({ data: await service.searchMobile(mobile_number) });
 }
 
 // SEARCH FOR RESERVATION BY DATE
@@ -253,24 +254,6 @@ async function searchDate(req, res, next) {
 async function read(req, res, next) {
   const { reservation } = res.locals;
   res.json({ data: reservation });
-}
-
-// LIST BY DATE
-async function listByDate(req, res, next) {
-  const { date } = req.query;
-  // const error = { status: 404, message: "Reservation Date cannot be found." };
-
-  // if (!date) return next(error);
-
-  let reservations = await service.listByDate(date);
-  // if (reservations instanceof Error) return next({ message: reservations.message });
-  console.log(reservations)
-  res.json({ data: reservations });
-
-  // res.json({
-  //   data:
-  //     await service.listByDate(date)
-  // })
 }
 
 // UPDATE SEATING STATUS
@@ -304,7 +287,6 @@ module.exports = {
     statusUpdate,
   ],
   destroy: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(destroy)],
-  search: [asyncErrorBoundary(searchDate)],
-  listByDate: [asyncErrorBoundary(listByDate)],
+  search: [asyncErrorBoundary(search)],
   read: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(read)],
 };

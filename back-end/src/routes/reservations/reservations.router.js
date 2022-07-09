@@ -20,10 +20,10 @@
    .post(controller.create)
    .all(methodNotAllowed);
 
-router
-  .route("/byDate")
-  .get(controller.listByDate)
-  .all(methodNotAllowed);
+// router
+//   .route("/byDate")
+//   .get(controller.listByDate)
+//   .all(methodNotAllowed);
 
  router
    .route("/:reservationId")
