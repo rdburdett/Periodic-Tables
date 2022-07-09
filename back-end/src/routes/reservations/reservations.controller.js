@@ -165,9 +165,9 @@ function validateMobilePhone(req, res, next, data) {
 function dataValidation(req, res, next) {
   const { data } = req.body;
   if(!data){
-    next({
+    return next({
       status: 400,
-      message: "Please fill in required fields"
+      message: "Please fill in required fields."
     })
   }
   

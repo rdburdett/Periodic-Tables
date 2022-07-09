@@ -23,10 +23,10 @@ function create(newTable) {
 };
 
 
-function update(tableId, updatedTable) {
+function update(updatedTable) {
   return knex("tables")
     .select("*")
-    .where({ table_id: tableId })
+    .where({ table_id: updatedTable.tableId })
     .update(updatedTable, "*");
 };
 

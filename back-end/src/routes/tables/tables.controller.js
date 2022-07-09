@@ -2,7 +2,13 @@ const service = require("./tables.service.js");
 
 // VALIDATE REQUEST PROPERTIES
 function propertyValidation(req, res, next) {
-  const data = ({} = req.body);
+  const { data } = req.body;
+  if(!data){
+    return next({
+      status: 400,
+      message: "Please fill in required fields."
+    })
+  }
   const validFields = new Set([
     "table_name",
     "capacity",
