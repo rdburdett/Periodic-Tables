@@ -8,28 +8,26 @@
  * updating of a reservation's status.
  */
 
- const router = require("express").Router();
- const controller = require("./reservations.controller");
- const methodNotAllowed = require("../../errors/methodNotAllowed");
- 
- 
- 
- router
-   .route("/")
-   .get(controller.search)
-   .post(controller.create)
-   .all(methodNotAllowed);
+const router = require("express").Router();
+const controller = require("./reservations.controller");
+const methodNotAllowed = require("../../errors/methodNotAllowed");
 
- router
-   .route("/:reservationId")
-   .get(controller.read)
-   .put(controller.update)
-   .delete(controller.destroy)
-   .all(methodNotAllowed);
+router
+  .route("/")
+  .get(controller.search)
+  .post(controller.create)
+  .all(methodNotAllowed);
 
- router
-   .route("/:reservationId/status")
-   .put(controller.statusUpdate)
-   .all(methodNotAllowed);
+router
+  .route("/:reservationId")
+  .get(controller.read)
+  .put(controller.update)
+  .delete(controller.destroy)
+  .all(methodNotAllowed);
+
+router
+  .route("/:reservationId/status")
+  .put(controller.statusUpdate)
+  .all(methodNotAllowed);
 
 module.exports = router;
