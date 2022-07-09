@@ -1,12 +1,20 @@
 const service = require("./tables.service.js");
 
-const VALID_PROPERTIES = ["table_name", "capacity", "reservation_id", "status"];
-
+// VALIDATE REQUEST PROPERTIES
 function propertyValidation(req, res, next) {
   const data = ({} = req.body);
-  const invalidFields = Object.keys(data).filter(
-    (field) => !VALID_PROPERTIES.includes(field)
+  const validFields = new Set([
+    "table_name",
+    "capacity",
+    "reservation_id",
+    "status"
+  ]);
+  
+  const invalidFields = Object
+    .keys(data)
+    .filter((field) => !validFields.includes(field)
   );
+
   if (invalidFields.length) {
     return next({
       status: 400,
