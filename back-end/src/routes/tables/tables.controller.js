@@ -1,7 +1,7 @@
 const service = require("./tables.service.js");
+const asyncErrorBoundary = require("../../errors/asyncErrorBoundary");
 
-// VALIDATE REQUEST PROPERTIES
-function propertyValidation(req, res, next) {
+function hasData(req, res, next) {
   const { data } = req.body;
   if(!data){
     return next({
@@ -9,6 +9,12 @@ function propertyValidation(req, res, next) {
       message: "Please fill in required fields."
     })
   }
+  next()
+}
+
+// VALIDATE REQUEST PROPERTIES
+function propertyValidation(req, res, next) {
+  const { data } = req.body;
   const validFields = new Set([
     "table_name",
     "capacity",
@@ -18,7 +24,7 @@ function propertyValidation(req, res, next) {
   
   const invalidFields = Object
     .keys(data)
-    .filter((field) => !validFields.includes(field)
+    .filter((field) => !validFields.has(field)
   );
 
   if (invalidFields.length) {
@@ -114,11 +120,39 @@ async function read(req, res, next) {
 }
 
 module.exports = {
-  create: [propertyValidation, create],
-  update: [propertyValidation, tableExists, update],
-  seat: [tableExists, seat],
-  unseat: [tableExists, unseat],
-  destroy: [tableExists, destroy],
-  list: [list],
-  read: [tableExists, read],
+  create: [
+    asyncErrorBoundary(hasData),
+    asyncErrorBoundary(propertyValidation),
+    asyncErrorBoundary(create)],
+  update: [
+    asyncErrorBoundary(hasData),
+    asyncErrorBoundary(propertyValidation),
+    asyncErrorBoundary(tableExists),
+    asyncErrorBoundary(update)
+  ],
+  seat: [
+    asyncErrorBoundary(hasData),
+    asyncErrorBoundary(propertyValidation),
+    asyncErrorBoundary(tableExists),
+    asyncErrorBoundary(seat)
+  ],
+  unseat: [
+    asyncErrorBoundary(hasData),
+    asyncErrorBoundary(propertyValidation),
+    asyncErrorBoundary(tableExists),
+    asyncErrorBoundary(unseat)
+  ],
+  destroy: [
+    asyncErrorBoundary(hasData),
+    asyncErrorBoundary(propertyValidation),
+    asyncErrorBoundary(tableExists),
+    asyncErrorBoundary(destroy)
+  ],
+  list: [
+    asyncErrorBoundary(list)
+  ],
+  read: [
+    asyncErrorBoundary(tableExists),
+    asyncErrorBoundary(read)
+  ],
 };
