@@ -176,7 +176,6 @@ function dataValidation(req, res, next) {
   validateMobilePhone(req, res, next, data)
   validatePeople(req, res, next, data)
   validateDate(req, res, next, data)
-  // validateStatus(req, res, next, data)
 
   next()
 }
@@ -300,6 +299,7 @@ module.exports = {
   ],
   statusUpdate: [
     asyncErrorBoundary(hasValidFields),
+    asyncErrorBoundary(validateStatus),
     asyncErrorBoundary(reservationExists),
     statusUpdate,
   ],

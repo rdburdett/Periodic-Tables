@@ -38,7 +38,6 @@ function destroy(reservationId) {
 
 // LIST BY DATE
 function listByDate(date) {
-  console.log("date: ", date)
   return knex("reservations")
     .select("*")
     .where({ reservation_date: date })
@@ -47,7 +46,7 @@ function listByDate(date) {
     .orderBy("reservation_time", "asc");
 };
 
-// SEARCH
+// SEARCH MOBILE
 function searchMobile(mobile_number) {
   return knex("reservations")
     .whereRaw(
@@ -65,6 +64,7 @@ function searchDate(date) {
 
 module.exports = {
   list,
+  searchMobile,
   searchMobile,
   searchDate,
   create,
