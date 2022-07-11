@@ -1,4 +1,5 @@
-const service = require("./tables.service");
+const tablesService = require("./tables.service.js");
+const reservationsService = require("../reservations/reservations.service.js");
 const asyncErrorBoundary = require("../../errors/asyncErrorBoundary");
 
 ////////////////////////////
@@ -39,13 +40,15 @@ function validateCapacity(req, res, next, data){
 // DONE
 function validateReservationId(req, res, next, data){
   const reqReservationId = data.reservation_id;
+  // console.log("reqReservationId", reqReservationId)
   // Validate reservation_name
-  if (!reqReservationId || reqReservationId.length <= 1) {
+  if (!reqReservationId || reqReservationId.length === 0) {
     return next({
       status: 400,
       message: "Request must contain 'reservation_id'."
     });
   }
+  next()
 };
 
 ////////////////////////////
@@ -83,7 +86,6 @@ function seatsDataValidation(req, res, next) {
   
   // VALIDATION HELPERS
   validateReservationId(req, res, next, data)
-  // validateTableName
 
   next()
 }
@@ -92,80 +94,129 @@ function seatsDataValidation(req, res, next) {
 // DONE
 async function reservationExists(req, res, next) {
   const reservationId = req.body.data.reservation_id;
-  const reservation = await service.read(reservationId);
+  const reservation = await reservationsService.read(reservationId);
 
   if (!reservation) {
     return next({
       status: 404,
       message: `Reservation ID ${reservationId} cannot be found.`
     })
+  } else {
+    res.locals.reservation = reservation;
+    // console.log("reservationExists locals: ", res.locals.reservation)
+    return next()
   }
-
-  res.locals.reservation = reservation;
-  next();
 }
 
 // TABLE EXISTS
 // DONE
 async function tableExists(req, res, next) {
   const { tableId } = req.params;
-  const table = await service.read(tableId);
-  console.log(table)
+  const table = await tablesService.read(tableId);
+  // console.log("table exists: ", table)
 
   if (!table) {
     return next({
       status: 404,
       message: `Table ${tableId} cannot be found.`
     })
+  } else {
+    res.locals.table = table;
+    return next()
   }
-
-  res.locals.table = table;
-  next();
 }
 
 // CREATE NEW TABLE 
 // DONE
 async function create(req, res, next) {
   res.status(201).json({
-    data: await service.create(req.body.data)
+    data: await tablesService.create(req.body.data)
   });
 }
 
 // UPDATE EXISTING TABLE
 // working on
 async function update(req, res, next) {
-
+  const { tableId } = req.params;
+  const table = await tablesService.read(tableId);
+  // console.log("update table: ", table)
 
   const updatedTable = {
     ...req.body.data,
-    table_id: res.locals.table.table_id
+    table_id: table.table_id
   }
 
   res.status(200).json({
-    data : (await service.update(updatedTable))[0]
+    data : (await tablesService.update(updatedTable))
   })
 
 }
 
 // SEAT RESERVATION
 async function seat(req, res, next) {
-  const {
-    table: { table_id: tableId, ...table },
-  } = res.locals;
-  const error = { status: 400, message: `Table occupied.` };
-  if (table.status === "Occupied") return next(error);
+  // console.log("seat req.params: ", req.params)
 
-  const updatedTable = { ...table, ...req.body, status: "Occupied" };
+  // get tableId
+  const { tableId } = req.params
+  console.log("tableId: ", tableId)
 
-  let newTable = await service.update(tableId, updatedTable);
-  newTable = await service.read(tableId);
-  if (newTable instanceof Error) return next({ message: newTable.message });
-  res.json({ data: newTable });
+  // get reservation
+  const reservationId = req.body.data.reservation_id;
+  const reservation = await reservationsService.read(reservationId);
+  // console.log("reservation: ", reservation)
+
+  // get table
+  // const table = await tablesService.read(tableId);
+  // console.log("table: ", table, "status: ", table.status)
+
+  
+  
+  // if (table.status !== "Available") {
+  //   console.log("Not Available")
+  //   return next({
+  //     status: 400,
+  //     message: "Table occupied."
+  //   })
+  // }
+  
+  res.sendStatus(200)
+  if (table.capacity >= reservation.people) {
+    // .json({
+    //   data: (await tablesService.update(updatedTable))[0]
+    // })
+    console.log("enough")
+    // const updatedTable = {
+    //   ...table,
+    //   reservation_id: reservationId,
+    //   status: "Seated"
+    // };
+    
+    // console.log("updatedTable: ", updatedTable)
+    // const response = (await tablesService.update(updatedTable))[0]
+    // console.log("response", response)
+    // console.log(await tablesService.read(tableId))
+    // console.log("body", res.body)
+    // console.log("status", res.status)
+
+    // console.log("----------------------------------")
+    // return res.sendStatus(200)
+
+    // res.status(200).json({
+    //   data: response
+    // })
+  } else {
+    console.log("not enough")
+    return next({
+      status: 400,
+      message: `Table has insufficient capacity.`
+    })
+  }
+
 }
 
 // UNSEAT RESERVATION
 async function unseat(req, res, next) {
-  const { table } = res.locals.table
+  const { table } = res.locals
   
   if (table.status !== "Occupied") {
     next({
@@ -186,20 +237,20 @@ async function unseat(req, res, next) {
 
 
   res.status(201).json({
-    data: (await service.update(updatedTable))[0]
+    data: (await tablesService.update(updatedTable))[0]
   });
 }
 
 // DELETE TABLE
 async function destroy(req, res, next) {
   const { table } = res.locals;
-  await service.destroy(table.table_id);
+  await tablesService.destroy(table.table_id);
   res.sendStatus(204);
 }
 
 // LIST ALL TABLES - WORKING
 async function list(req, res, next) {
-  res.json({ data: await service.list() });
+  res.json({ data: await tablesService.list() });
 }
 
 // GET SPECIFIC TABLE
@@ -237,8 +288,8 @@ module.exports = {
   // PUT /:tableId/seat
   seat: [
     asyncErrorBoundary(seatsDataValidation),
-    asyncErrorBoundary(tableExists),
     asyncErrorBoundary(reservationExists),
+    asyncErrorBoundary(tableExists),
     asyncErrorBoundary(seat)
   ],
   // DELETE /:tableId/seat

@@ -26,16 +26,16 @@ function create(newTable) {
 function update(updatedTable) {
   return knex("tables")
     .select("*")
-    .where({ table_id: updatedTable.tableId })
-    .update(updatedTable, "*");
+    .where({ table_id: updatedTable.table_id })
+    .update(updatedTable, "*")
 };
 
 
-function destroy(reservationId) {
-  return knex("tables")
-    .where({ reservation_id: reservationId })
-    .del();
-};
+function destroy(tableId) {
+  return knex ("tables")
+  .where({ "table_id": tableId })
+  .del();
+}
 
 module.exports = {
   list,

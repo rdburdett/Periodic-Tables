@@ -204,7 +204,6 @@ async function destroy(req, res, next) {
 async function search(req, res, next) {
   if (req.query.mobile_number) searchMobile(req, res, next)
   if (req.query.date) searchDate(req, res, next)
-  // add next?
 }
 
 // SEARCH FOR RESERVATION BY MOBILE NUMBER
