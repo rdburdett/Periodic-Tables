@@ -1,35 +1,7 @@
 const service = require("./reservations.service");
 const asyncErrorBoundary = require("../../errors/asyncErrorBoundary");
 
-
-// VALIDATE REQUEST PROPERTIES
-function hasValidFields(req, res, next) {
-  const { data = {} } = req.body
-  const validFields = new Set([
-    "first_name",
-    "last_name",
-    "mobile_number",
-    "reservation_date",
-    "reservation_time",
-    "people",
-    "status",
-    "created_at",
-    "updated_at",
-    "reservation_id"
-  ]);
-
-  const invalidFields = Object
-    .keys(data)
-    .filter((field) => !validFields.has(field));
-
-  if (invalidFields.length)
-    return next({
-      status: 400,
-      message: `Invalid field(s): ${invalidFields.join(", ")}`,
-    });
-  next();
-};
-
+// VALIDATION HELPERS
 function validatePeople(req, res, next, data) {
   if (data.people <= 0)
     return next({
@@ -45,15 +17,14 @@ function validatePeople(req, res, next, data) {
   }
 }
 
-// validateDate helper
 function isADate(dateString){
   const regexp = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
   return regexp.test(dateString);
 };
 
 function validateDate(req, res, next, data) {
-  let inputDate = new Date(data.reservation_date + " 23:59:59.999Z");
-  let compareDate = new Date();
+  const inputDate = new Date(data.reservation_date + " 23:59:59.999Z");
+  const compareDate = new Date();
   inputDate.setHours(0, 0, 0, 0);
   compareDate.setHours(0, 0, 0, 0);
   
@@ -104,7 +75,6 @@ function validateDate(req, res, next, data) {
       message: `'reservation_time' must be between 10:30AM & 9:30PM`,
     });
   }
-
 }
 
 function validateStatus(req, res, next, data) {
@@ -161,7 +131,7 @@ function validateMobilePhone(req, res, next, data) {
   }
 }
 
-//  Validate request data
+//  VALIDATE REQUEST DATA
 function dataValidation(req, res, next) {
   const { data } = req.body;
   if(!data){
@@ -171,7 +141,7 @@ function dataValidation(req, res, next) {
     })
   }
   
-  // Validation helpers
+  // VALIDATION HELPERS
   validateName(req, res, next, data)
   validateMobilePhone(req, res, next, data)
   validatePeople(req, res, next, data)
@@ -196,16 +166,15 @@ async function reservationExists(req, res, next) {
 }
 // CREATE NEW RESERVATION
 async function create(req, res, next) {
-  const response = await service.create(req.body.data)
   res.status(201).json({
-    data: response
+    data: await service.create(req.body.data)
   });
 }
 
 // UPDATE EXISTING RESERVATION
 async function update(req, res, next) {
-  let inputDate = new Date(data.reservation_date + " 23:59:59.999Z");
-  let compareDate = new Date();
+  const inputDate = new Date(data.reservation_date + " 23:59:59.999Z");
+  const compareDate = new Date();
   inputDate.setHours(0, 0, 0, 0);
   compareDate.setHours(0, 0, 0, 0);
 
@@ -270,18 +239,15 @@ async function statusUpdate(req, res, next) {
 
 module.exports = {
   create: [
-    asyncErrorBoundary(hasValidFields),
     asyncErrorBoundary(dataValidation),
     asyncErrorBoundary(create),
   ],
   update: [
-    asyncErrorBoundary(hasValidFields),
     asyncErrorBoundary(dataValidation),
     asyncErrorBoundary(reservationExists),
     update,
   ],
   statusUpdate: [
-    asyncErrorBoundary(hasValidFields),
     asyncErrorBoundary(validateStatus),
     asyncErrorBoundary(reservationExists),
     statusUpdate,
