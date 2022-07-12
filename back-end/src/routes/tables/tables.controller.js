@@ -101,15 +101,18 @@ async function reservationExists(req, res, next) {
 
   if (!reservation) {
     console.log("1. Reservation does not exist: ", reservation)
+
     return next({
       status: 404,
       message: `Reservation ID ${reservationId} cannot be found.`
     })
+
   } else {
     res.locals.reservation = reservation;
-    console.log("1. Yes, reservationExists locals: ", res.locals.reservation)
+    console.log("1. Yes, reservationExists locals assign: ", res.locals.reservation)
     return next()
   }
+  next()
 }
 
 // TABLE EXISTS
@@ -117,10 +120,10 @@ async function reservationExists(req, res, next) {
 async function tableExists(req, res, next) {
   const { tableId } = req.params;
   const table = await tablesService.read(tableId);
-  console.log("2. does table exist? ", table)
+  console.log("2. Does table exist? ", table)
 
   if (!table) {
-    console.log("2. table does not exist: ", table)
+    console.log("2. Table does not exist: ", table)
 
     return next({
       status: 404,
@@ -128,11 +131,12 @@ async function tableExists(req, res, next) {
     })
   } else {
 
-    res.locals.table = table;
+    res.locals.table = await table;
     console.log("2. Yes, table locals assign: ", res.locals.table)
 
     return next()
   }
+  next()
 }
 
 // CREATE NEW TABLE 
@@ -176,6 +180,7 @@ async function seat(req, res, next) {
   const reservation = await reservationsService.read(reservationId);
   console.log("6. reservation: ", reservation)
 
+  console.log("7. res.locals: ", res.locals)
   // get table
   // const table = await tablesService.read(tableId);
   // console.log("table: ", table, "status: ", table.status)
@@ -285,7 +290,7 @@ module.exports = {
     asyncErrorBoundary(read)
   ],
   // PUT /:tableId
-  update: [
+  update: [ 
     asyncErrorBoundary(seatsDataValidation),
     asyncErrorBoundary(tableExists),
     asyncErrorBoundary(update)
@@ -298,9 +303,9 @@ module.exports = {
   ],
   // PUT /:tableId/seat
   seat: [
-    seatsDataValidation,
-    reservationExists,
-    tableExists,
+    asyncErrorBoundary(seatsDataValidation),
+    asyncErrorBoundary(reservationExists),
+    asyncErrorBoundary(tableExists),
     asyncErrorBoundary(seat)
   ],
   // DELETE /:tableId/seat
