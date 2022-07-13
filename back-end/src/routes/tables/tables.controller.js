@@ -9,46 +9,46 @@ const asyncErrorBoundary = require("../../errors/asyncErrorBoundary");
 let tasks = []
 const log = true
 
-function logTasks(req, res, next) {
+function logTasks() {
   log && console.log(tasks.join("\n"))
   tasks = []
-  return next()
+  // return next()
 }
 ////////////////////////////
 
 function logCreate(req, res, next) {
   tasks = []
-  tasks.push("POST /\n")
+  console.log("POST /\n")
   next()
 }
 function logList(req, res, next) {
   tasks = []
-  tasks.push("GET /\n")
+  console.log("GET /\n")
   next()
 }
 function logRead(req, res, next) {
   tasks = []
-  tasks.push("GET /:tableId\n")
+  console.log("GET /:tableId\n")
   next()
 }
 function logUpdate(req, res, next) {
   tasks = []
-  tasks.push("PUT /:tableId\n")
+  console.log("PUT /:tableId\n")
   next()
 }
 function logDestroy(req, res, next) {
   tasks = []
-  tasks.push("DELETE /:tableId\n")
+  console.log("DELETE /:tableId\n")
   next()
 }
 function logSeat(req, res, next) {
   tasks = []
-  tasks.push("PUT /:tableId/seat\n")
+  console.log("PUT /:tableId/seat\n")
   next()
 }
 function logUnseat(req, res, next) {
   tasks = []
-  tasks.push("DELETE /:tableId/seat\n")
+  console.log("DELETE /:tableId/seat\n")
   next()
 }
 
@@ -79,6 +79,7 @@ function validateTableName(req, res, next, data) {
   }
 
   tasks.push("'table_name' is valid", tableName, "\n")
+  logTasks()
 }
 
 // DONE
@@ -278,7 +279,7 @@ async function update(req, res, next) {
 
 // SEAT RESERVATION
 async function seat(req, res, next) {
-  tasks.push("...Seating...")
+  tasks.push("seat()")
   const reservationId = req.body.data.reservation_id;
   const reservation = await reservationsService.read(reservationId);
 
@@ -312,6 +313,7 @@ async function seat(req, res, next) {
   };
   tasks.push("Updated table: ", updatedTable)
   
+  logTasks()
   res
     .sendStatus(200)
     .json({
@@ -321,6 +323,7 @@ async function seat(req, res, next) {
 
 // UNSEAT RESERVATION
 async function unseat(req, res, next) {
+  tasks.push("unseat()")
   const { table } = res.locals;
   const validStatus = ["Occupied", "Seated"]
 
@@ -338,6 +341,7 @@ async function unseat(req, res, next) {
   }
   tasks.push("Updated table: ", updatedTable)
 
+  logTasks()
   res
     .status(200)
     .json({
@@ -349,6 +353,7 @@ async function unseat(req, res, next) {
 async function destroy(req, res, next) {
   const { table } = res.locals;
   await tablesService.destroy(table.table_id);
+  logTasks()
   res.sendStatus(204);
 }
 
@@ -358,20 +363,20 @@ module.exports = {
     logCreate,
     asyncErrorBoundary(tablesDataValidation),
     asyncErrorBoundary(create),
-    logTasks
+    // logTasks
   ],
   // GET "/"
   list: [
     logList,
     asyncErrorBoundary(list),
-    logTasks
+    // logTasks
   ],
   // GET /:tableId
   read: [
     logRead,
     asyncErrorBoundary(tableExists),
     asyncErrorBoundary(read),
-    logTasks
+    // logTasks
   ],
   // PUT /:tableId
   update: [
@@ -379,7 +384,7 @@ module.exports = {
     asyncErrorBoundary(seatsDataValidation),
     asyncErrorBoundary(tableExists),
     asyncErrorBoundary(update),
-    logTasks
+    // logTasks
   ],
   // DELETE /:tableId
   destroy: [
@@ -387,7 +392,7 @@ module.exports = {
     asyncErrorBoundary(tablesDataValidation),
     asyncErrorBoundary(tableExists),
     asyncErrorBoundary(destroy),
-    logTasks
+    // logTasks
   ],
   // PUT /:tableId/seat
   seat: [
@@ -397,13 +402,13 @@ module.exports = {
     asyncErrorBoundary(tableExists),
     asyncErrorBoundary(hasCapacity),
     asyncErrorBoundary(seat),
-    logTasks
+    // logTasks
   ],
   // DELETE /:tableId/seat
   unseat: [
     logUnseat,
     asyncErrorBoundary(tableExists),
     asyncErrorBoundary(unseat),
-    logTasks
+    // logTasks
   ],
 };
