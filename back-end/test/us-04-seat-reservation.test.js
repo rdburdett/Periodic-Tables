@@ -237,22 +237,29 @@ describe("US-04 - Seat reservation", () => {
           .set("Accept", "application/json")
           .send({ data: { reservation_id: 1 } });
 
+        console.log(
+          "response.status: ", response.status, "\n","response.body.error: ", response.body.error
+        )
+        
         expect(response.body.error).toBeUndefined();
         expect(response.status).toBe(200);
       });
       test("returns 400 if table does not have sufficient capacity", async () => {
+        console.log("returns 400 if table does not have sufficient capacity")
         expect(barTableOne).not.toBeUndefined();
         
         const response = await request(app)
           .put(`/tables/${barTableOne.table_id}/seat`)
           .set("Accept", "application/json")
           .send({ data: { reservation_id: 1 } });
+        
 
         expect(response.body.error).toContain("capacity");
         expect(response.status).toBe(400);
       });
 
       test("returns 400 if table is occupied", async () => {
+        console.log("returns 400 if table is occupied")
         expect(tableOne).not.toBeUndefined();
         
         // first, occupy the table

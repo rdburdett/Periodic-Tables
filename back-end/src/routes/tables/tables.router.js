@@ -21,9 +21,7 @@ router
 router
   .route("/:tableId")
   .get(controller.read)
-  //////////////////////////////////////////
-  .put(controller.update) //////////////////
-  //////////////////////////////////////////
+  .put(controller.update)
   .delete(controller.destroy)
   .all(methodNotAllowed);
 router
