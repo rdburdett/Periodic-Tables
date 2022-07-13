@@ -232,45 +232,21 @@ describe("US-04 - Seat reservation", () => {
       test("returns 200 if table has sufficient capacity", async () => {
         expect(tableOne).not.toBeUndefined();
 
-        console.log("\n",
-          "--------------------------------------------\n",
-          "returns 200 if table has sufficient capacity\n",
-          `PUT /tables/${tableOne.table_id}/seat\n`,
-          `{ data: { reservation_id: 1 } }\n`,
-          "--------------------------------------------\n",
-          "tableOne: ",tableOne)
-
         const response = await request(app)
           .put(`/tables/${tableOne.table_id}/seat`)
           .set("Accept", "application/json")
           .send({ data: { reservation_id: 1 } });
-        
-        console.log(
-          "response: ",
-          response.body.error,
-          response.status
-        )
 
         expect(response.body.error).toBeUndefined();
         expect(response.status).toBe(200);
       });
       test("returns 400 if table does not have sufficient capacity", async () => {
         expect(barTableOne).not.toBeUndefined();
-
-        console.log("\n",
-          "------------------------------------------------------\n",
-          "returns 400 if table does not have sufficient capacity\n",
-          `PUT /tables/${barTableOne.table_id}/seat\n`,
-          `{ data: { reservation_id: 1 } }\n`,
-          "------------------------------------------------------\n",
-          "barTableOne: ", barTableOne)
         
         const response = await request(app)
           .put(`/tables/${barTableOne.table_id}/seat`)
           .set("Accept", "application/json")
           .send({ data: { reservation_id: 1 } });
-        
-        console.log("occupyResponse: ", response.body.error, response.status)
 
         expect(response.body.error).toContain("capacity");
         expect(response.status).toBe(400);
@@ -278,21 +254,12 @@ describe("US-04 - Seat reservation", () => {
 
       test("returns 400 if table is occupied", async () => {
         expect(tableOne).not.toBeUndefined();
-
-        console.log("\n",
-          "-------------------------------------\n",
-          "returns 400 if table is occupied\n",
-          `PUT /tables/${tableOne.table_id}/seat\n`,
-          `{ data: { reservation_id: 1 } }\n`,
-          "-------------------------------------\n",
-          "tableOne: ", tableOne)
         
         // first, occupy the table
         const occupyResponse = await request(app)
           .put(`/tables/${tableOne.table_id}/seat`)
           .set("Accept", "application/json")
           .send({ data: { reservation_id: 1 } });
-        console.log("occupyResponse: ", occupyResponse.body.error, occupyResponse.status)
 
         expect(occupyResponse.body.error).toBeUndefined();
         expect(occupyResponse.status).toBe(200);
@@ -302,8 +269,6 @@ describe("US-04 - Seat reservation", () => {
           .put(`/tables/${tableOne.table_id}/seat`)
           .set("Accept", "application/json")
           .send({ data: { reservation_id: 2 } });
-
-        console.log("doubleAssignResponse: ", doubleAssignResponse.body.error, doubleAssignResponse.status)
         
         expect(doubleAssignResponse.body.error).toContain("occupied");
         expect(doubleAssignResponse.status).toBe(400);

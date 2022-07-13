@@ -251,7 +251,15 @@ module.exports = {
     asyncErrorBoundary(reservationExists),
     statusUpdate,
   ],
-  destroy: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(destroy)],
-  search: [asyncErrorBoundary(search)],
-  read: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(read)],
+  destroy: [
+    asyncErrorBoundary(reservationExists),
+    asyncErrorBoundary(destroy)
+  ],
+  search: [
+    asyncErrorBoundary(search)
+  ],
+  read: [
+    asyncErrorBoundary(reservationExists),
+    asyncErrorBoundary(read)
+  ],
 };
