@@ -6,49 +6,36 @@ const asyncErrorBoundary = require("../../errors/asyncErrorBoundary");
 //      ROUTE LOGGER      //
 ////////////////////////////
 
-let tasks = []
 const log = true
 
-function logTasks() {
-  log && console.log(tasks.join("\n"))
-  tasks = []
-  // return next()
-}
 ////////////////////////////
 
 function logCreate(req, res, next) {
-  tasks = []
-  console.log("POST /\n", req.params, "\n", req.body)
+  log && console.log("POST /\n", req.params, "\n", req.body)
   next()
 }
 function logList(req, res, next) {
-  tasks = []
-  console.log("GET /\n", req.params, "\n", req.body)
+  log && console.log("GET /\n", req.params, "\n", req.body)
   next()
 }
 function logRead(req, res, next) {
-  tasks = []
-  console.log("GET /:tableId\n", req.params, "\n", req.body)
+  log && console.log("GET /:tableId\n", req.params, "\n", req.body)
   next()
 }
 function logUpdate(req, res, next) {
-  tasks = []
-  console.log("PUT /:tableId\n", req.params, "\n", req.body)
+  log && console.log("PUT /:tableId\n", req.params, "\n", req.body)
   next()
 }
 function logDestroy(req, res, next) {
-  tasks = []
-  console.log("DELETE /:tableId\n", req.params, "\n", req.body)
+  log && console.log("DELETE /:tableId\n", req.params, "\n", req.body)
   next()
 }
 function logSeat(req, res, next) {
-  tasks = []
-  console.log("PUT /:tableId/seat\n", req.params, "\n", req.body)
+  log && console.log("PUT /:tableId/seat\n", req.params, "\n", req.body)
   next()
 }
 function logUnseat(req, res, next) {
-  tasks = []
-  console.log("DELETE /:tableId/seat\n", req.params, "\n", req.body)
+  log && console.log("DELETE /:tableId/seat\n", req.params, "\n", req.body)
   next()
 }
 
@@ -58,12 +45,12 @@ function logUnseat(req, res, next) {
 
 // DONE
 function validateTableName(req, res, next, data) {
-  console.log("\nvalidTableName()")
+  log && console.log("\nvalidTableName()")
   const tableName = data.table_name;
 
   // Validate table_name
   if (!tableName) {
-    console.log("400 Request must include a table_name field.")
+    log && console.log("400 Request must include a table_name field.")
     return next({
       status: 400,
       message: "Request must include a table_name field.",
@@ -71,24 +58,23 @@ function validateTableName(req, res, next, data) {
   }
 
   if (tableName.length <= 1) {
-    console.log("400 Request table_name must be longer than one character.")
+    log && console.log("400 Request table_name must be longer than one character.")
     return next({
       status: 400,
       message: "Request 'table_name' must be longer than one character.",
     });
   }
 
-  console.log("'table_name' is valid", tableName,)
-  logTasks()
+  log && console.log("'table_name' is valid", tableName,)
 }
 
 // DONE
 function validateCapacity(req, res, next, data) {
-  console.log("\nvalidateCapacity()")
+  log && console.log("\nvalidateCapacity()")
   const capacity = data.capacity;
   // Validate capacity
   if (!capacity || capacity.length <= 0) {
-    console.log("400 Request must include a capacity field.")
+    log && console.log("400 Request must include a capacity field.")
     return next({
       status: 400,
       message: "Request must include a capacity field.",
@@ -96,27 +82,27 @@ function validateCapacity(req, res, next, data) {
   }
 
   if (typeof capacity !== "number") {
-    console.log("400 Request 'capacity' must be a number.")
+    log && console.log("400 Request 'capacity' must be a number.")
     return next({
       status: 400,
       message: "Request 'capacity' must be a number.",
     });
   }
-  console.log("'capacity' is valid: ", capacity)
+  log && console.log("'capacity' is valid: ", capacity)
 }
 
 // DONE
 function validateReservationId(req, res, next, data) {
-  console.log("\nvalidateReservationId()")
+  log && console.log("\nvalidateReservationId()")
   const reservationId = data.reservation_id;
   if (!reservationId || reservationId.length === 0) {
-    console.log("400 Request must contain 'reservation_id'.")
+    log && console.log("400 Request must contain 'reservation_id'.")
     return next({
       status: 400,
       message: "Request must contain 'reservation_id'.",
     });
   }
-  console.log("Reservation ID is valid: ", reservationId)
+  log && console.log("Reservation ID is valid: ", reservationId)
   return next();
 }
 
@@ -127,10 +113,10 @@ function validateReservationId(req, res, next, data) {
 // VALIDATE TALBES DATA
 // DONE
 function tablesDataValidation(req, res, next) {
-  console.log("\ntablesDataValidation()")
+  log && console.log("\ntablesDataValidation()")
   const { data } = req.body;
   if (!data) {
-    console.log("400 Please fill in required fields.")
+    log && console.log("400 Please fill in required fields.")
     return next({
       status: 400,
       message: "Please fill in required fields.",
@@ -141,17 +127,17 @@ function tablesDataValidation(req, res, next) {
   validateTableName(req, res, next, data);
   validateCapacity(req, res, next, data);
 
-  console.log("All tables data is valid.")
+  log && console.log("All tables data is valid.")
   return next();
 }
 
 // VALIDATE SEATS DATA
 //
 function seatsDataValidation(req, res, next) {
-  console.log("\nseatsDataValidation()")
+  log && console.log("\nseatsDataValidation()")
   const { data } = req.body;
   if (!data) {
-    console.log("400 Please fill in required fields.")
+    log && console.log("400 Please fill in required fields.")
     return next({
       status: 400,
       message: "Please fill in required fields.",
@@ -161,17 +147,17 @@ function seatsDataValidation(req, res, next) {
   // VALIDATION HELPERS
   validateReservationId(req, res, next, data);
 
-  console.log("Seats data is valid.\n")
+  log && console.log("Seats data is valid.\n")
   return next();
 }
 
 // RESERVATION EXISTS
 // DONE
 async function reservationExists(req, res, next) {
-  console.log("\nreservationExists()")
+  log && console.log("\nreservationExists()")
   const reservationId = req.body.data.reservation_id;
   if (!reservationId) {
-    console.log("404 Please enter a reservation_id.")
+    log && console.log("404 Please enter a reservation_id.")
     return next({
       status: 404,
       message: `Please enter a reservation_id.`,
@@ -181,48 +167,49 @@ async function reservationExists(req, res, next) {
   const reservation = await reservationsService.read(reservationId);
 
   if (!reservation) {
-    console.log(`404 Reservation ID ${reservationId} cannot be found.`)
+    log && console.log(`404 Reservation ID ${reservationId} cannot be found.`)
     return next({
       status: 404,
       message: `Reservation ID ${reservationId} cannot be found.`
     });
   } else {
     res.locals.reservation = reservation
-    console.log("res.locals.reservation assigned: ", res.locals.reservation)
+    log && console.log("res.locals.reservation assigned: ", res.locals.reservation)
   };
-  console.log("Reservation exists")
+  log && console.log("Reservation exists")
   return next()
 }
 
 // TABLE EXISTS
 // DONE
 async function tableExists(req, res, next) {
-  console.log("\ntableExists()")
+  log && console.log("\ntableExists()")
   const { tableId } = req.params;
   const table = await tablesService.read(tableId);
 
   if (!table) {
-    console.log(`404 Table ${tableId} cannot be found.`)
+    log && console.log(`404 Table ${tableId} cannot be found.`)
     return next({
       status: 404,
       message: `Table ${tableId} cannot be found.`,
     });
   } else {
     res.locals.table = table;
-    console.log("res.locals.table assigned", res.locals.table)
+    log && console.log("res.locals.table assigned", res.locals.table)
+    return next()
   } 
-  return next()
+  // return next()
 }
 
 async function hasCapacity(req, res, next) {
-  console.log("\nhasCapacity()")
+  log && console.log("\nhasCapacity()")
   const { data: { reservation_id} } = req.body;
   const { tableId } = req.params
   const reservation = await reservationsService.read(reservation_id)
   const table = await tablesService.read(tableId)
 
   if (reservation.people > table.capacity) {
-    console.log("400 Table capacity not large enough.")
+    log && console.log("400 Table capacity not large enough.")
     return next({
       status: 400,
       message: `Table capacity not large enough.`,
@@ -230,15 +217,16 @@ async function hasCapacity(req, res, next) {
   }
 }
 
-async function isAvailable(req, res, next) {
+async function isOccupied(req, res, next) {
+  log && console.log("isOccupied()")
   const { tableId } = req.params
   const table = await tablesService.read(tableId)
 
-  if (table.status !== "Available") {
-    console.log("400 Table occupied.")
+  if (table.status !== "Occupied") {
+    log && console.log("400 Table not occupied.")
     return next({
       status: 400,
-      message: "Table occupied."
+      message: "Table not occupied."
     })
   }
   return next()
@@ -247,7 +235,7 @@ async function isAvailable(req, res, next) {
 // CREATE NEW TABLE
 // DONE
 async function create(req, res, next) {
-  console.log("create()")
+  log && console.log("create()")
   res.status(201).json({
     data: await tablesService.create(req.body.data),
   });
@@ -255,7 +243,7 @@ async function create(req, res, next) {
 
 // LIST ALL TABLES
 async function list(req, res, next) {
-  console.log("list()")
+  log && console.log("list()")
   res.json({ data: await tablesService.list() });
 }
 
@@ -267,10 +255,10 @@ async function read(req, res, next) {
 // UPDATE EXISTING TABLE
 // working on
 async function update(req, res, next) {
-  console.log("update()")
+  log && console.log("update()")
   const { tableId } = req.params;
   const table = await tablesService.read(tableId);
-  // console.log("update table: ", table)
+  // log && console.log("update table: ", table)
 
   const updatedTable = {
     ...req.body.data,
@@ -284,7 +272,7 @@ async function update(req, res, next) {
 
 // SEAT RESERVATION
 async function seat(req, res, next) {
-  console.log("seat()")
+  log && console.log("seat()")
   const reservationId = req.body.data.reservation_id;
   const reservation = await reservationsService.read(reservationId);
 
@@ -293,8 +281,7 @@ async function seat(req, res, next) {
   const table = await tablesService.read(tableId);
 
   if (table.status !== "Available") {
-    console.log("400 Table occupied.")
-    logTasks()
+    log && console.log("400 Table occupied.")
     return next({
       status: 400,
       message: "Table occupied."
@@ -303,10 +290,29 @@ async function seat(req, res, next) {
 
   // check capacity
   if (reservation.people > table.capacity) {
-    console.log("400 Table capacity not large enough.")
+    log && console.log("400 Table capacity not large enough.")
     return next({
       status: 400,
       message: "Table capacity not large enough."
+    });
+  }
+
+  // TODO
+  // returns 200 and changes reservation status to 'seated'
+  // if (reservation.people > table.capacity) {
+  //   log && console.log("400 Table capacity not large enough.")
+  //   return next({
+  //     status: 400,
+  //     message: "Table capacity not large enough."
+  //   });
+  // }
+
+  // returns 400 if reservation is already seated
+  if (reservation.status === "Seated") {
+    log && console.log("400 Reservation is already seated.")
+    return next({
+      status: 400,
+      message: "Reservation is already seated."
     });
   }
 
@@ -315,19 +321,33 @@ async function seat(req, res, next) {
   const updatedTable = {
     ...table,
     reservation_id: reservationId,
+    status: "Occupied"
+  };
+  log && console.log("Updated table: ", updatedTable)
+  await tablesService.update(updatedTable)
+
+  ////////
+
+  const updatedReservation = {
+    ...reservation,
     status: "Seated"
   };
-  console.log("Updated table: ", updatedTable)
+  log && console.log("Updated reservation: ", updatedReservation)
+  await reservationsService.update(updatedReservation)
 
-  res
-    .status(200)
-    .json({
-      data: await tablesService.update(updatedTable)
-    })
+  ////////
+  res.sendStatus(200)
+  // ////////
+  // res
+  //   .status(200)
+  //   .json({
+  //     data: await tablesService.update(updatedTable)
+  //   })
 }
 
 // UNSEAT RESERVATION
 async function unseat(req, res, next) {
+  log && console.log("unseat()")
   const reservationId = req.body.data.reservation_id;
   const reservation = await reservationsService.read(reservationId);
 
@@ -335,11 +355,10 @@ async function unseat(req, res, next) {
   const { tableId } = req.params;
   const table = await tablesService.read(tableId);
 
-  console.log("unseat()")
   const validStatus = ["Occupied", "Seated"]
 
   if (!validStatus.includes(table.status)) {
-    console.log("400 Table not occupied")
+    log && console.log("400 Table not occupied")
     return next({
       status: 400,
       message: `Table not occupied.`,
@@ -347,18 +366,18 @@ async function unseat(req, res, next) {
   }
 
   
-  await reservationsService.update(updatedReservation)
   const updatedReservation = {
     ...table,
     status: "Available"
   }
-  console.log("Updated reservation: ", updatedReservation)
+  log && console.log("Updated reservation: ", updatedReservation)
+  await reservationsService.update(updatedReservation)
 
   const updatedTable = {
     ...reservation,
     status: "Finished"
   }
-  console.log("Updated table: ", updatedTable)
+  log && console.log("Updated table: ", updatedTable)
   await tablesService.update(updatedTable)
 
   res.sendStatus(200)
@@ -371,7 +390,6 @@ async function unseat(req, res, next) {
 async function destroy(req, res, next) {
   const { table } = res.locals;
   await tablesService.destroy(table.table_id);
-  logTasks()
   res.sendStatus(204);
 }
 
@@ -381,20 +399,17 @@ module.exports = {
     logCreate,
     asyncErrorBoundary(tablesDataValidation),
     asyncErrorBoundary(create),
-    // logTasks
   ],
   // GET "/"
   list: [
     logList,
     asyncErrorBoundary(list),
-    // logTasks
   ],
   // GET /:tableId
   read: [
     logRead,
     asyncErrorBoundary(tableExists),
     asyncErrorBoundary(read),
-    // logTasks
   ],
   // PUT /:tableId
   update: [
@@ -402,7 +417,6 @@ module.exports = {
     asyncErrorBoundary(seatsDataValidation),
     asyncErrorBoundary(tableExists),
     asyncErrorBoundary(update),
-    // logTasks
   ],
   // DELETE /:tableId
   destroy: [
@@ -410,7 +424,6 @@ module.exports = {
     asyncErrorBoundary(tablesDataValidation),
     asyncErrorBoundary(tableExists),
     asyncErrorBoundary(destroy),
-    // logTasks
   ],
   // PUT /:tableId/seat
   seat: [
@@ -420,13 +433,12 @@ module.exports = {
     asyncErrorBoundary(tableExists),
     asyncErrorBoundary(hasCapacity),
     asyncErrorBoundary(seat),
-    // logTasks
   ],
   // DELETE /:tableId/seat
   unseat: [
     logUnseat,
     asyncErrorBoundary(tableExists),
+    asyncErrorBoundary(isOccupied),
     asyncErrorBoundary(unseat),
-    // logTasks
   ],
 };
