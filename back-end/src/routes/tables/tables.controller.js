@@ -111,7 +111,6 @@ function validateReservationId(req, res, next, data) {
 ////////////////////////////
 
 // VALIDATE TALBES DATA
-// DONE
 function tablesDataValidation(req, res, next) {
   log && console.log("\ntablesDataValidation()")
   const { data } = req.body;
@@ -132,7 +131,6 @@ function tablesDataValidation(req, res, next) {
 }
 
 // VALIDATE SEATS DATA
-//
 function seatsDataValidation(req, res, next) {
   log && console.log("\nseatsDataValidation()")
   const { data } = req.body;
@@ -152,7 +150,6 @@ function seatsDataValidation(req, res, next) {
 }
 
 // RESERVATION EXISTS
-// DONE
 async function reservationExists(req, res, next) {
   log && console.log("\nreservationExists()")
   const reservationId = req.body.data.reservation_id;
@@ -173,15 +170,13 @@ async function reservationExists(req, res, next) {
       message: `Reservation ID ${reservationId} cannot be found.`
     });
   } else {
-    res.locals.reservation = reservation
-    log && console.log("res.locals.reservation assigned: ", res.locals.reservation)
+    res.locals.reservation = reservation;
+    log && console.log("Reservation exists.\nres.locals.reservation assigned: ", res.locals.reservation);
+    return next();
   };
-  log && console.log("Reservation exists")
-  return next()
 }
 
 // TABLE EXISTS
-// DONE
 async function tableExists(req, res, next) {
   log && console.log("\ntableExists()")
   const { tableId } = req.params;
@@ -195,12 +190,12 @@ async function tableExists(req, res, next) {
     });
   } else {
     res.locals.table = table;
-    log && console.log("res.locals.table assigned", res.locals.table)
-    return next()
-  } 
-  // return next()
+    log && console.log("Table exists.\nres.locals.table assigned: ", res.locals.table);
+    return next();
+  };
 }
 
+// HAS CAPACITY
 async function hasCapacity(req, res, next) {
   log && console.log("\nhasCapacity()")
   const { data: { reservation_id} } = req.body;
@@ -217,12 +212,13 @@ async function hasCapacity(req, res, next) {
   }
 }
 
+// IS OCCUPIED
 async function isOccupied(req, res, next) {
   log && console.log("isOccupied()")
   const { tableId } = req.params
   const table = await tablesService.read(tableId)
 
-  if (table.status !== "Occupied") {
+  if (table.status !== "occupied") {
     log && console.log("400 Table not occupied.")
     return next({
       status: 400,
@@ -233,7 +229,6 @@ async function isOccupied(req, res, next) {
 }
 
 // CREATE NEW TABLE
-// DONE
 async function create(req, res, next) {
   log && console.log("create()")
   res.status(201).json({
@@ -253,20 +248,20 @@ async function read(req, res, next) {
 }
 
 // UPDATE EXISTING TABLE
-// working on
 async function update(req, res, next) {
   log && console.log("update()")
   const { tableId } = req.params;
   const table = await tablesService.read(tableId);
-  // log && console.log("update table: ", table)
 
   const updatedTable = {
     ...req.body.data,
     table_id: table.table_id,
   };
 
+  const response = await tablesService.update(updatedTable)
+  log && console.log("\nupdate() - 200 Table updated: ", response)
   res.status(200).json({
-    data: await tablesService.update(updatedTable),
+    data: response[0],
   });
 }
 
@@ -280,7 +275,7 @@ async function seat(req, res, next) {
   const { tableId } = req.params;
   const table = await tablesService.read(tableId);
 
-  if (table.status !== "Available") {
+  if (table.status !== "available") {
     log && console.log("400 Table occupied.")
     return next({
       status: 400,
@@ -297,18 +292,8 @@ async function seat(req, res, next) {
     });
   }
 
-  // TODO
-  // returns 200 and changes reservation status to 'seated'
-  // if (reservation.people > table.capacity) {
-  //   log && console.log("400 Table capacity not large enough.")
-  //   return next({
-  //     status: 400,
-  //     message: "Table capacity not large enough."
-  //   });
-  // }
-
   // returns 400 if reservation is already seated
-  if (reservation.status === "Seated") {
+  if (reservation.status === "seated") {
     log && console.log("400 Reservation is already seated.")
     return next({
       status: 400,
@@ -316,74 +301,74 @@ async function seat(req, res, next) {
     });
   }
 
-  ////////
-
+  // update current table to occupied
   const updatedTable = {
     ...table,
     reservation_id: reservationId,
-    status: "Occupied"
+    status: "occupied"
   };
   log && console.log("Updated table: ", updatedTable)
   await tablesService.update(updatedTable)
 
-  ////////
-
+  // update current reservation to seated
   const updatedReservation = {
     ...reservation,
-    status: "Seated"
+    status: "seated"
   };
   log && console.log("Updated reservation: ", updatedReservation)
   await reservationsService.update(updatedReservation)
 
-  ////////
-  res.sendStatus(200)
-  // ////////
-  // res
-  //   .status(200)
-  //   .json({
-  //     data: await tablesService.update(updatedTable)
-  //   })
+  // send 200 and updated table
+  res
+    .status(200)
+    .json({
+      data: updatedTable
+    })
 }
 
 // UNSEAT RESERVATION
 async function unseat(req, res, next) {
   log && console.log("unseat()")
-  const reservationId = req.body.data.reservation_id;
-  const reservation = await reservationsService.read(reservationId);
+  const { table } = res.locals;
+  const reservation = await reservationsService.read(table.reservation_id);
 
-  // const { table } = res.locals;
-  const { tableId } = req.params;
-  const table = await tablesService.read(tableId);
-
-  const validStatus = ["Occupied", "Seated"]
-
-  if (!validStatus.includes(table.status)) {
+  ////////
+  // check to make sure table.status is currently occupied
+  if (table.status !== "occupied") {
     log && console.log("400 Table not occupied")
     return next({
       status: 400,
       message: `Table not occupied.`,
     });
   }
-
   
+  ////////
+  // update current reservation to 'available'
   const updatedReservation = {
-    ...table,
-    status: "Available"
+    ...reservation,
+    status: "finished"
   }
   log && console.log("Updated reservation: ", updatedReservation)
   await reservationsService.update(updatedReservation)
 
+  ////////
+  // update current table to 'finished'
   const updatedTable = {
-    ...reservation,
-    status: "Finished"
+    ...table,
+    reservation_id: null,
+    status: "available"
   }
   log && console.log("Updated table: ", updatedTable)
   await tablesService.update(updatedTable)
 
-  res.sendStatus(200)
-    // .json({
-    //   data: (await tablesService.update(updatedTable)),
-    // });
+  ////////
+  // send 200 and updated table
+  ////////
+  res
+    .status(200)
+    .json({
+      data: updatedTable,
+    });
 }
 
 // DELETE TABLE
