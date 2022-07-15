@@ -1,13 +1,5 @@
 const knex = require("../../db/connection.js");
 
-// READ
-function read(tableId) {
-  return knex("tables")
-    .select("*")
-    .where({ table_id: tableId })
-    .first();
-};
-
 // LIST
 function list() {
   return knex("tables")
@@ -18,11 +10,19 @@ function list() {
 // CREATE
 function create(newTable) {
   return knex("tables")
-    .insert(newTable, "*")
-    .then((createdTable) => createdTable[0]);
+  .insert(newTable, "*")
+  .then((createdTable) => createdTable[0]);
 };
 
+// READ
+function read(tableId) {
+  return knex("tables")
+    .select("*")
+    .where({ table_id: tableId })
+    .first();
+};
 
+// UPDATE
 function update(updatedTable) {
   return knex("tables")
     .select("*")
@@ -30,7 +30,7 @@ function update(updatedTable) {
     .update(updatedTable, "*")
 };
 
-
+// DESTROY
 function destroy(tableId) {
   return knex ("tables")
   .where({ "table_id": tableId })

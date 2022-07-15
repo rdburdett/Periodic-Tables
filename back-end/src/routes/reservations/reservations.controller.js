@@ -268,8 +268,13 @@ async function reservationExists(req, res, next) {
 // SEARCH FOR RESERVATION - PARENT
 // GET "/"
 async function search(req, res, next) {
-  if (req.query.mobile_number) searchMobile(req, res, next)
-  if (req.query.date) searchDate(req, res, next)
+  if (req.query.mobile_number) {
+    searchMobile(req, res, next)
+  }
+  else if (req.query.date) {
+    searchDate(req, res, next)
+  }
+  // else next()
 }
 
 // HELPER - SEARCH FOR RESERVATION BY MOBILE NUMBER
@@ -281,23 +286,24 @@ async function searchMobile(req, res, next) {
 // HELPER - SEARCH FOR RESERVATION BY DATE
 async function searchDate(req, res, next) {
   let { date } = req.query;
-  log && console.log("searchdate() - date: ", date)
-  res.json({ data: await service.listByDate(date) });
+
+  log && console.log("req.query.date:", date)
+  const response = await service.listByDate(date)
+  const filteredResponse = response.filter((reservation) => {
+    return (reservation.status !== "finished")
+  }) 
+  log && console.log(
+    "searchdate() - date: ", date,
+    "\nResponse: ", filteredResponse
+  )
+  res.json({ data: filteredResponse });
 }
 
 // CREATE NEW RESERVATION
 // POST "/"
 async function create(req, res, next) {
-  console.log("create()")
+  log && console.log("create()")
   const { status } = req.body.data
-
-  // Returns 201 if status is 'booked'
-  if (status === "booked") {
-    log && console.log("create() - 201 Status booked.")
-    res.status(201).json({
-      data: await service.create(req.body.data)
-    });
-  }
 
   // Returns 400 if status is 'seated'
   if (status === "seated") {
@@ -306,6 +312,7 @@ async function create(req, res, next) {
       status: 400,
       message: `Status seated.`
     })
+
   }
 
   // Returns 400 if status is 'finished'
@@ -316,6 +323,14 @@ async function create(req, res, next) {
       message: `Status finished.`
     })
   }
+
+  // Returns 201 if status is 'booked'
+  // if (status === "booked") {
+    log && console.log("create() - 201 Status booked.")
+    res.status(201).json({
+      data: await service.create(req.body.data)
+    });
+  // }
 }
 
 // GET SPECIFIC RESERVATION
