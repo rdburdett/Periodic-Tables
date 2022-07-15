@@ -283,7 +283,7 @@ async function searchMobile(req, res, next) {
 async function searchDate(req, res, next) {
   let { date } = req.query;
 
-  log && console.log("req.query.date:", date)
+  // log && console.log("req.query.date:", date)
   const response = await service.listByDate(date)
   const filteredResponse = response.filter((reservation) => {
     return (reservation.status !== "finished")
@@ -298,7 +298,7 @@ async function searchDate(req, res, next) {
 // CREATE NEW RESERVATION
 // POST "/"
 async function create(req, res, next) {
-  log && console.log("create()")
+  // log && console.log("create()")
   const { status } = req.body.data
 
   // Returns 400 if status is 'seated'
@@ -407,37 +407,37 @@ async function destroy(req, res, next) {
 module.exports = {
   // GET "/"
   search: [
-    asyncErrorBoundary(logSearch),
+    // asyncErrorBoundary(logSearch),
     asyncErrorBoundary(search)
   ],
   // POST "/"
   create: [
-    asyncErrorBoundary(logCreate),
+    // asyncErrorBoundary(logCreate),
     asyncErrorBoundary(dataValidation),
     asyncErrorBoundary(create),
   ],
   // GET "/:reservationId"
   read: [
-    asyncErrorBoundary(logRead),
+    // asyncErrorBoundary(logRead),
     asyncErrorBoundary(reservationExists),
     asyncErrorBoundary(read)
   ],
   // PUT "/:reservationId"
   update: [
-    asyncErrorBoundary(logUpdate),
+    // asyncErrorBoundary(logUpdate),
     asyncErrorBoundary(dataValidation),
     asyncErrorBoundary(reservationExists),
     asyncErrorBoundary(update),
   ],
   // DELETE "/:reservationId"
   destroy: [
-    asyncErrorBoundary(logDestroy),
+    // asyncErrorBoundary(logDestroy),
     asyncErrorBoundary(reservationExists),
     asyncErrorBoundary(destroy)
   ],
   // PUT "/:reservationId/status"
   statusUpdate: [
-    asyncErrorBoundary(logStatusUpdate),
+    // asyncErrorBoundary(logStatusUpdate),
     asyncErrorBoundary(validateStatus),
     asyncErrorBoundary(reservationExists),
     asyncErrorBoundary(statusUpdate),
