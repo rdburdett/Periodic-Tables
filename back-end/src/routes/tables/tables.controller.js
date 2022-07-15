@@ -6,7 +6,7 @@ const asyncErrorBoundary = require("../../errors/asyncErrorBoundary");
 //      ROUTE LOGGER      //
 ////////////////////////////
 
-const log = false
+const log = true
 
 ////////////////////////////
 

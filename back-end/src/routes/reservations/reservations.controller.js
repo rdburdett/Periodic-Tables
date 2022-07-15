@@ -93,15 +93,6 @@ function validateStatus(req, res, next) {
     })
   }
   
-  // Returns 400 if 'status' is finished
-  // if(data.reservation.status === "finished") {
-  //   log && console.log("validateStatus() - 400 Cannot update reservation which is 'finished.")
-  //   return next({
-  //     status: 400,
-  //     message: "Cannot update reservation which is 'finished."
-  //   })
-  // }
-  // next() if status is valid
   log && console.log("\nvalidateStatus() - Status valid.")
   return next()
 }
