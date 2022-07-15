@@ -65,11 +65,13 @@ function logStatusUpdate(req, res, next) {
 // VALIDATION HELPERS
 
 
+// VERIFY IS A DATE
 function isADate(dateString){
   const regexp = /^\d{4}-(0[1-9]|1[0-2])-(0[1-9]|[12][0-9]|3[01])$/;
   return regexp.test(dateString);
 };
 
+// VALIDATE STATUS
 function validateStatus(req, res, next) {
   const { data } = req.body
   // log && console.log("\nvalidateStatus()")
@@ -97,6 +99,7 @@ function validateStatus(req, res, next) {
   return next()
 }
 
+// VALIDATE DATE
 function validateName(req, res, next, data){
   const reqFirstName = data.first_name;
   const reqLastName = data.last_name;
@@ -118,6 +121,7 @@ function validateName(req, res, next, data){
   }
 };
 
+// VALIDATE MOBILE PHONE
 function validateMobilePhone(req, res, next, data) {
   const mobileNumber = data.mobile_number;
   if (!mobileNumber) {
@@ -129,6 +133,7 @@ function validateMobilePhone(req, res, next, data) {
   }
 }
 
+// VALIDATE PEOPLE
 function validatePeople(req, res, next, data) {
   // log && console.log("\nvalidPeople()")
 
@@ -151,6 +156,7 @@ function validatePeople(req, res, next, data) {
   }
 }
 
+// VALIDATE DATE
 function validateDate(req, res, next, data) {
   const inputDate = new Date(data.reservation_date + " 23:59:59.999Z");
   const compareDate = new Date();
@@ -262,10 +268,9 @@ async function search(req, res, next) {
   if (req.query.mobile_number) {
     searchMobile(req, res, next)
   }
-  else if (req.query.date) {
+  if (req.query.date) {
     searchDate(req, res, next)
   }
-  // else next()
 }
 
 // HELPER - SEARCH FOR RESERVATION BY MOBILE NUMBER

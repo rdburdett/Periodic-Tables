@@ -43,7 +43,7 @@ function logUnseat(req, res, next) {
 //   VALIDATION HELPERS   //
 ////////////////////////////
 
-// DONE
+// VALIDATE TABLE NAME
 function validateTableName(req, res, next, data) {
   log && console.log("\nvalidTableName()")
   const tableName = data.table_name;
@@ -68,7 +68,7 @@ function validateTableName(req, res, next, data) {
   log && console.log("'table_name' is valid", tableName,)
 }
 
-// DONE
+// VALIDATE CAPACITY
 function validateCapacity(req, res, next, data) {
   log && console.log("\nvalidateCapacity()")
   const capacity = data.capacity;
@@ -91,7 +91,7 @@ function validateCapacity(req, res, next, data) {
   log && console.log("'capacity' is valid: ", capacity)
 }
 
-// DONE
+// VALIDATE RESERVATION ID
 function validateReservationId(req, res, next, data) {
   log && console.log("\nvalidateReservationId()")
   const reservationId = data.reservation_id;
