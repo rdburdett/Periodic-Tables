@@ -281,9 +281,9 @@ async function searchMobile(req, res, next) {
 // HELPER - SEARCH FOR RESERVATION BY DATE
 async function searchDate(req, res, next) {
   let { date } = req.query;
+  log && console.log("searchdate() - date: ", date)
   res.json({ data: await service.listByDate(date) });
 }
-
 
 // CREATE NEW RESERVATION
 // POST "/"
