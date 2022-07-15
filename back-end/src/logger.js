@@ -1,5 +1,5 @@
 const logger = (req, res, next) => {
-  // console.clear()
+  console.clear()
   console.log("\n",
     "-----------------------------\n",
     "<//////    Request    //////>\n",
