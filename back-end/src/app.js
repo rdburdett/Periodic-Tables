@@ -18,12 +18,12 @@ app.use(express.json());
 
 app.use(
   "/reservations",
-  logger,
+  // logger,
   reservationsRouter
 );
 app.use(
   "/tables",
-  logger,
+  // logger,
   tablesRouter
 )
 
