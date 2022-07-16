@@ -38,4 +38,3 @@ DELETE `/tables/:tableId`
 PUT `/tables/:tableId/seat`
 <!-- Unseat a reservation from a table -->
 DELETE `/tables/:tableId/seat`
-
