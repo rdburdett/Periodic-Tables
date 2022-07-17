@@ -7,6 +7,7 @@ See [../README.md](../README.md) for detailed instructions.
 <!-- Reservations -->
 GET `/reservations` 
 POST `/reservations` 
+GET `/reservations/search` 
 GET `/reservations/:reservationId`
 PUT `/reservations/:reservationId`
 DELETE `/reservations/:reservationId`
@@ -24,15 +25,19 @@ DELETE `/tables/:tableId/seat`
 ## Reservations
 All existing '/reservations' endpoints and their CRUD functionality and subfunction names.
 
-<!-- Search for reservation by either date or phone number -->
-<!-- NOTE: GET requests to /reservations require a query parameter of 'date' or 'mobile_number' -->
+<!-- List all reservations -->
 GET `/reservations` 
-[search]
+[list]
 
 <!-- Create a new reservation -->
 POST `/reservations` 
 [dataValidation] 
 [create]
+
+<!-- Search for reservation by either date or phone number -->
+<!-- NOTE: GET requests to /reservations require a query parameter of 'date' or 'mobile_number' -->
+GET `/reservations/search` 
+[search]
 
 <!-- Get a specific reservation by id -->
 GET `/reservations/:reservationId`

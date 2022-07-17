@@ -6,13 +6,14 @@
 ## Reservations
 All existing '/reservations' endpoints and their CRUD functionality.
 
-<!-- Search for reservation by either date or phone number -->
-<!-- NOTE: GET requests to /reservations require a query parameter of 'date' or 'mobile_number' -->
+<!-- List all reservations -->
 GET `/reservations` 
-[search]
 
 <!-- Create a new reservation -->
 POST `/reservations` 
+
+<!-- Search for reservation by either date or phone number -->
+GET `/reservations/search` 
 
 <!-- Get a specific reservation by id -->
 GET `/reservations/:reservationId`
@@ -30,11 +31,11 @@ PUT `/reservations/:reservationId/status`
 ## Tables
 All existing '/tables' endpoints and their CRUD functionality.
 
-<!-- Create a new table -->
-POST `/tables`
-
 <!-- List all tables -->
 GET `/tables`
+
+<!-- Create a new table -->
+POST `/tables`
 
 <!-- Find a specific table by id -->
 GET `/tables/:tableId`

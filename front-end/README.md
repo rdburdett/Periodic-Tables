@@ -7,11 +7,13 @@ See [../README.md](../README.md) for detailed instructions.
 ## Reservations
 All existing '/reservations' endpoints.
 
-<!-- Search for reservation by either date or phone number -->
-<!-- NOTE: GET requests to /reservations require a query parameter of 'date' or 'mobile_number' -->
+<!-- List all reservations -->
 GET `/reservations` 
 <!-- Create a new reservation -->
 POST `/reservations` 
+<!-- Search for reservation by either date or phone number -->
+<!-- NOTE: GET requests to /reservations require a query parameter of 'date' or 'mobile_number' -->
+GET `/reservations/search` 
 <!-- Get a specific reservation by id -->
 GET `/reservations/:reservationId`
 <!-- Modify an existing reservation by id -->
