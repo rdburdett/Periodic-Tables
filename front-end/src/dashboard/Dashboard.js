@@ -4,8 +4,8 @@ import useQuery from "../utils/useQuery";
 
 import ErrorAlert from "../layout/ErrorAlert";
 // import Card from "../components/reservations/Card.js";
-import Reservations from "../components/reservations/Reservations.js";
-import TableDetail from "../components/tables/TableDetail";
+import Reservations from "../routes/reservations/Reservations.js";
+import TableDetail from "../routes/tables/TableDetail";
 
 /**
  * Defines the dashboard page.
