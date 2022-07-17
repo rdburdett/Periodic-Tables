@@ -262,8 +262,13 @@ async function reservationExists(req, res, next) {
 //       CRUD       //
 //////////////////////
 
-// SEARCH FOR RESERVATION - PARENT
 // GET "/"
+async function list(req, res, next) {
+  res.json({ data: await service.list() })
+}
+
+// SEARCH FOR RESERVATION - PARENT
+// GET "/search"
 async function search(req, res, next) {
   if (req.query.mobile_number) {
     searchMobile(req, res, next)
@@ -284,7 +289,7 @@ async function searchDate(req, res, next) {
   let { date } = req.query;
 
   // log && console.log("req.query.date:", date)
-  const response = await service.listByDate(date)
+  const response = await service.searchDate(date)
   const filteredResponse = response.filter((reservation) => {
     return (reservation.status !== "finished")
   }) 
@@ -406,6 +411,11 @@ async function destroy(req, res, next) {
 
 module.exports = {
   // GET "/"
+  list: [
+    // asyncErrorBoundary(logSearch),
+    asyncErrorBoundary(list)
+  ],
+  // GET "/search"
   search: [
     // asyncErrorBoundary(logSearch),
     asyncErrorBoundary(search)

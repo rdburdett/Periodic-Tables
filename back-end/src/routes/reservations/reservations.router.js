@@ -14,10 +14,15 @@ const methodNotAllowed = require("../../errors/methodNotAllowed");
 
 router
   .route("/")
-  .get(controller.search)
+  .get(controller.list)
   .post(controller.create)
   .all(methodNotAllowed);
 
+  router
+  .route("/search")
+  .get(controller.search)
+  .all(methodNotAllowed);
+  
 router
   .route("/:reservationId")
   .get(controller.read)

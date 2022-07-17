@@ -1,17 +1,27 @@
 const knex = require("../../db/connection.js");
 
-// READ
-function read(reservationId) {
-  return knex("reservations")
-    .select("*")
-    .where({ reservation_id: reservationId })
-    .first();
-};
-
 // LIST
 function list() {
   return knex("reservations")
     .select("*");
+};
+
+// SEARCH MOBILE
+function searchMobile(mobile_number) {
+  return knex("reservations")
+    .whereRaw(
+      "translate(mobile_number, '() -', '') like ?",
+      `%${mobile_number.replace(/\D/g, "")}%`
+    )
+    .orderBy("reservation_date");
+};
+
+// LIST BY DATE
+function searchDate(date) {
+  return knex("reservations")
+    .select("*")
+    .where({ reservation_date: date })
+    .orderBy("reservation_time", "asc");
 };
 
 // CREATE
@@ -19,6 +29,14 @@ function create(reservation) {
   return knex("reservations")
     .insert(reservation, "*")
     .then((createdReservation) => createdReservation[0]);
+};
+
+// READ
+function read(reservationId) {
+  return knex("reservations")
+    .select("*")
+    .where({ reservation_id: reservationId })
+    .first();
 };
 
 // UPDATE
@@ -36,40 +54,14 @@ function destroy(reservationId) {
     .del();
 };
 
-// LIST BY DATE
-function listByDate(date) {
-  return knex("reservations")
-    .select("*")
-    .where({ reservation_date: date })
-    // .whereNot({ status: "finished" })
-    // .whereNot({ status: "cancelled" })
-    .orderBy("reservation_time", "asc");
-};
 
-// SEARCH MOBILE
-function searchMobile(mobile_number) {
-  return knex("reservations")
-    .whereRaw(
-      "translate(mobile_number, '() -', '') like ?",
-      `%${mobile_number.replace(/\D/g, "")}%`
-    )
-    .orderBy("reservation_date");
-};
-
-function searchDate(date) {
-  return knex("reservations")
-    .where({ reservation_date: date })
-    .orderBy("reservation_time", "asc");
-};
 
 module.exports = {
   list,
-  searchMobile,
   searchMobile,
   searchDate,
   create,
   read,
   update,
   destroy,
-  listByDate,
 };

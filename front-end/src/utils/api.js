@@ -56,10 +56,8 @@ async function fetchJson(url, options, onCancel) {
 ///////// RESERVATIONS /////////
 
 // GET /reservations
-
-// Should be search, not list
 /**
- * Retrieves all existing reservation.
+ * Retrieves all existing reservations.
  * @returns {Promise<[reservation]>}
  *  a promise that resolves to a possibly empty array of reservation saved in the database.
  */
@@ -69,6 +67,39 @@ export async function listReservations(params, signal) {
     url.searchParams.append(key, value.toString())
   );
   return await fetchJson(url, { headers, signal }, [])
+    .then(formatReservationDate)
+    .then(formatReservationTime);
+}
+
+// Search by 'mobile_number'
+/**
+ * @param mobile_number
+ * the mobile number used to search for and return matching reservations
+ * @param signal
+ *  optional AbortController.signal
+ * @returns {Promise<[reservation]>}
+ *  a promise that resolves to a possibly empty array of reservation saved in the database.
+ */
+export async function searchByMobileNumber(mobile_number, signal) {
+  const url = `${API_BASE_URL}/reservations?mobile_number=${mobile_number}`;
+  return await fetchJson(url, { signal })
+    .then(formatReservationDate)
+    .then(formatReservationTime);
+}
+
+/**
+ * Retrieves all reservations of a certain date.
+ * @param reservation_date
+ * A date in YYYY-MM-DD format
+ * @param signal
+ * An optional abort signal
+ * @returns {Promise<[reservation]>}
+ *  a promise that resolves to a possibly empty array of reservation saved in the database.
+ */
+
+ export async function readByDate(reservation_date, signal) {
+  const url = `${API_BASE_URL}/reservations/reservation_date=${reservation_date}`;
+  return await fetchJson(url, { signal })
     .then(formatReservationDate)
     .then(formatReservationTime);
 }

@@ -293,6 +293,6 @@ module.exports = {
   ],
   destroy: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(destroy)],
   search: [asyncErrorBoundary(search)],
-  // listByDate: [asyncErrorBoundary(listByDate)],
+  // searchDate: [asyncErrorBoundary(searchDate)],
   read: [asyncErrorBoundary(reservationExists), asyncErrorBoundary(read)],
 };
