@@ -98,7 +98,7 @@ export async function searchByMobileNumber(mobile_number, signal) {
  */
 
  export async function readByDate(reservation_date, signal) {
-  const url = `${API_BASE_URL}/reservations/reservation_date=${reservation_date}`;
+  const url = `${API_BASE_URL}/reservations/search/?reservation_date=${reservation_date}`;
   return await fetchJson(url, { signal })
     .then(formatReservationDate)
     .then(formatReservationTime);
@@ -163,6 +163,25 @@ export async function updateReservation(updatedReservation, signal) {
 }
 
 // DELETE /reservations/:reservationId
+/**
+ * Deletes an existing reservation
+ * @param reservationId
+ *  the reservation to delete
+ * @param signal
+ *  optional AbortController.signal
+ * @returns {Promise<Error|*>}
+ *  a promise that resolves to the deleted status of a reservation.
+ */
+// DELETE /reservations/:reservationId
+export async function deleteReservation(reservationId, signal) {
+  const url = `${API_BASE_URL}/reservations/${reservationId}`;
+  const options = {
+    method: "DELETE",
+    headers,
+    signal
+  }
+  return await fetchJson(url, options);
+}
 
 // PUT /reservations/:reservationId/status
 /**
@@ -200,6 +219,29 @@ export async function listTables(signal) {
   const url = new URL(`${API_BASE_URL}/tables/`);
   return await fetchJson(url, { headers, signal }, []);
 }
+
+// PUT /tables
+/**
+ * Add a new table to the database.
+ * @param newTable
+ * An object containing the data of the new table
+ * @param signal
+ * An optional abort signal
+ * @returns {Promise<[tables]>}
+ *  a promise that resolves to a possibly empty array of all tables from the database
+ */
+
+ export async function createTable(newTable, signal) {
+  const url = `${API_BASE_URL}/tables/`;
+  const options = {
+    method: "POST",
+    headers,
+    body: JSON.stringify({ data: newTable }),
+    signal,
+  };
+  console.log("post attempt:", url, options);
+  return await fetchJson(url, options);
+ }
 
 // Seat a reservation and assign it to a table
 // PUT `/tables/:tableId/seat`
