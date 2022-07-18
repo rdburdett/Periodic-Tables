@@ -1,8 +1,6 @@
 const dateFormat = /\d\d\d\d-\d\d-\d\d/;
 const timeFormat = /\d\d:\d\d/;
 
-// const date = useQuery().get("date")
-
 /**
  * Formats a Date object as YYYY-MM-DD.
  *
@@ -65,7 +63,6 @@ export function formatAsTime(timeString) {
  */
 export function today(date) {
   return asDateString(new Date());
-  // return asDateString(date);
 
 }
 
@@ -76,7 +73,6 @@ export function today(date) {
  */
  export function now(date) {
    return asTimeString(new Date());
-  //  return asTimeString(date);
 }
 
 /**
