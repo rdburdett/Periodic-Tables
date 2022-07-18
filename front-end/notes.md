@@ -10,7 +10,7 @@ All existing '/reservations' endpoints and their CRUD functionality.
 GET `/reservations` 
 
 <!-- Create a new reservation -->
-POST `/reservations` 
+POST `/reservations`
 
 <!-- Search for reservation by either date or phone number -->
 GET `/reservations/search` 
