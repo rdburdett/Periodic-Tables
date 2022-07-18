@@ -4,6 +4,12 @@ import React, {
   useState
 } from "react";
 
+import {
+  Link,
+  // useParams
+} from "react-router-dom";
+
+
 // API imports
 import {
   // listReservations,
@@ -11,11 +17,12 @@ import {
   readByDate
 } from "../utils/api";
 
-import useQuery from "../utils/useQuery";
-
+// import useQuery from "../utils/useQuery";
+import * as dateTime from "../utils/date-time";
+// import { today } from "../utils/date-time";
 import ErrorAlert from "../layout/ErrorAlert";
 // import Card from "../components/reservations/Card.js";
-import Reservations from "../routes/reservations/Reservations.js";
+import ReservationsList from "../routes/reservations/ReservationsList.js";
 import TableDetail from "../routes/tables/TableDetail";
 
 /**
@@ -27,42 +34,11 @@ import TableDetail from "../routes/tables/TableDetail";
 function Dashboard({ date }) {
   const [reservations, setReservations] = useState([]);
   const [tables, setTables] = useState([]);
+
   const [reservationsError, setReservationsError] = useState(null);
   const [tablesError, setTablesError] = useState(null);
 
-  const query = useQuery();
-  const dateQuery = query.get("date");
-
-  /////////
-
-  if (dateQuery) date = dateQuery;
-
-  // formats the date variable to be human readable
-  const dateObj = new Date(`${date} PDT`);
-  const dateString = dateObj.toDateString();
-
-  console.log(dateString);
-
-  /////////
-
-  // useEffect(() => {
-  //   loadDashboard()
-  // }, [date])
-  // useEffect(loadDashboard, [date]);
-
-  // function loadDashboard() {
-  //   const abortController = new AbortController();
-  //   setReservationsError(null);
-  //   listReservations({ date }, abortController.signal)
-  //     .then(setReservations)
-  //     .catch(setReservationsError);
-  //   listTables(abortController.signal)
-  //   .then(setTables)
-  //   .catch(setReservationsError);
-  //   return () => abortController.abort();
-  // }
-
-  ////////
+  const dateString = (new Date(`${date} PDT`)).toDateString();
 
   // Get reservations
   useEffect(() => {
@@ -72,6 +48,7 @@ function Dashboard({ date }) {
       setReservationsError(null);
       try {
         const data = await readByDate(date, abortController.signal);
+        console.log("Data: ", data)
         setReservations(data);
       } catch (error) {
         setReservationsError(error);
@@ -103,11 +80,26 @@ function Dashboard({ date }) {
     <main>
       <h1>Dashboard</h1>
       <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Reservations for {date}</h4>
+        <h4 className="mb-0">Reservations for {dateString}</h4>
       </div>
+      {/* Prev, today, next */}
+      <div>
+        <Link to={`/dashboard?date=${dateTime.previous(date)}`} className="btn btn-dark">
+          Previous
+        </Link>
+        &nbsp;
+        <Link to={`/dashboard/`} className="btn btn-success">
+          Today
+        </Link>
+        &nbsp;
+        <Link to={`/dashboard?date=${dateTime.next(date)}`} className="btn btn-dark">
+          Next
+        </Link>
+      </div>
+      {/* Errors */}
       <ErrorAlert error={reservationsError} />
       {/* {JSON.stringify(reservations)} */}
-      <Reservations reservations={reservations} />
+      <ReservationsList reservations={reservations} />
       <div className="mb-3 mx-3">
         <div className="headingBar my-3 p-2">
           <h2>Tables</h2>
