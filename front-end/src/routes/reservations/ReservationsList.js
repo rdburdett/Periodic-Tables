@@ -1,9 +1,7 @@
 import React from "react";
 import Card from "./Card";
 
-function Reservations({ reservations = [] }) {
-  console.log("reservations: ", reservations)
-  
+function ReservationsList({ reservations = [] }) {  
   return reservations.length > 0 ? (
     <div className="container">
       {reservations.map((element, index) => (
@@ -13,4 +11,4 @@ function Reservations({ reservations = [] }) {
   ) : "No current reservations"
 }
 
-export default Reservations
+export default ReservationsList
