@@ -14,7 +14,7 @@ function FinishTable({ table_id }) {
     );
 
     // Returns to dashboard if 'cancel' is clicked
-    if (!cancelFinish) return history.push("/dashboard"); 
+    if (!cancelFinish) return history.push("/dashboard");
 
     // Unseats a reservation from a table
     try {
