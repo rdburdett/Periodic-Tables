@@ -5,7 +5,6 @@ import TableForm from "./TableForm";
 
 function NewTable() {
   const abortController = new AbortController();
-  // const { table, setTable } = useState("mock table")
 
   const initialFormState = {
     table_name: "Table Name",
@@ -76,8 +75,6 @@ function NewTable() {
           </button>
         </form>
       </div>
-      {/* <div>{table}</div> */}
-      {/* <button>Cancel</button><button>Create</button> */}
     </div>
   )
 }
