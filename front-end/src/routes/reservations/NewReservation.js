@@ -3,16 +3,23 @@ import { useHistory } from "react-router-dom";
 import { createReservation } from "../../utils/api";
 import ReservationForm from "./ReservationForm";
 
-function NewReservation() {
-  const abortController = new AbortController();
-  // const { Reservation, setReservation } = useState("mock Reservation")
+import ErrorAlert from "../../layout/ErrorAlert";
+import { today, now } from "../../utils/date-time";
+// import useQuery from "../../utils/useQuery";
 
+
+function NewReservation() {
+  // const date = useQuery().get("date")
+  const abortController = new AbortController();
+  const [reservationsError, setReservationsError] = useState(null);
+
+  console.log(now())
   const initialFormState = {
     first_name: "First Name",
     last_name: "Last Name",
     mobile_number: "123-456-7890",
-    reservation_date: "",
-    reservation_time: "",
+    reservation_date:  today(),
+    reservation_time: now(),
     people: 1,
   };
   const [formData, setFormData] = useState({ ...initialFormState });
@@ -21,18 +28,18 @@ function NewReservation() {
   // Submit
   const handleSubmit = (event) => {
     event.preventDefault();
-
-    console.log("Form data: ", formData)
+    // console.log("Form data: ", formData)
     async function apiCall() {
+      setReservationsError(null);
       try {
         await createReservation(formData, abortController.signal);
-        history.push(`/dashboard`);
+        history.push(`/dashboard?date=${formData.reservation_date}`);
       } catch (error) {
         if (error.name === "AbortError") {
           // Ignore `AbortError`
           console.log("Aborted");
         } else {
-          throw error;
+          setReservationsError(error);
         }
       }
     }
@@ -41,11 +48,10 @@ function NewReservation() {
       abortController.abort();
     };
   };
+
+  // Change form
   const handleChange = ({ target }) => {
     let value = target.value;
-    // if (target.name === "capacity" && target.value <= 0) {
-    //   value = 1;
-    // }
     
     setFormData({
       ...formData,
@@ -53,7 +59,13 @@ function NewReservation() {
     });
 
   };
-  console.log("Form Data: ", formData, typeof(formData.people))
+
+  // Log form data
+  console.log(
+    "Form Data: ",
+    formData,
+    // typeof (formData.people)
+  )
   
   return (
     <div className="container">
@@ -74,6 +86,7 @@ function NewReservation() {
           </button>
         </form>
       </div>
+      <ErrorAlert error={reservationsError} />
       {/* <div>{reservation}</div> */}
       {/* <button>Cancel</button><button>Create</button> */}
     </div>
