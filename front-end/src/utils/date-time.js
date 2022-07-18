@@ -1,6 +1,8 @@
 const dateFormat = /\d\d\d\d-\d\d-\d\d/;
 const timeFormat = /\d\d:\d\d/;
 
+// const date = useQuery().get("date")
+
 /**
  * Formats a Date object as YYYY-MM-DD.
  *
@@ -17,6 +19,22 @@ function asDateString(date) {
     .toString(10)
     .padStart(2, "0")}-${date.getDate().toString(10).padStart(2, "0")}`;
 }
+
+/**
+ * Formats a Date object as HH:MM.
+ *
+ * This function is *not* exported because the UI should generally avoid working directly with Date instance.
+ * You may export this function if you need it.
+ *
+ * @param date
+ *  an instance of a date object
+ * @returns {string}
+ *  the specified Date formatted as HH:MM
+ */
+function asTimeString(date) {
+  return `${date.toTimeString().slice(0,5)}`;
+}
+
 
 /**
  * Format a date string in ISO-8601 format (which is what is returned from PostgreSQL) as YYYY-MM-DD.
@@ -45,8 +63,20 @@ export function formatAsTime(timeString) {
  * @returns {*}
  *  the today's date formatted as YYYY-MM-DD
  */
-export function today() {
+export function today(date) {
   return asDateString(new Date());
+  // return asDateString(date);
+
+}
+
+/**
+ * Current time as HH-MM.
+ * @returns {*}
+ *  Today's date formatted as HH-MM
+ */
+ export function now(date) {
+   return asTimeString(new Date());
+  //  return asTimeString(date);
 }
 
 /**
