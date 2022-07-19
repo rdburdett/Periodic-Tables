@@ -17,11 +17,8 @@ import {
   readByDate
 } from "../utils/api";
 
-// import useQuery from "../utils/useQuery";
 import * as dateTime from "../utils/date-time";
-// import { today } from "../utils/date-time";
 import ErrorAlert from "../layout/ErrorAlert";
-// import Card from "../components/reservations/Card.js";
 import ReservationsList from "../routes/reservations/ReservationsList.js";
 import TableDetail from "../routes/tables/TableDetail";
 
