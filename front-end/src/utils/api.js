@@ -97,8 +97,8 @@ export async function searchByMobileNumber(mobile_number, signal) {
  *  a promise that resolves to a possibly empty array of reservation saved in the database.
  */
 
- export async function readByDate(reservation_date, signal) {
-  const url = `${API_BASE_URL}/reservations/search?date=${reservation_date}`;
+ export async function readByDate(date, signal) {
+  const url = `${API_BASE_URL}/reservations/search?date=${date}`;
   return await fetchJson(url, { signal })
     .then(formatReservationDate)
     .then(formatReservationTime);

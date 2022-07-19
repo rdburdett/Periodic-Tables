@@ -6,9 +6,8 @@ import React, {
 
 import {
   Link,
-  // useParams
+  // useQuery
 } from "react-router-dom";
-
 
 // API imports
 import {
@@ -76,28 +75,32 @@ function Dashboard({ date }) {
   return (
     <main>
       <h1>Dashboard</h1>
-      <div className="d-md-flex mb-3">
-        <h4 className="mb-0">Reservations for {dateString}</h4>
-      </div>
+
       {/* Prev, today, next */}
-      <div>
-        <Link to={`/dashboard?date=${dateTime.previous(date)}`} className="btn btn-dark">
-          Previous
-        </Link>
-        &nbsp;
-        <Link to={`/dashboard/`} className="btn btn-success">
-          Today
-        </Link>
-        &nbsp;
-        <Link to={`/dashboard?date=${dateTime.next(date)}`} className="btn btn-dark">
-          Next
-        </Link>
+      <div className="container d-md-flex mb-3">
+        <div className="btn-group">
+          <Link to={`/dashboard?date=${dateTime.previous(date)}`} className="btn btn-dark">
+            Previous
+          </Link>
+          <Link to={`/dashboard`} className="btn btn-success">
+            Today
+          </Link>
+          <Link to={`/dashboard?date=${dateTime.next(date)}`} className="btn btn-dark">
+            Next
+          </Link>
+        </div>
       </div>
-      {/* Errors */}
-      <ErrorAlert error={reservationsError} />
-      {/* {JSON.stringify(reservations)} */}
-      <ReservationsList reservations={reservations} />
-      <div className="mb-3 mx-3">
+
+      {/* Reservations List */}
+      <div className="container">
+      <div className="headingBar my-3 p-2">
+          <h2>Reservations for {dateString}</h2>
+        </div>
+        <ErrorAlert error={reservationsError} />
+        <ReservationsList reservations={reservations} />
+      </div>
+      {/* Tables List */}
+      <div className="container">
         <div className="headingBar my-3 p-2">
           <h2>Tables</h2>
         </div>
