@@ -30,6 +30,7 @@ function ReservationCard({ reservation, index }) {
           {reservation.first_name} {reservation.last_name}{" "}
         </h5>
         <p className="card-text">Party of {reservation.people}</p>
+        <p className="card-text">Time: {reservation.reservation_time}</p>
         <p className="card-text">{`(${areaCode})${localNumber}`}</p>
       </div>
 

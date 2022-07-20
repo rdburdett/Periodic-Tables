@@ -1,13 +1,13 @@
-import React, { useState } from "react";
-import { useHistory } from "react-router-dom";
-import { createReservation } from "../../utils/api";
+import React, { useState, useEffect } from "react";
+import { useHistory, useParams } from "react-router-dom";
+import * as api from "../../utils/api";
 import ReservationForm from "./ReservationForm";
 
 import ErrorAlert from "../../layout/ErrorAlert";
 import { today, now } from "../../utils/date-time";
 
 function EditReservation() {
-  // const date = useQuery().get("date")
+  const { reservationId } = useParams()
   const abortController = new AbortController();
   const [reservationsError, setReservationsError] = useState(null);
 
@@ -20,7 +20,28 @@ function EditReservation() {
     reservation_time: now(),
     people: 1,
   };
+
+  // Load initial reservation info
+  useEffect(() => {
+    const abortController = new AbortController();
+
+    async function loadReservations() {
+      setReservationsError(null);
+      try {
+        const data = await api.readReservation(reservationId, abortController.signal);
+        console.log("Data: ", data);
+        // setReservation(data);
+        setFormData(data)
+      } catch (error) {
+        setReservationsError(error);
+      }
+    }
+    loadReservations();
+    return () => abortController.abort();
+  }, [reservationId]);
+
   const [formData, setFormData] = useState({ ...initialFormState });
+
   const history = useHistory();
 
   // Submit
@@ -30,7 +51,7 @@ function EditReservation() {
     async function apiCall() {
       setReservationsError(null);
       try {
-        await createReservation(formData, abortController.signal);
+        await api.updateReservation(formData, abortController.signal);
         history.push(`/dashboard?date=${formData.reservation_date}`);
       } catch (error) {
         if (error.name === "AbortError") {
@@ -66,7 +87,7 @@ function EditReservation() {
 
   return (
     <div className="container my-3">
-      <h2>Create a New Reservation</h2>
+      <h2>Edit Reservation</h2>
       <form onSubmit={handleSubmit}>
         <ReservationForm formData={formData} handleChange={handleChange} />
         <button
