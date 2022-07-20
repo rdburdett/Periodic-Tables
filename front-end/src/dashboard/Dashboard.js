@@ -8,7 +8,6 @@ import {
 
 // API imports
 import {
-  // listReservations,
   listTables,
   readByDate,
 } from "../utils/api";
