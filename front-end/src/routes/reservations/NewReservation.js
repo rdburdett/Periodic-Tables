@@ -5,20 +5,18 @@ import ReservationForm from "./ReservationForm";
 
 import ErrorAlert from "../../layout/ErrorAlert";
 import { today, now } from "../../utils/date-time";
-// import useQuery from "../../utils/useQuery";
-
 
 function NewReservation() {
   // const date = useQuery().get("date")
   const abortController = new AbortController();
   const [reservationsError, setReservationsError] = useState(null);
 
-  console.log(now())
+  console.log(now());
   const initialFormState = {
-    first_name: "First Name",
-    last_name: "Last Name",
-    mobile_number: "123-456-7890",
-    reservation_date:  today(),
+    first_name: "",
+    last_name: "",
+    mobile_number: "",
+    reservation_date: today(),
     reservation_time: now(),
     people: 1,
   };
@@ -52,45 +50,40 @@ function NewReservation() {
   // Change form
   const handleChange = ({ target }) => {
     let value = target.value;
-    
+
     setFormData({
       ...formData,
       [target.name]: target.name === "people" ? Number(value) : value,
     });
-
   };
 
   // Log form data
   console.log(
     "Form Data: ",
-    formData,
+    formData
     // typeof (formData.people)
-  )
-  
+  );
+
   return (
-    <div className="container">
-      <h2>New Reservation</h2>
-      <h3>Create a New Reservation</h3>
-      <div>
-        <form onSubmit={handleSubmit}>
-          <ReservationForm formData={formData} handleChange={handleChange} />
-          <button
-            type="button"
-            onClick={() => history.goBack()}
-            className="btn btn-secondary"
-          >
-            Cancel
-          </button>
-          <button type="submit" className="btn btn-primary">
-            Save
-          </button>
-        </form>
-      </div>
+    <div className="container my-3">
+      <h2>Create a New Reservation</h2>
+      <form onSubmit={handleSubmit}>
+        <ReservationForm formData={formData} handleChange={handleChange} />
+        <button
+          type="button"
+          onClick={() => history.goBack()}
+          className="btn btn-secondary mr-2"
+        >
+          Cancel
+        </button>
+        <button type="submit" className="btn btn-success">
+          Save
+        </button>
+      </form>
+
       <ErrorAlert error={reservationsError} />
-      {/* <div>{reservation}</div> */}
-      {/* <button>Cancel</button><button>Create</button> */}
     </div>
-  )
+  );
 }
 
-export default NewReservation
+export default NewReservation;

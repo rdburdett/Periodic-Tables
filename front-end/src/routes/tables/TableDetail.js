@@ -25,7 +25,8 @@ function TableDetail ({ tables = [] }) {
               {table.reservation_id ? "occupied" : "free"}
             </td>
             {/*'Finish' button will be displayed if the table is occupied */}
-            <td>{table.reservation_id && <FinishTable table_id={table.table_id} />}</td>
+              <td>{table.reservation_id && <FinishTable table_id={table.table_id} />}</td>
+              
           </tr>
           ))}
         </tbody>

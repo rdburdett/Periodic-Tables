@@ -1,8 +1,5 @@
 // React imports
-import React, {
-  useEffect,
-  useState
-} from "react";
+import React, { useEffect, useState } from "react";
 
 import {
   Link,
@@ -13,7 +10,7 @@ import {
 import {
   // listReservations,
   listTables,
-  readByDate
+  readByDate,
 } from "../utils/api";
 
 import * as dateTime from "../utils/date-time";
@@ -34,7 +31,7 @@ function Dashboard({ date }) {
   const [reservationsError, setReservationsError] = useState(null);
   const [tablesError, setTablesError] = useState(null);
 
-  const dateString = (new Date(`${date} PDT`)).toDateString();
+  const dateString = new Date(`${date} PDT`).toDateString();
 
   // Get reservations
   useEffect(() => {
@@ -44,7 +41,7 @@ function Dashboard({ date }) {
       setReservationsError(null);
       try {
         const data = await readByDate(date, abortController.signal);
-        console.log("Data: ", data)
+        console.log("Data: ", data);
         setReservations(data);
       } catch (error) {
         setReservationsError(error);
@@ -74,31 +71,38 @@ function Dashboard({ date }) {
 
   return (
     <main>
-      <h1>Dashboard</h1>
-
-      {/* Prev, today, next */}
-      <div className="container d-md-flex mb-3">
-        <div className="btn-group">
-          <Link to={`/dashboard?date=${dateTime.previous(date)}`} className="btn btn-dark">
+      {/* Dashboard */}
+      <div className="container my-2 p-2">
+        <h1 className="headingBar">Dashboard</h1>
+        {/* Prev, today, next */}
+        <div className="d-flex rounded btn-group">
+          <Link
+            to={`/dashboard?date=${dateTime.previous(date)}`}
+            className="btn btn-secondary"
+          >
             Previous
           </Link>
           <Link to={`/dashboard`} className="btn btn-success">
             Today
           </Link>
-          <Link to={`/dashboard?date=${dateTime.next(date)}`} className="btn btn-dark">
+          <Link
+            to={`/dashboard?date=${dateTime.next(date)}`}
+            className="btn btn-secondary"
+          >
             Next
           </Link>
         </div>
       </div>
 
       {/* Reservations List */}
-      <div className="container">
-      <div className="headingBar my-3 p-2">
+      <div className="container my-3">
+        <div className="headingBar">
           <h2>Reservations for {dateString}</h2>
         </div>
         <ErrorAlert error={reservationsError} />
         <ReservationsList reservations={reservations} />
       </div>
+
       {/* Tables List */}
       <div className="container">
         <div className="headingBar my-3 p-2">
