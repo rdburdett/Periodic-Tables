@@ -3,7 +3,6 @@
   "version": "1.0.0",
   "description": "Restaurant Reservation Frontend",
   "main": "src/index.js",
-  "type": "module",
   "repository": {
     "type": "git",
     "url": "https://github.com/rdburdett/Restaurant-Reservation-App",
