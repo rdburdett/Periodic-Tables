@@ -40,7 +40,7 @@ function Dashboard({ date }) {
       setReservationsError(null);
       try {
         const data = await readByDate(date, abortController.signal);
-        console.log("Data: ", data);
+        // console.log("Data: ", data);
         setReservations(data);
       } catch (error) {
         setReservationsError(error);

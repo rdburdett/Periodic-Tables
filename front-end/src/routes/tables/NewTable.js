@@ -18,7 +18,7 @@ function NewTable() {
   // Submit form
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("Form data: ", formData);
+    // console.log("Form data: ", formData);
 
     async function apiCall() {
       try {
@@ -54,7 +54,7 @@ function NewTable() {
       [target.name]: target.name === "capacity" ? Number(value) : value,
     });
 
-    console.log("Form Data: ", formData, typeof formData.capacity);
+    // console.log("Form Data: ", formData, typeof formData.capacity);
   };
 
   return (

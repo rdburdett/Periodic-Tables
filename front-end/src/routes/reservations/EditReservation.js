@@ -5,13 +5,15 @@ import ReservationForm from "./ReservationForm";
 
 import ErrorAlert from "../../layout/ErrorAlert";
 import { today, now } from "../../utils/date-time";
+import * as format from "../../utils/format-phone-number"
+
 
 function EditReservation() {
   const { reservationId } = useParams()
   const abortController = new AbortController();
   const [reservationsError, setReservationsError] = useState(null);
 
-  console.log(now());
+  // console.log(now());
   const initialFormState = {
     first_name: "",
     last_name: "",
@@ -20,6 +22,9 @@ function EditReservation() {
     reservation_time: now(),
     people: 1,
   };
+  
+  const [formData, setFormData] = useState({ ...initialFormState });
+  const history = useHistory();
 
   // Load initial reservation info
   useEffect(() => {
@@ -29,7 +34,7 @@ function EditReservation() {
       setReservationsError(null);
       try {
         const data = await api.readReservation(reservationId, abortController.signal);
-        console.log("Data: ", data);
+        // console.log("Data: ", data);
         // setReservation(data);
         setFormData(data)
       } catch (error) {
@@ -40,9 +45,13 @@ function EditReservation() {
     return () => abortController.abort();
   }, [reservationId]);
 
-  const [formData, setFormData] = useState({ ...initialFormState });
 
-  const history = useHistory();
+  // Fix mobile_number formatting during user input
+  useEffect(() => {
+    const inputElement = document.getElementById('mobile_number');
+    inputElement.addEventListener('keydown', format.enforceFormat);
+    inputElement.addEventListener('keyup', format.formatToPhone);
+  })
 
   // Submit
   const handleSubmit = (event) => {
@@ -79,11 +88,11 @@ function EditReservation() {
   };
 
   // Log form data
-  console.log(
-    "Form Data: ",
-    formData
-    // typeof (formData.people)
-  );
+  // console.log(
+  //   "Form Data: ",
+  //   formData
+  //   // typeof (formData.people)
+  // );
 
   return (
     <div className="container my-3">

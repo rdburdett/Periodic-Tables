@@ -239,7 +239,6 @@ export async function listTables(signal) {
     body: JSON.stringify({ data: newTable }),
     signal,
   };
-  console.log("post attempt:", url, options);
   return await fetchJson(url, options);
  }
 

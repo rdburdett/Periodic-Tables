@@ -1,5 +1,5 @@
 import React from "react";
-import InputMask from "react-input-mask"
+// import InputMask from "react-input-mask"
 
 const ReservationForm = ({ formData, handleChange }) => {
   return (
@@ -44,6 +44,7 @@ const ReservationForm = ({ formData, handleChange }) => {
           id="mobile_number"
           type="text"
           name="mobile_number"
+          maxLength={12}
           placeholder={`ex. "123-456-7890"`}
           pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
           onChange={handleChange}
@@ -51,20 +52,6 @@ const ReservationForm = ({ formData, handleChange }) => {
           style={{ width: "50%" }}
           required
         />
-        {/* <InputMask
-          className="form-control"
-          id="mobile_number"
-          type="tel"
-          name="mobile_number"
-          placeholder={`ex. 123-456-7890`}
-          pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-          mask="999-999-9999"
-          maskChar=" "
-          value={formData.mobile_number}
-          onChange={handleChange}
-          style={{ width: "50%" }}
-          required
-        /> */}
         <small id="phoneNumberHelp" className="form-text text-muted">Format: 123-456-7890</small>
       </div>
 

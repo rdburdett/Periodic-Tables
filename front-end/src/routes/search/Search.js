@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import ReservationList from "../reservations/ReservationsList";
 import SearchForm from "./SearchForm";
 import ErrorAlert from "../../layout/ErrorAlert";
 
 import { searchByMobileNumber } from "../../utils/api";
+import * as format from "../../utils/format-phone-number"
 
 function NewTable() {
   const abortController = new AbortController();
@@ -17,10 +18,17 @@ function NewTable() {
 
   const [formData, setFormData] = useState({ ...initialFormState });
 
+  // Fix mobile_number formatting during user input
+  useEffect(() => {
+    const inputElement = document.getElementById('mobile_number');
+    inputElement.addEventListener('keydown', format.enforceFormat);
+    inputElement.addEventListener('keyup', format.formatToPhone);
+  })
+
   // Submit form
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log("Form data: ", formData);
+    // console.log("Form data: ", formData);
 
     async function apiCall() {
       try {
@@ -59,7 +67,7 @@ function NewTable() {
       [target.name]: value,
     });
 
-    console.log("Form Data: ", formData, typeof formData.capacity);
+    // console.log("Form Data: ", formData, typeof formData.capacity);
   };
 
   return (
@@ -72,10 +80,10 @@ function NewTable() {
         </button>
       </form>
       <ErrorAlert error={reservationsError} />
-        <div className="my-3">
-          {(reservations.length) ? (<h5>Matching Reservations:</h5>) : null}
-          <ReservationList reservations={reservations} />
-        </div>
+      <div className="my-3">
+        {reservations.length ? <h5>Matching Reservations:</h5> : null}
+        <ReservationList reservations={reservations} />
+      </div>
     </div>
   );
 }
