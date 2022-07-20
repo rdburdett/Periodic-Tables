@@ -17,7 +17,7 @@ function logger(req, res, next)  {
 //   RESERVATIONS ROUTE LOGGER   //
 ///////////////////////////////////
 
-const log = true
+const log = false
 
 ////////////////////////////
 
