@@ -1,69 +1,16 @@
 const service = require("./reservations.service");
 const asyncErrorBoundary = require("../../errors/asyncErrorBoundary");
+const logger = require("../../logger.js")
 
 ////////////////////////////
 //      ROUTE LOGGER      //
 ////////////////////////////
 
-const log = false
+const log = true
 
 ////////////////////////////
-
-function logSearch(req, res, next) {
-  log && console.log(
-    "GET /\n", 
-    "req.params: ", req.params, "\n", 
-    "req.body: ", req.body
-    )
-  next()
-}
-function logCreate(req, res, next) {
-  log && console.log(
-    "POST /\n", 
-    "req.params: ", req.params, "\n", 
-    "req.body: ", req.body
-    )
-  next()
-}
-function logRead(req, res, next) {
-  log && console.log(
-    "GET /:reservationId\n", 
-    "req.params: ", req.params, "\n", 
-    "req.body: ", req.body
-    )
-  next()
-}
-function logUpdate(req, res, next) {
-  log && console.log(
-    "PUT /:reservationId\n", 
-    "req.params: ", req.params, "\n", 
-    "req.body: ", req.body
-    )
-  next()
-}
-function logDestroy(req, res, next) {
-  log && console.log(
-    "DELETE /:reservationId\n", 
-    "req.params: ", req.params, "\n", 
-    "req.body: ", req.body
-    )
-  next()
-}
-function logStatusUpdate(req, res, next) {
-  log && console.log(
-    "PUT /:reservationId/status\n", 
-    "req.params: ", req.params, "\n", 
-    "req.body: ", req.body
-    )
-  next()
-}
-
-//////////////////////
-//    VALIDATION    //
-//////////////////////
-
-// VALIDATION HELPERS
-
+//       VALIDATION       //
+////////////////////////////
 
 // VERIFY IS A DATE
 function isADate(dateString){
@@ -220,7 +167,7 @@ function validateDate(req, res, next, data) {
 
 //  VALIDATE REQUEST DATA
 function dataValidation(req, res, next) {
-  // log && console.log("\ndataValidation()")
+  log && console.log("\ndataValidation()")
   const { data } = req.body;
   if (!data) {
     log && console.log("\ndataValidation() - 400 Please fill in required fields.")
@@ -288,7 +235,7 @@ async function searchMobile(req, res, next) {
 async function searchDate(req, res, next) {
   let { date } = req.query;
 
-  // log && console.log("req.query.date:", date)
+  log && console.log("req.query.date:", date)
   const response = await service.searchDate(date)
   const filteredResponse = response.filter((reservation) => {
     return (reservation.status !== "finished")
@@ -411,43 +358,38 @@ async function destroy(req, res, next) {
 
 module.exports = {
   // GET "/"
-  list: [
-    // asyncErrorBoundary(logSearch),
-    asyncErrorBoundary(list)
-  ],
-  // GET "/search"
   search: [
-    // asyncErrorBoundary(logSearch),
+    asyncErrorBoundary(logger.logReservationSearch),
     asyncErrorBoundary(search)
   ],
   // POST "/"
   create: [
-    // asyncErrorBoundary(logCreate),
+    asyncErrorBoundary(logger.logReservationCreate),
     asyncErrorBoundary(dataValidation),
     asyncErrorBoundary(create),
   ],
   // GET "/:reservationId"
   read: [
-    // asyncErrorBoundary(logRead),
+    asyncErrorBoundary(logger.logReservationRead),
     asyncErrorBoundary(reservationExists),
     asyncErrorBoundary(read)
   ],
   // PUT "/:reservationId"
   update: [
-    // asyncErrorBoundary(logUpdate),
+    asyncErrorBoundary(logger.logReservationUpdate),
     asyncErrorBoundary(dataValidation),
     asyncErrorBoundary(reservationExists),
     asyncErrorBoundary(update),
   ],
   // DELETE "/:reservationId"
   destroy: [
-    // asyncErrorBoundary(logDestroy),
+    asyncErrorBoundary(logger.logReservationDestroy),
     asyncErrorBoundary(reservationExists),
     asyncErrorBoundary(destroy)
   ],
   // PUT "/:reservationId/status"
   statusUpdate: [
-    // asyncErrorBoundary(logStatusUpdate),
+    asyncErrorBoundary(logger.logReservationStatusUpdate),
     asyncErrorBoundary(validateStatus),
     asyncErrorBoundary(reservationExists),
     asyncErrorBoundary(statusUpdate),

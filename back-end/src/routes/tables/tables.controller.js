@@ -1,6 +1,7 @@
 const tablesService = require("./tables.service.js");
 const reservationsService = require("../reservations/reservations.service.js");
 const asyncErrorBoundary = require("../../errors/asyncErrorBoundary");
+const logger = require("../../logger.js")
 
 ////////////////////////////
 //      ROUTE LOGGER      //
@@ -9,38 +10,7 @@ const asyncErrorBoundary = require("../../errors/asyncErrorBoundary");
 const log = false
 
 ////////////////////////////
-
-function logCreate(req, res, next) {
-  log && console.log("POST /\n", req.params, "\n", req.body)
-  next()
-}
-function logList(req, res, next) {
-  log && console.log("GET /\n", req.params, "\n", req.body)
-  next()
-}
-function logRead(req, res, next) {
-  log && console.log("GET /:tableId\n", req.params, "\n", req.body)
-  next()
-}
-function logUpdate(req, res, next) {
-  log && console.log("PUT /:tableId\n", req.params, "\n", req.body)
-  next()
-}
-function logDestroy(req, res, next) {
-  log && console.log("DELETE /:tableId\n", req.params, "\n", req.body)
-  next()
-}
-function logSeat(req, res, next) {
-  log && console.log("PUT /:tableId/seat\n", req.params, "\n", req.body)
-  next()
-}
-function logUnseat(req, res, next) {
-  log && console.log("DELETE /:tableId/seat\n", req.params, "\n", req.body)
-  next()
-}
-
-////////////////////////////
-//   VALIDATION HELPERS   //
+//       VALIDATION       //
 ////////////////////////////
 
 // VALIDATE TABLE NAME
@@ -105,10 +75,6 @@ function validateReservationId(req, res, next, data) {
   log && console.log("Reservation ID is valid: ", reservationId)
   return next();
 }
-
-////////////////////////////
-//  VALIDATE REQUEST DATA //
-////////////////////////////
 
 // VALIDATE TALBES DATA
 function tablesDataValidation(req, res, next) {
@@ -228,18 +194,22 @@ async function isOccupied(req, res, next) {
   return next()
 }
 
+//////////////////////
+//       CRUD       //
+//////////////////////
+
+// LIST ALL TABLES
+async function list(req, res, next) {
+  log && console.log("list()")
+  res.json({ data: await tablesService.list() });
+}
+
 // CREATE NEW TABLE
 async function create(req, res, next) {
   log && console.log("create()")
   res.status(201).json({
     data: await tablesService.create(req.body.data),
   });
-}
-
-// LIST ALL TABLES
-async function list(req, res, next) {
-  log && console.log("list()")
-  res.json({ data: await tablesService.list() });
 }
 
 // GET SPECIFIC TABLE
@@ -381,38 +351,38 @@ async function destroy(req, res, next) {
 module.exports = {
   // POST "/"
   create: [
-    logCreate,
+    logger.logTableCreate,
     asyncErrorBoundary(tablesDataValidation),
     asyncErrorBoundary(create),
   ],
   // GET "/"
   list: [
-    logList,
+    logger.logTableList,
     asyncErrorBoundary(list),
   ],
   // GET /:tableId
   read: [
-    logRead,
+    logger.logTableRead,
     asyncErrorBoundary(tableExists),
     asyncErrorBoundary(read),
   ],
   // PUT /:tableId
   update: [
-    logUpdate,
+    logger.logTableUpdate,
     asyncErrorBoundary(seatsDataValidation),
     asyncErrorBoundary(tableExists),
     asyncErrorBoundary(update),
   ],
   // DELETE /:tableId
   destroy: [
-    logDestroy,
+    logger.logTableDestroy,
     asyncErrorBoundary(tablesDataValidation),
     asyncErrorBoundary(tableExists),
     asyncErrorBoundary(destroy),
   ],
   // PUT /:tableId/seat
   seat: [
-    logSeat,
+    logger.logTableSeat,
     asyncErrorBoundary(seatsDataValidation),
     asyncErrorBoundary(reservationExists),
     asyncErrorBoundary(tableExists),
@@ -421,7 +391,7 @@ module.exports = {
   ],
   // DELETE /:tableId/seat
   unseat: [
-    logUnseat,
+    logger.logTableUnseat,
     asyncErrorBoundary(tableExists),
     asyncErrorBoundary(isOccupied),
     asyncErrorBoundary(unseat),
