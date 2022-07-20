@@ -6,7 +6,7 @@ const logger = require("../../logger.js")
 //      ROUTE LOGGER      //
 ////////////////////////////
 
-const log = true
+const log = false
 
 ////////////////////////////
 //       VALIDATION       //
