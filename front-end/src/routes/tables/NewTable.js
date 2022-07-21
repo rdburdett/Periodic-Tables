@@ -9,7 +9,7 @@ function NewTable() {
   const [tablesError, setTablesError] = useState(null);
   const initialFormState = {
     table_name: "",
-    capacity: 1,
+    capacity: 0,
     status: "Free",
   };
   const [formData, setFormData] = useState({ ...initialFormState });

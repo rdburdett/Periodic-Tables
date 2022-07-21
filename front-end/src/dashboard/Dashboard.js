@@ -7,10 +7,7 @@ import {
 } from "react-router-dom";
 
 // API imports
-import {
-  listTables,
-  readByDate,
-} from "../utils/api";
+import { listTables, readByDate } from "../utils/api";
 
 import * as dateTime from "../utils/date-time";
 import ErrorAlert from "../layout/ErrorAlert";
@@ -26,6 +23,7 @@ import TableDetail from "../routes/tables/TableDetail";
 function Dashboard({ date }) {
   const [reservations, setReservations] = useState([]);
   const [tables, setTables] = useState([]);
+  const [hideCancelled, setHideCancelled] = useState(true);
 
   const [reservationsError, setReservationsError] = useState(null);
   const [tablesError, setTablesError] = useState(null);
@@ -72,7 +70,27 @@ function Dashboard({ date }) {
     <main>
       {/* Dashboard */}
       <div className="container my-2 p-2">
-        <h1 className="headingBar">Dashboard</h1>
+        <div className="d-flex align-items-end justify-content-between">
+          <h1 className="headingBar border">Dashboard</h1>
+          <div className="d-flex align-items-end">
+            <form className="">
+              <input
+                data-toggle="toggle"
+                type="checkbox"
+                className="form-check-input"
+                id="hideCancelled"
+                onChange={(event) =>
+                  setHideCancelled(event.currentTarget.checked)
+                }
+                checked={hideCancelled}
+              />
+              <small id="hideCancelled" className="form-text text-muted">
+                Hide cancelled reservations
+              </small>
+            </form>
+          </div>
+        </div>
+
         {/* Prev, today, next */}
         <div className="d-flex rounded btn-group">
           <Link
@@ -97,9 +115,13 @@ function Dashboard({ date }) {
       <div className="container my-3">
         <div className="headingBar">
           <h2>Reservations for {dateString}</h2>
+
         </div>
         <ErrorAlert error={reservationsError} />
-        <ReservationsList reservations={reservations} />
+        <ReservationsList
+          hideCancelled={hideCancelled}
+          reservations={reservations}
+        />
       </div>
 
       {/* Tables List */}

@@ -272,13 +272,15 @@ async function create(req, res, next) {
     })
   }
 
+  const newReservation = {
+    ...req.body.data,
+    status: "booked"
+  }
   // Returns 201 if status is 'booked'
-  // if (status === "booked") {
-    log && console.log("create() - 201 Status booked.")
-    res.status(201).json({
-      data: await service.create(req.body.data)
-    });
-  // }
+  log && console.log("create() - 201 Status booked.")
+  res.status(201).json({
+    data: await service.create(newReservation)
+  });
 }
 
 // GET SPECIFIC RESERVATION
