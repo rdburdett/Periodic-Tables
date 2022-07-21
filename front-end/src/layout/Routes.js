@@ -14,6 +14,7 @@ import { today } from "../utils/date-time";
 import Search from "../routes/search/Search";
 import NewTable from "../routes/tables/NewTable";
 import EditReservation from "../routes/reservations/EditReservation";
+import SeatReservation from "../routes/reservations/SeatReservation";
 
 /**
  * Defines all the routes for the application.
@@ -46,13 +47,17 @@ function Routes() {
       <Route exact={true} path="/reservations">
         <Redirect to={"/dashboard"} />
       </Route>
+
       <Route exact={true} path="/reservations/new">
         <NewReservation />
       </Route>
 
       <Route exact={true} path="/reservations/:reservationId/edit">
-        {/* <NewReservation /> */}
         <EditReservation />
+      </Route>
+
+      <Route exact={true} path="/reservations/:reservationId/seat">
+        <SeatReservation />
       </Route>
 
       {/* TABLES */}

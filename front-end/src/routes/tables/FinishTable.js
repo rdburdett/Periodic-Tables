@@ -31,7 +31,7 @@ function FinishTable({ table_id }) {
   return (
     <button
       type="button"
-      className="btn btn-dark"
+      className="btn btn-secondary"
       data-table-id-finish={table_id}
       onClick={(e) => finishClickHandler(e)}
     >

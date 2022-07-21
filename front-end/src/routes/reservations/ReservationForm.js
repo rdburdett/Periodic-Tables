@@ -52,7 +52,9 @@ const ReservationForm = ({ formData, handleChange }) => {
           style={{ width: "50%" }}
           required
         />
-        <small id="phoneNumberHelp" className="form-text text-muted">Format: 123-456-7890</small>
+        <small id="phoneNumberHelp" className="form-text text-muted">
+          Format: 123-456-7890
+        </small>
       </div>
 
       {/* Reservation Date */}
@@ -102,6 +104,25 @@ const ReservationForm = ({ formData, handleChange }) => {
           Party size must be at least 1.
         </small>
       </div>
+
+      {/* Reservation Status */}
+      <div className="form-group">
+        <label>Reservation Status</label>
+        <select
+          name="status"
+          onChange={handleChange}
+          className="form-control"
+          value={formData.status}
+          style={{ width: "50%" }}
+        >
+          <option value="booked">Booked</option>
+          <option value="seated">Seated</option>
+          <option value="cancelled">Cancelled</option>
+          <option value="finished">Finished</option>
+
+        </select>
+      </div>
+      
     </div>
   );
 };

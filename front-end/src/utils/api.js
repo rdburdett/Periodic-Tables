@@ -201,7 +201,7 @@ export async function updateReservationStatus(updatedReservation, signal) {
     body: JSON.stringify({ data: updatedReservation }),
     signal,
   };
-  return await fetchJson(url, options, updatedReservation);
+  return await fetchJson(url, options);
 }
 
 ///////// TABLES /////////

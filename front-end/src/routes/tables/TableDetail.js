@@ -1,13 +1,18 @@
-import FinishTable from "./FinishTable"
+import FinishTable from "./FinishTable";
 
-function TableDetail ({ tables = [] }) {
+function TableDetail({ tables = [], reservations = [] }) {
+  console.log("tables: ", tables);
+  console.log("reservations: ", reservations)
+  const getReservationName = (tableResId) => {
+    return (reservations.filter((reservation) => reservation.reservation_id === tableResId)[0].last_name)
+  }
   return (
     <div className="table-responsive">
-      <table className="table table-striped table-hover">
+      <table className="table table-striped bg-dark text-white">
         <thead>
-          <tr className="bg-dark text-white">
-            <th scope="col">#</th>
-            <th scope="col">Description</th>
+          <tr className="">
+            <th scope="col">Table</th>
+            <th scope="col">Reservation</th>
             <th scope="col">Capacity</th>
             <th scope="col">Availability</th>
             <th scope="col">Action</th>
@@ -17,17 +22,27 @@ function TableDetail ({ tables = [] }) {
           {!tables && "No available tables."}
           {tables.map((table) => (
             <tr key={table.table_id}>
-            <th scope="row">{table.table_id}</th>
-            <td>{table.table_name}</td>
-            <td>{table.capacity}</td>
-      
-            <td data-table-id-status={table.table_id}>
-              {table.reservation_id ? "occupied" : "free"}
-            </td>
-            {/*'Finish' button will be displayed if the table is occupied */}
-              <td>{table.reservation_id && <FinishTable table_id={table.table_id} />}</td>
-              
-          </tr>
+              {/* <th scope="row">{table.table_id}</th> */}
+              <th scope="row">{table.table_name}</th>
+              <td>
+                {table.reservation_id ? getReservationName(table.reservation_id) : null }
+              </td>
+              <td>{table.capacity}</td>
+
+              <td data-table-id-status={table.table_id}>
+                {table.reservation_id ? (
+                  <span className="text-warning">occupied</span>
+                ) : (
+                  <span className="text-success">available</span>
+                )}
+              </td>
+              {/*'Finish' button will be displayed if the table is occupied */}
+              <td>
+                {table.reservation_id && (
+                  <FinishTable table_id={table.table_id} />
+                )}
+              </td>
+            </tr>
           ))}
         </tbody>
       </table>
@@ -35,4 +50,4 @@ function TableDetail ({ tables = [] }) {
   );
 }
 
-export default TableDetail
+export default TableDetail;

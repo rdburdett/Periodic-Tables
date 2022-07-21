@@ -13,7 +13,6 @@ function EditReservation() {
   const abortController = new AbortController();
   const [reservationsError, setReservationsError] = useState(null);
 
-  // console.log(now());
   const initialFormState = {
     first_name: "",
     last_name: "",
@@ -34,8 +33,6 @@ function EditReservation() {
       setReservationsError(null);
       try {
         const data = await api.readReservation(reservationId, abortController.signal);
-        // console.log("Data: ", data);
-        // setReservation(data);
         setFormData(data)
       } catch (error) {
         setReservationsError(error);
@@ -61,6 +58,7 @@ function EditReservation() {
       setReservationsError(null);
       try {
         await api.updateReservation(formData, abortController.signal);
+        await api.unseatTable
         history.push(`/dashboard?date=${formData.reservation_date}`);
       } catch (error) {
         if (error.name === "AbortError") {

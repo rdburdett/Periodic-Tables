@@ -3,10 +3,12 @@ import {
   readReservation,
   listTables,
   seatTable,
-  statusUpdate,
-} from "../utils/api";
-import ErrorAlert from "../layout/ErrorAlert";
+  updateReservationStatus,
+  // updateReservation,
+} from "../../utils/api";
+import ErrorAlert from "../../layout/ErrorAlert";
 import { useParams, useHistory } from "react-router-dom";
+import SeatReservationCard from "./SeatReservationCard";
 
 /**
  * Defines the Seat page.
@@ -15,13 +17,16 @@ import { useParams, useHistory } from "react-router-dom";
  * in an adjacet card to select to seat a reservation.
  */
 
-function Seat() {
+function SeatReservation() {
   const params = useParams();
-  const reservation_id = params.reservation_id;
+  const reservation_id = params.reservationId;
 
-  const [reservation, setReservation] = useState([]);
+  const [reservation, setReservation] = useState();
   const [tables, setTables] = useState([]);
-  //the default state has no table selected so has an error message asking the user to select a table
+  const history = useHistory();
+
+  const [reservationsError, setReservationsError] = useState(null);
+  const [tablesError, setTablesError] = useState(null);
   const [seatingError, setSeatingError] = useState({
     message: "Please select a table",
   });
@@ -30,58 +35,72 @@ function Seat() {
   };
   const [formData, setFormData] = useState({ ...initialFormState });
 
-  //load data from apis
-
+  // Get reservations
   useEffect(() => {
     const abortController = new AbortController();
-    async function loadData() {
+
+    async function loadReservations() {
+      setReservationsError(null);
       try {
-        const output1 = await readReservation(
+        const data = await readReservation(
           reservation_id,
           abortController.signal
         );
-        const output2 = await listTables(abortController.signal);
-        setReservation(output1);
-        //filter out any tables that aren't free when we set the tables array.
-        setTables(output2.filter((table) => table.status === "Free"));
+        // console.log("Data: ", data);
+        setReservation(data);
       } catch (error) {
-        if (error.name === "AbortError") {
-          // Ignore `AbortError`
-          console.log("Aborted");
-        } else {
-          throw error;
-        }
+        setReservationsError(error);
       }
     }
-    loadData();
-  });
+    loadReservations();
+    return () => abortController.abort();
+  }, [reservation_id]);
 
-  //submission handler, only works if there are no seatingErrors
+  // Get available tables
+  useEffect(() => {
+    const abortController = new AbortController();
 
-  const abortController = new AbortController();
-  const history = useHistory();
+    async function loadTables() {
+      setReservationsError(null);
+      try {
+        const data = await listTables(abortController.signal);
+        setTables(data.filter((table) => table.status === "available"));
+      } catch (error) {
+        setTablesError(error);
+      }
+    }
+
+    loadTables();
+    return () => abortController.abort();
+  }, []);
+
   const handleSubmit = (event) => {
+    const abortController = new AbortController();
+
     event.preventDefault();
     if (seatingError === null) {
       async function updateData() {
         try {
           await seatTable(
             formData.table_id,
-            { reservation_id },
-            abortController.signal
-          );
-          await statusUpdate(
             reservation_id,
-            { status: "Seated" },
             abortController.signal
           );
-          history.push(`/dashboard/`);
+          await updateReservationStatus(
+            {
+              ...reservation,
+              table_id: formData.table_id,
+              status: "seated",
+            },
+            abortController.signal
+          );
+          history.push(`/dashboard`);
         } catch (error) {
           if (error.name === "AbortError") {
             // Ignore `AbortError`
             console.log("Aborted");
           } else {
-            throw error;
+            setSeatingError(error);
           }
         }
       }
@@ -118,27 +137,17 @@ function Seat() {
   return (
     <main>
       <h1>Seat Party</h1>
+      <ErrorAlert error={reservationsError} />
+      <ErrorAlert error={tablesError} />
       <ErrorAlert error={seatingError} />
+
       <div className="d-md-flex mb-3">
         <div className="col-sm-6">
-          <div className="card text-white bg-dark mb-3">
-            <div className="card-header">
-              <h4>
-                {reservation.first_name} {reservation.last_name}
-              </h4>
-            </div>
-            <div className="card-body">
-              <h5 className="card-title">
-                Time: {reservation.reservation_time}
-              </h5>
-              <p className="card-text">
-                date: {reservation.reservation_date} <br />
-                Mobile Number: {reservation.mobile_number}
-                <br />
-                Party Size: {reservation.people} <br /> <br />
-              </p>
-            </div>
-          </div>
+          {reservation ? (
+            <SeatReservationCard reservation={reservation} />
+          ) : (
+            "Cannot find reservation."
+          )}
         </div>
         <div className="col-sm-6">
           <div className="card text-white bg-dark mb-3">
@@ -150,12 +159,12 @@ function Seat() {
                 <select
                   name="table_id"
                   onChange={handleChange}
-                  className="form-control form-control-lg"
+                  className="form-control"
                   value={formData.table_id}
                 >
-                  <option value="x">--- Select A Table ---</option>
-                  {tables.map((table) => (
-                    <option value={table.table_id}>
+                  <option value="x">{"Table # (capacity)"}</option>
+                  {tables.map((table, index) => (
+                    <option value={table.table_id} key={index}>
                       {table.table_name} - {table.capacity}
                     </option>
                   ))}
@@ -184,4 +193,4 @@ function Seat() {
   );
 }
 
-export default Seat;
+export default SeatReservation;

@@ -77,9 +77,12 @@ function Dashboard({ date }) {
             <label
               onClick={(event) => setHideCancelled(!hideCancelled)}
               id="hideCancelled"
-              className={`animate float-right form-text ${hideCancelled ? "text-muted" : "text-warning"}`}
+              className={`animate float-right form-text ${
+                hideCancelled ? "text-light" : "text-warning"
+              }`}
             >
-              {hideCancelled ? "Show": "Hide"} cancelled reservations
+              {hideCancelled ? "Show all" : "Hide cancelled/finished"}{" "}
+              reservations
             </label>
           </div>
         </div>
@@ -92,7 +95,7 @@ function Dashboard({ date }) {
           >
             Previous
           </Link>
-          <Link to={`/dashboard`} className="btn btn-success">
+          <Link to={`/dashboard`} className="btn btn-primary">
             Today
           </Link>
           <Link
@@ -122,7 +125,7 @@ function Dashboard({ date }) {
           <h2>Tables</h2>
         </div>
         <ErrorAlert error={tablesError} />
-        <TableDetail tables={tables} />
+        <TableDetail tables={tables} reservations={reservations} />
       </div>
     </main>
   );

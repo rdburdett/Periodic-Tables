@@ -281,6 +281,7 @@ module.exports = {
   ],
   update: [
     asyncErrorBoundary(hasValidFields),
+    asyncErrorBoundary(validateStatus),
     asyncErrorBoundary(dataValidation),
     asyncErrorBoundary(reservationExists),
     update,
