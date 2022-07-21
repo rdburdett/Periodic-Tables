@@ -1,8 +1,5 @@
 import React from "react";
-import {
-  Link,
-  useHistory
-} from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 import { updateReservationStatus } from "../../utils/api";
 
@@ -14,7 +11,9 @@ function ReservationCard({ reservation, index }) {
   }.svg`;
   const areaCode = reservation.mobile_number.slice(0, 3);
   const localNumber = reservation.mobile_number.slice(4);
-  const groomedReservationStatus = reservation.status && `${reservation.status[0].toUpperCase()}${reservation.status.slice(1)}`
+  const groomedReservationStatus =
+    reservation.status &&
+    `${reservation.status[0].toUpperCase()}${reservation.status.slice(1)}`;
   const history = useHistory();
 
   // Handle cancel button action
@@ -27,9 +26,10 @@ function ReservationCard({ reservation, index }) {
     if (confirmedCancel) {
       async function deleteData() {
         try {
-          await updateReservationStatus({
+          await updateReservationStatus(
+            {
               ...reservation,
-              status: "cancelled"
+              status: "cancelled",
             },
             abortController.signal
           );
@@ -61,12 +61,16 @@ function ReservationCard({ reservation, index }) {
 
       {/* Card main body */}
       <div className="card-footer">
-        <h5 className="card-title">
-          {reservation.first_name} {reservation.last_name}{" "}
-        </h5>
-        <p className="card-text">Party of {reservation.people}</p>
-        <p className="card-text">Status: {groomedReservationStatus}</p>
-        <p className="card-text">Time: {reservation.reservation_time}</p>
+        <h4 className="card-title">
+          {reservation.first_name} {reservation.last_name}
+          <br />
+          {reservation.reservation_time}
+        </h4>
+        <p className="card-text">
+          Party of {reservation.people}
+          <br />
+          Status: {groomedReservationStatus}
+        </p>
         <p className="card-text">{`(${areaCode})${localNumber}`}</p>
       </div>
 
@@ -74,28 +78,34 @@ function ReservationCard({ reservation, index }) {
       {/* <div className="card-header"> */}
       <div className="btn-group">
         {/* Cancel button */}
-        {reservation.status==="cancelled" ? null : (<button
-          onClick={handleCancel}
-          className="p-1 btn btn-secondary btn-shade"
-          value={reservation.reservation_id}
-          data-reservation-id-cancel={reservation.reservation_id}>
-          Cancel
-        </button>)}
+        {reservation.status === "cancelled" ? null : (
+          <button
+            onClick={handleCancel}
+            className="p-1 btn btn-secondary btn-shade"
+            value={reservation.reservation_id}
+            data-reservation-id-cancel={reservation.reservation_id}
+          >
+            Cancel
+          </button>
+        )}
 
         {/* Edit button */}
         <Link
-          to={`/reservations/${reservation.reservation_id}/edit`} className="p-1 btn btn-secondary btn-shade">
+          to={`/reservations/${reservation.reservation_id}/edit`}
+          className="p-1 btn btn-secondary btn-shade"
+        >
           Edit
         </Link>
 
         {/* Seat button */}
         {reservation.status === "cancelled" ? null : (
-        <Link
-          to={`/reservations/${reservation.reservation_id}/seat`}
-          className="p-1 btn rounded-right btn-secondary btn-shade">
-          Seat
-        </Link>)}
-
+          <Link
+            to={`/reservations/${reservation.reservation_id}/seat`}
+            className="p-1 btn rounded-right btn-secondary btn-shade"
+          >
+            Seat
+          </Link>
+        )}
       </div>
     </div>
   );
