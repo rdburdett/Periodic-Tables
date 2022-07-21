@@ -112,7 +112,7 @@ function ReservationCard({ reservation, index }) {
             to={`/reservations/${reservation_id}/seat`}
             // className="p-1 btn rounded-right btn-secondary btn-shade"
           >
-            <button>Seat</button>
+            Seat
           </Link>
         )}
       </div>

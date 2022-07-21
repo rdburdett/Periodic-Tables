@@ -106,7 +106,7 @@ const ReservationForm = ({ formData, handleChange }) => {
       </div>
 
       {/* Reservation Status */}
-      <div className="form-group">
+      {/* <div className="form-group">
         <label>Reservation Status</label>
         <select
           name="status"
@@ -121,7 +121,7 @@ const ReservationForm = ({ formData, handleChange }) => {
           <option value="finished">Finished</option>
 
         </select>
-      </div>
+      </div> */}
       
     </div>
   );
