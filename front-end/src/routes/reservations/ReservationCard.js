@@ -74,26 +74,27 @@ function ReservationCard({ reservation, index }) {
       {/* <div className="card-header"> */}
       <div className="btn-group">
         {/* Cancel button */}
-        <button
+        {reservation.status==="cancelled" ? null : (<button
           onClick={handleCancel}
-          className="p-1 btn rounded-left btn-secondary btn-shade"
+          className="p-1 btn btn-secondary btn-shade"
           value={reservation.reservation_id}
           data-reservation-id-cancel={reservation.reservation_id}>
           Cancel
-        </button>
+        </button>)}
 
         {/* Edit button */}
         <Link
-          to={`/reservations/${reservation.reservation_id}/edit`} className="p-1 btn rounded-0 btn-secondary btn-shade">
+          to={`/reservations/${reservation.reservation_id}/edit`} className="p-1 btn btn-secondary btn-shade">
           Edit
         </Link>
 
         {/* Seat button */}
+        {reservation.status === "cancelled" ? null : (
         <Link
           to={`/reservations/${reservation.reservation_id}/seat`}
           className="p-1 btn rounded-right btn-secondary btn-shade">
           Seat
-        </Link>
+        </Link>)}
 
       </div>
     </div>

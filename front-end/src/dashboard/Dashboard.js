@@ -70,24 +70,17 @@ function Dashboard({ date }) {
     <main>
       {/* Dashboard */}
       <div className="container my-2 p-2">
-        <div className="d-flex align-items-end justify-content-between">
-          <h1 className="headingBar border">Dashboard</h1>
-          <div className="d-flex align-items-end">
-            <form className="">
-              <input
-                data-toggle="toggle"
-                type="checkbox"
-                className="form-check-input"
-                id="hideCancelled"
-                onChange={(event) =>
-                  setHideCancelled(event.currentTarget.checked)
-                }
-                checked={hideCancelled}
-              />
-              <small id="hideCancelled" className="form-text text-muted">
-                Hide cancelled reservations
-              </small>
-            </form>
+        <div className="row">
+          <h1 className="col headingBar mb-0">Dashboard</h1>
+
+          <div className="col m-0 align-self-end">
+            <label
+              onClick={(event) => setHideCancelled(!hideCancelled)}
+              id="hideCancelled"
+              className={`animate float-right form-text ${hideCancelled ? "text-muted" : "text-warning"}`}
+            >
+              {hideCancelled ? "Show": "Hide"} cancelled reservations
+            </label>
           </div>
         </div>
 
@@ -115,7 +108,6 @@ function Dashboard({ date }) {
       <div className="container my-3">
         <div className="headingBar">
           <h2>Reservations for {dateString}</h2>
-
         </div>
         <ErrorAlert error={reservationsError} />
         <ReservationsList
