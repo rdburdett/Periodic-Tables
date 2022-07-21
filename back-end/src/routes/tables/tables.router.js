@@ -10,7 +10,7 @@ const methodNotAllowed = require("../../errors/methodNotAllowed");
  * Routes available:
  * "/"" get: list all tables., post: add a new table
  * "/:tablesId" get: list a single table, put: update an existing table, delete: delete an existing table
- * "/tablesID/seat" put: set a table status to occupied. delete: set a table to "free"
+ * "/tablesID/seat" put: set a table status to Occupied. delete: set a table to "free"
  */
 
 router

@@ -107,10 +107,8 @@ function ReservationCard({ reservation, index }) {
         {/* Seat button */}
         {status === "cancelled" ? null : (
           <Link
-            // className="text-light"
-            className="p-1 btn rounded-right btn-secondary btn-shade"
             to={`/reservations/${reservation_id}/seat`}
-            // className="p-1 btn rounded-right btn-secondary btn-shade"
+            className="p-1 btn rounded-right btn-secondary btn-shade"
           >
             Seat
           </Link>

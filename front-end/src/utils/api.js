@@ -123,7 +123,7 @@ export async function searchByMobileNumber(mobile_number, signal) {
     body: JSON.stringify({ data: reservation }),
     signal,
   };
-  return await fetchJson(url, options, {});
+  return await fetchJson(url, options, reservation);
 }
 
 // GET /reservations/:reservationId

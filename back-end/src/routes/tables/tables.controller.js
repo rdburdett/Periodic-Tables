@@ -184,7 +184,7 @@ async function isOccupied(req, res, next) {
   const { tableId } = req.params
   const table = await tablesService.read(tableId)
 
-  if (table.status !== "occupied") {
+  if (table.status !== "Occupied") {
     log && console.log("400 Table not occupied.")
     return next({
       status: 400,
@@ -241,11 +241,11 @@ async function seat(req, res, next) {
   const reservationId = req.body.data.reservation_id;
   const reservation = await reservationsService.read(reservationId);
 
-  // check if table is available
+  // check if table is Free
   const { tableId } = req.params;
   const table = await tablesService.read(tableId);
 
-  if (table.status !== "available") {
+  if (table.status !== "Free") {
     log && console.log("400 Table occupied.")
     return next({
       status: 400,
@@ -275,7 +275,7 @@ async function seat(req, res, next) {
   const updatedTable = {
     ...table,
     reservation_id: reservationId,
-    status: "occupied"
+    status: "Occupied"
   };
   log && console.log("Updated table: ", updatedTable)
   await tablesService.update(updatedTable)
@@ -304,7 +304,7 @@ async function unseat(req, res, next) {
 
   ////////
   // check to make sure table.status is currently occupied
-  if (table.status !== "occupied") {
+  if (table.status !== "Occupied") {
     log && console.log("400 Table not occupied")
     return next({
       status: 400,
@@ -313,7 +313,7 @@ async function unseat(req, res, next) {
   }
   
   ////////
-  // update current reservation to 'available'
+  // update current reservation to 'Free'
   const updatedReservation = {
     ...reservation,
     status: "finished"
@@ -326,7 +326,7 @@ async function unseat(req, res, next) {
   const updatedTable = {
     ...table,
     reservation_id: null,
-    status: "available"
+    status: "Free"
   }
   log && console.log("Updated table: ", updatedTable)
   await tablesService.update(updatedTable)

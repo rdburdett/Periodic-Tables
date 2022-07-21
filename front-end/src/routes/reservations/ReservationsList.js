@@ -20,7 +20,7 @@ function ReservationsList({ hideCancelled = false, reservations = [] }) {
       })}
     </div>
   ) : (
-    "No current reservations for this date."
+    "No reservations found for this date."
   );
 }
 

@@ -56,7 +56,7 @@ function SeatReservation() {
     return () => abortController.abort();
   }, [reservation_id]);
 
-  // Get available tables
+  // Get Free tables
   useEffect(() => {
     const abortController = new AbortController();
 
@@ -64,7 +64,7 @@ function SeatReservation() {
       setReservationsError(null);
       try {
         const data = await listTables(abortController.signal);
-        setTables(data.filter((table) => table.status === "available"));
+        setTables(data.filter((table) => table.status === "Free"));
       } catch (error) {
         setTablesError(error);
       }
@@ -150,7 +150,7 @@ function SeatReservation() {
           )}
         </div>
         <div className="col-sm-6">
-          <div className="card text-white bg-dark mb-3">
+          <div className="card text-white bg-dark my-3">
             <div className="card-header">
               <h4>Select a Table</h4>
             </div>
@@ -159,26 +159,23 @@ function SeatReservation() {
                 <select
                   name="table_id"
                   onChange={handleChange}
-                  className="form-control"
+                  className="form-control mb-4"
                   value={formData.table_id}
                 >
-                  <option value="x">{"Table # (capacity)"}</option>
+                  <option value="x">{"Table # - capacity"}</option>
                   {tables.map((table, index) => (
                     <option value={table.table_id} key={index}>
                       {table.table_name} - {table.capacity}
                     </option>
                   ))}
                 </select>
-                <br />
-                <br />
                 <button
                   type="button"
                   onClick={() => history.goBack()}
-                  className="btn btn-secondary"
+                  className="btn btn-secondary mr-2"
                 >
                   Cancel
                 </button>
-                &nbsp; &nbsp;
                 <button type="submit" className="btn btn-primary">
                   Save
                 </button>

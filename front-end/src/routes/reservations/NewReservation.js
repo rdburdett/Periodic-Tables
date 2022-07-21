@@ -93,7 +93,7 @@ function NewReservation() {
           Cancel
         </button>
         <button type="submit" className="btn btn-success">
-          Save
+          Submit
         </button>
       </form>
 

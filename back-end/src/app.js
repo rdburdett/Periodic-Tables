@@ -4,7 +4,7 @@ require("dotenv").config({ path: path.join(__dirname, "..", ".env") });
 
 const express = require("express");
 const cors = require("cors");
-const logger = require("./logger")
+const { logger } = require("./logger")
 
 const errorHandler = require("./errors/errorHandler");
 const notFound = require("./errors/notFound");
@@ -18,12 +18,12 @@ app.use(express.json());
 
 app.use(
   "/reservations",
-  // logger,
+  logger,
   reservationsRouter
 );
 app.use(
   "/tables",
-  // logger,
+  logger,
   tablesRouter
 )
 

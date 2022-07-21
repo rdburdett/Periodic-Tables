@@ -31,9 +31,13 @@ function TableDetail({ tables = [], reservations = [] }) {
 
               <td data-table-id-status={table.table_id}>
                 {table.reservation_id ? (
-                  <span className="text-warning">occupied</span>
+                  <span
+                    data-table-id-status={table.table_id}
+                    className="text-warning">Occupied</span>
                 ) : (
-                  <span className="text-success">available</span>
+                    <span
+                      data-table-id-status={table.table_id}
+                      className="text-success">Free</span>
                 )}
               </td>
               {/*'Finish' button will be displayed if the table is occupied */}
