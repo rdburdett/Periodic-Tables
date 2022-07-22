@@ -1,7 +1,7 @@
 import { useHistory } from "react-router-dom";
-import { unseatTable } from "../../utils/api";
+import * as api from "../../utils/api";
 
-function FinishTable({ table_id }) {
+function FinishTable({ table_id, reservation_id }) {
   const history = useHistory();
 
   async function finishClickHandler(e) {
@@ -18,7 +18,11 @@ function FinishTable({ table_id }) {
 
     // Unseats a reservation from a table
     try {
-      await unseatTable(table_id, abortController.signal);
+      await api.unseatTable(table_id, abortController.signal);
+      await api.updateReservationStatus({
+        reservation_id: reservation_id,
+        status: "finished"
+      }, abortController.signal)
     } catch (error) {
       console.log(error.message);
     }

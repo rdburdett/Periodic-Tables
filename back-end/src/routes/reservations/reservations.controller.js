@@ -6,7 +6,7 @@ const logger = require("../../logger.js")
 //      ROUTE LOGGER      //
 ////////////////////////////
 
-const log = false
+const log = true
 
 ////////////////////////////
 //       VALIDATION       //
@@ -327,9 +327,12 @@ async function statusUpdate(req, res, next) {
   const reqReservationStatus = req.body.data.status
   const currentReservationStatus = res.locals.reservation.status
 
+  ///////////////////////////////
+  // !!!!!! IMPORTANT !!!!!!!! //
+  ///////////////////////////////
   // Return 400 if status is currently finished (a finished reservation cannot be updated)
   if (currentReservationStatus === "finished") {
-    log && console.log("create() - 400 Status finished. Cannot update a finished reservation.")
+    log && console.log("statusUpdate() - 400 Status finished. Cannot update a finished reservation.")
     return next({
       status: 400,
       message: 'Status finished. Cannot update a finished reservation.'
@@ -344,7 +347,7 @@ async function statusUpdate(req, res, next) {
     status: reqReservationStatus
   }
   const response = await service.update(updatedStatus)
-  log && console.log("\nstatusUpdate() - 200 Status updated: ", response)
+  log && console.log("statusUpdate() - 200 Status updated: ", response)
   res.status(200).json({
     data: response[0]
   })

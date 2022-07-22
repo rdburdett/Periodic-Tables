@@ -7,7 +7,7 @@ const logger = require("../../logger.js")
 //      ROUTE LOGGER      //
 ////////////////////////////
 
-const log = false
+const log = true
 
 ////////////////////////////
 //       VALIDATION       //
@@ -206,9 +206,10 @@ async function list(req, res, next) {
 
 // CREATE NEW TABLE
 async function create(req, res, next) {
-  log && console.log("create()")
+  const response = await tablesService.create(req.body.data)
+  log && console.log("create() successfully created table: ", response)
   res.status(201).json({
-    data: await tablesService.create(req.body.data),
+    data: response,
   });
 }
 
@@ -277,16 +278,18 @@ async function seat(req, res, next) {
     reservation_id: reservationId,
     status: "Occupied"
   };
-  log && console.log("Updated table: ", updatedTable)
+  log && console.log("Attempting to update seated table to 'Occupied'...")
   await tablesService.update(updatedTable)
+  log && console.log("Updated table: ", updatedTable)
 
   // update current reservation to seated
   const updatedReservation = {
     ...reservation,
     status: "seated"
   };
-  log && console.log("Updated reservation: ", updatedReservation)
+  log && console.log("Attempting to update seated reservation status to 'seated'...")
   await reservationsService.update(updatedReservation)
+  log && console.log("Updated reservation: ", updatedReservation)
 
   // send 200 and updated table
   res
@@ -313,23 +316,25 @@ async function unseat(req, res, next) {
   }
   
   ////////
-  // update current reservation to 'Free'
+  // update current reservation to 'finished'
   const updatedReservation = {
     ...reservation,
     status: "finished"
   }
-  log && console.log("Updated reservation: ", updatedReservation)
+  log && console.log("Attempting to update reservation...")
   await reservationsService.update(updatedReservation)
+  log && console.log("Updated reservation: ", updatedReservation)
 
   ////////
-  // update current table to 'finished'
+  // update current table to 'Free'
   const updatedTable = {
     ...table,
     reservation_id: null,
     status: "Free"
   }
-  log && console.log("Updated table: ", updatedTable)
+  log && console.log("Attempting to update table...")
   await tablesService.update(updatedTable)
+  log && console.log("Updated table: ", updatedTable)
 
   ////////
   // send 200 and updated table

@@ -81,8 +81,7 @@ function Dashboard({ date }) {
                 hideCancelled ? "text-light" : "text-warning"
               }`}
             >
-              {hideCancelled ? "Show all" : "Hide cancelled/finished"}{" "}
-              reservations
+              {hideCancelled ? "Show" : "Hide"} cancelled reservations
             </label>
           </div>
         </div>

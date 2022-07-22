@@ -58,7 +58,6 @@ function EditReservation() {
       setReservationsError(null);
       try {
         await api.updateReservation(formData, abortController.signal);
-        await api.unseatTable
         history.push(`/dashboard?date=${formData.reservation_date}`);
       } catch (error) {
         if (error.name === "AbortError") {

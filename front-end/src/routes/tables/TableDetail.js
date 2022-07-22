@@ -1,11 +1,13 @@
 import FinishTable from "./FinishTable";
 
-function TableDetail({ tables = [], reservations = [] }) {
+function TableDetail({ tables, reservations = [] }) {
   console.log("tables: ", tables);
   console.log("reservations: ", reservations)
-  const getReservationName = (tableResId) => {
-    return (reservations.filter((reservation) => reservation.reservation_id === tableResId)[0].last_name)
-  }
+
+  // const getReservationName = (tableResId) => {
+  //   return (reservations.filter((reservation) => reservation.reservation_id === tableResId)[0].last_name)
+  // }
+
   return (
     <div className="table-responsive">
       <table className="table table-striped bg-dark text-white">
@@ -25,7 +27,8 @@ function TableDetail({ tables = [], reservations = [] }) {
               {/* <th scope="row">{table.table_id}</th> */}
               <th scope="row">{table.table_name}</th>
               <td>
-                {table.reservation_id ? getReservationName(table.reservation_id) : null }
+                {/* Get reservation name here. Possibly add component with useEffect? */}
+                {table.reservation_id ? (table.reservation_id) : null }
               </td>
               <td>{table.capacity}</td>
 
@@ -43,7 +46,7 @@ function TableDetail({ tables = [], reservations = [] }) {
               {/*'Finish' button will be displayed if the table is occupied */}
               <td>
                 {table.reservation_id && (
-                  <FinishTable table_id={table.table_id} />
+                  <FinishTable table_id={table.table_id} reservation_id={table.reservation_id} />
                 )}
               </td>
             </tr>
