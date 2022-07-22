@@ -250,7 +250,7 @@ async function searchDate(req, res, next) {
 // CREATE NEW RESERVATION
 // POST "/"
 async function create(req, res, next) {
-  log && console.log("create()")
+  log && console.log("create()...")
   const { status } = req.body.data
 
   // Returns 400 if status is 'seated'
@@ -277,7 +277,7 @@ async function create(req, res, next) {
     status: "booked"
   }
   // Returns 201 if status is 'booked'
-  log && console.log("create() - 201 Status booked.")
+  log && console.log("create() - 201 Status booked.", newReservation)
   res.status(201).json({
     data: await service.create(newReservation)
   });
