@@ -163,8 +163,8 @@ function SeatReservation() {
                   value={formData.table_id}
                 >
                   <option value="x">{"Table # - capacity"}</option>
-                  {tables.map((table, index) => (
-                    <option value={table.table_id} key={index}>
+                  {tables.map((table) => (
+                    <option value={table.table_id} key={table.table_id}>
                       {table.table_name} - {table.capacity}
                     </option>
                   ))}

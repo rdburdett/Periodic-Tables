@@ -9,7 +9,7 @@ function ReservationsList({ hideCancelled = false, reservations = [] }) {
           reservation.status !== "booked"))
 
         return hideCancelled && validStatus ? null : (
-          <div key={index} className="col-sm-6 col-md-4 col-lg-4 mb-3">
+          <div key={reservation.reservation_id} className="col-sm-6 col-md-4 col-lg-4 mb-3">
             <ReservationCard
               key={index}
               reservation={reservation}
