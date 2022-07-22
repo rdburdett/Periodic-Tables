@@ -1,8 +1,10 @@
 import FinishTable from "./FinishTable";
 
+const log = false
+
 function TableDetail({ tables, reservations = [] }) {
-  console.log("tables: ", tables);
-  console.log("reservations: ", reservations)
+  log && console.log("tables: ", tables);
+  log && console.log("reservations: ", reservations)
 
   // const getReservationName = (tableResId) => {
   //   return (reservations.filter((reservation) => reservation.reservation_id === tableResId)[0].last_name)
