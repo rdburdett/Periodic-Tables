@@ -206,7 +206,12 @@ async function list(req, res, next) {
 
 // CREATE NEW TABLE
 async function create(req, res, next) {
-  const response = await tablesService.create(req.body.data)
+  log && console.log("create() request body: ", req.body.data)
+  const response = await tablesService.create({
+    ...req.body.data,
+    status: "Free",
+    reservation_id: null,
+  })
   log && console.log("create() successfully created table: ", response)
   res.status(201).json({
     data: response,
