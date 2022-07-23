@@ -88,7 +88,7 @@ function EditReservation() {
   // console.log(
   //   "Form Data: ",
   //   formData
-  //   // typeof (formData.people)
+  // typeof (formData.people)
   // );
 
   return (
