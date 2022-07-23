@@ -77,6 +77,8 @@ function ReservationCard({ reservation, index }) {
           Party of {people}
           <br />
           Status: {groomStatus(status)}
+          <br />
+          Reservation ID: {reservation_id}
         </p>
         <p className="card-text">{groomPhone(mobile_number)}</p>
       </div>
