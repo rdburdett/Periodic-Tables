@@ -46,7 +46,7 @@ function TableDetail({ tables, reservations = [] }) {
                 )}
               </td>
               {/*'Finish' button will be displayed if the table is occupied */}
-              <td>
+              <td data-table-id-status={table.table_id}>
                 {table.reservation_id && (
                   <FinishTable table_id={table.table_id} reservation_id={table.reservation_id} />
                 )}
