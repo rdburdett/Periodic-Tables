@@ -216,7 +216,7 @@ export async function updateReservationStatus(updatedReservation, signal) {
  *  a promise that resolves to a possibly empty array of all tables from the database
  */
 export async function listTables(signal) {
-  const url = new URL(`${API_BASE_URL}/tables/`);
+  const url = new URL(`${API_BASE_URL}/tables`);
   return await fetchJson(url, { headers, signal }, []);
 }
 
@@ -232,7 +232,7 @@ export async function listTables(signal) {
  */
 
  export async function createTable(newTable, signal) {
-  const url = `${API_BASE_URL}/tables/`;
+  const url = `${API_BASE_URL}/tables`;
   const options = {
     method: "POST",
     headers,
