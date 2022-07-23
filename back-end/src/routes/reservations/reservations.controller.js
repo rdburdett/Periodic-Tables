@@ -240,10 +240,10 @@ async function searchDate(req, res, next) {
   const filteredResponse = response.filter((reservation) => {
     return (reservation.status !== "finished")
   }) 
-  log && console.log(
-    "searchdate() - date: ", date,
-    "\nResponse: ", filteredResponse
-  )
+  // log && console.log(
+  //   "searchdate(date): ", date,
+  //   "\n filtered search response: ", filteredResponse
+  // )
   res.json({ data: filteredResponse });
 }
 
