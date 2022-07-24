@@ -1,10 +1,10 @@
 import FinishTable from "./FinishTable";
 
-const log = false
+const log = false;
 
-function TableDetail({ tables, reservations = [] }) {
+function TablesList({ tables, reservations = [] }) {
   log && console.log("tables: ", tables);
-  log && console.log("reservations: ", reservations)
+  log && console.log("reservations: ", reservations);
 
   // const getReservationName = (tableResId) => {
   //   return (reservations.filter((reservation) => reservation.reservation_id === tableResId)[0].last_name)
@@ -30,25 +30,34 @@ function TableDetail({ tables, reservations = [] }) {
               <th scope="row">{table.table_name}</th>
               <td>
                 {/* Get reservation name here. Possibly add component with useEffect? */}
-                {table.reservation_id ? (table.reservation_id) : null }
+                {table.reservation_id ? table.reservation_id : null}
               </td>
               <td>{table.capacity}</td>
 
-              <td data-table-id-status={table.table_id}>
+              <td>
                 {table.reservation_id ? (
-                  <span
+                  <p
                     data-table-id-status={table.table_id}
-                    className="text-warning">Occupied</span>
+                    className="text-warning"
+                  >
+                    Occupied
+                  </p>
                 ) : (
-                    <span
-                      data-table-id-status={table.table_id}
-                      className="text-success">Free</span>
+                  <p
+                    data-table-id-status={table.table_id}
+                    className="text-success"
+                  >
+                    Free
+                  </p>
                 )}
               </td>
               {/*'Finish' button will be displayed if the table is occupied */}
-              <td data-table-id-status={table.table_id}>
+              <td>
                 {table.reservation_id && (
-                  <FinishTable table_id={table.table_id} reservation_id={table.reservation_id} />
+                  <FinishTable
+                    table_id={table.table_id}
+                    reservation_id={table.reservation_id}
+                  />
                 )}
               </td>
             </tr>
@@ -59,4 +68,4 @@ function TableDetail({ tables, reservations = [] }) {
   );
 }
 
-export default TableDetail;
+export default TablesList;

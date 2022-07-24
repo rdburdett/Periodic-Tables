@@ -3,31 +3,30 @@ import ReservationCard from "./ReservationCard";
 
 function ReservationsList({ hideCancelled = false, reservations = [] }) {
   const reservationList = (
-    <div className="row">
+    // Main list column
+    <div id="reservation-mapped-list" className="row">
       {reservations.map((reservation, index) => {
-        const validStatus = (
-          (reservation.status === "booked") ||
-          (reservation.status === "seated")
-        )
-
-        return hideCancelled && validStatus ? (
-          <div key={reservation.reservation_id} className="col-6 col-sm-6 col-md-4 col-lg-4 mb-3">
-            <ReservationCard
-              key={index}
-              reservation={reservation}
-              index={index}
-              isSeated={reservation.status==="seated"}
-            />
-          </div>
-        ) : null;
+        // Mapped reservation card
+        return (
+          reservation.status !== "cancelled" && (
+            <div
+              key={reservation.reservation_id}
+              className="col-6 col-sm-6 col-md-4 col-lg-4 mb-3"
+            >
+              <ReservationCard
+                key={reservation.reservation_id}
+                reservation={reservation}
+                index={index}
+              />
+            </div>
+          )
+        );
       })}
     </div>
-  )
-  return reservations.length > 0 ? (
-    reservationList
-  ) : (
-    "No reservations found for this date."
   );
+  return reservations.length > 0
+    ? reservationList
+    : "No reservations found for this date.";
 }
 
 export default ReservationsList;

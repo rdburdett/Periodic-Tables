@@ -12,7 +12,7 @@ import { listTables, readByDate } from "../utils/api";
 import * as dateTime from "../utils/date-time";
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationsList from "../routes/reservations/ReservationsList.js";
-import TableDetail from "../routes/tables/TableDetail";
+import TablesList from "../routes/tables/TablesList";
 
 /**
  * Defines the dashboard page.
@@ -127,7 +127,7 @@ function Dashboard({ date }) {
           <h2>Tables</h2>
         </div>
         <ErrorAlert error={tablesError} />
-        <TableDetail tables={tables} reservations={reservations} />
+        <TablesList tables={tables} reservations={reservations} />
       </div>
     </main>
   );

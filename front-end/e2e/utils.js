@@ -10,8 +10,11 @@ async function selectOptionByText(page, name, optionText) {
 }
 
 function containsText(page, selector, expected) {
+  // console.log("Checking for contains text...")
+  // return selector
   return page.evaluate(
     (selector, expected) => {
+      // console.log("selector: ", selector, "expected: ", expected)
       return document
         .querySelector(selector)
         .innerText.toLowerCase()

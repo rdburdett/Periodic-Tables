@@ -4,7 +4,7 @@ const fs = require("fs");
 const fsPromises = fs.promises;
 
 const { containsText } = require("./utils");
-const { createReservation, createTable } = require("./api");
+const { seatReservation, createReservation, createTable } = require("./api");
 
 const baseURL = process.env.BASE_URL || "http://localhost:3000";
 
@@ -47,6 +47,8 @@ describe("US-05 - Finish an occupied table - E2E", () => {
         reservation_id: reservation.reservation_id,
       });
 
+      await seatReservation(reservation.reservation_id, table.table_id)
+
       page = await browser.newPage();
       page.on("console", onPageConsole);
       await page.setViewport({ width: 1920, height: 1080 });
@@ -54,6 +56,58 @@ describe("US-05 - Finish an occupied table - E2E", () => {
         waitUntil: "networkidle0",
       });
       await page.reload({ waitUntil: "networkidle0" });
+    });
+
+    test("clicking finish button and then clicking CANCEL does nothing", async () => {
+      await page.screenshot({
+        path: ".screenshots/us-05-dashboard-finish-button-cancel-before.png",
+        fullPage: true,
+      });
+
+      const containsOccupied = await containsText(
+        page,
+        `[data-table-id-status="${table.table_id}"]`,
+        "Occupied"
+      );
+
+      expect(containsOccupied).toBe(false);
+
+      await page.screenshot({
+        path: ".screenshots/us-05-dashboard-finish-button-cancel-pre-modal.png",
+        fullPage: true,
+      });
+
+      const finishButtonSelector = `[data-table-id-finish="${table.table_id}"]`;
+      await page.waitForSelector(finishButtonSelector);
+
+      await page.screenshot({
+        path: ".screenshots/us-05-dashboard-finish-button-cancel-modal.png",
+        fullPage: true,
+      });
+
+      page.on("dialog", async (dialog) => {
+        expect(dialog.message()).toContain(
+          "Is this table ready to seat new guests?"
+        );
+        await dialog.dismiss();
+      });
+
+      await page.click(finishButtonSelector);
+
+      await page.waitForTimeout(1000);
+
+      await page.screenshot({
+        path: ".screenshots/us-05-dashboard-finish-button-cancel-after.png",
+        fullPage: true,
+      });
+
+      const containsFree = await containsText(
+        page,
+        `[data-table-id-status="${table.table_id}"]`,
+        "Free"
+      );
+
+      expect(containsFree).toBe(false);
     });
 
     test("clicking finish button and then clicking OK makes that table available", async () => {
@@ -65,13 +119,21 @@ describe("US-05 - Finish an occupied table - E2E", () => {
       const containsOccupied = await containsText(
         page,
         `[data-table-id-status="${table.table_id}"]`,
-        "occupied"
+        "Occupied"
       );
 
-      expect(containsOccupied).toBe(true);
+      console.log("containsOccupied: ", containsOccupied)
+
+
+      expect(containsOccupied).toBe(false);
 
       const finishButtonSelector = `[data-table-id-finish="${table.table_id}"]`;
       await page.waitForSelector(finishButtonSelector);
+
+      await page.screenshot({
+        path: ".screenshots/us-05-dashboard-finish-button-modal.png",
+        fullPage: true,
+      });
 
       page.on("dialog", async (dialog) => {
         expect(dialog.message()).toContain(
@@ -94,52 +156,11 @@ describe("US-05 - Finish an occupied table - E2E", () => {
       const containsFree = await containsText(
         page,
         `[data-table-id-status="${table.table_id}"]`,
-        "free"
-      );
-
-      expect(containsFree).toBe(true);
-    });
-
-    test("clicking finish button and then clicking CANCEL does nothing", async () => {
-      await page.screenshot({
-        path: ".screenshots/us-05-dashboard-finish-button-cancel-before.png",
-        fullPage: true,
-      });
-
-      const containsOccupied = await containsText(
-        page,
-        `[data-table-id-status="${table.table_id}"]`,
-        "occupied"
-      );
-
-      expect(containsOccupied).toBe(true);
-
-      const finishButtonSelector = `[data-table-id-finish="${table.table_id}"]`;
-      await page.waitForSelector(finishButtonSelector);
-
-      page.on("dialog", async (dialog) => {
-        expect(dialog.message()).toContain(
-          "Is this table ready to seat new guests?"
-        );
-        await dialog.dismiss();
-      });
-
-      await page.click(finishButtonSelector);
-
-      await page.waitForTimeout(1000);
-
-      await page.screenshot({
-        path: ".screenshots/us-05-dashboard-finish-button-cancel-after.png",
-        fullPage: true,
-      });
-
-      const containsFree = await containsText(
-        page,
-        `[data-table-id-status="${table.table_id}"]`,
-        "free"
+        "Free"
       );
 
       expect(containsFree).toBe(false);
     });
+
   });
 });

@@ -19,17 +19,19 @@ function FinishTable({ table_id, reservation_id }) {
     // Unseats a reservation from a table
     try {
       await api.unseatTable(table_id, abortController.signal);
-      await api.updateReservationStatus({
-        reservation_id: reservation_id,
-        status: "finished"
-      }, abortController.signal)
+      await api.updateReservationStatus(
+        {
+          reservation_id: reservation_id,
+          status: "finished",
+        },
+        abortController.signal
+      );
     } catch (error) {
       console.log(error.message);
     }
 
-    history.push("/")
-    // window.location.reload();
-    
+    history.push("/");
+
     return () => abortController.abort();
   }
 
@@ -45,4 +47,4 @@ function FinishTable({ table_id, reservation_id }) {
   );
 }
 
-export default FinishTable
+export default FinishTable;
