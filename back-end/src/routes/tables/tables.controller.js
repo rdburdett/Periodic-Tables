@@ -352,6 +352,13 @@ async function unseat(req, res, next) {
     });
 }
 
+// FINISH TABLE
+async function finish(req, res) {
+  const { table } = res.locals;
+
+  res.status(200).json({ data: await tablesService.finish(table) });
+}
+
 // DELETE TABLE
 async function destroy(req, res, next) {
   const { table } = res.locals;
@@ -405,6 +412,7 @@ module.exports = {
     logger.logTableUnseat,
     asyncErrorBoundary(tableExists),
     asyncErrorBoundary(isOccupied),
-    asyncErrorBoundary(unseat),
+    // asyncErrorBoundary(unseat),
+    asyncErrorBoundary(finish)
   ],
 };
