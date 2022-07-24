@@ -27,7 +27,8 @@ function FinishTable({ table_id, reservation_id }) {
       console.log(error.message);
     }
 
-    window.location.reload();
+    history.push("/")
+    // window.location.reload();
     
     return () => abortController.abort();
   }
