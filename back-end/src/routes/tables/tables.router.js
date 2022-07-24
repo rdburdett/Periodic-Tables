@@ -14,20 +14,22 @@ const methodNotAllowed = require("../../errors/methodNotAllowed");
  */
 
 router
-  .route("/")
-  .post(controller.create)
-  .get(controller.list)
+  .route("/:tableId/seat")
+  .put(controller.seat)
+  .delete(controller.unseat)
   .all(methodNotAllowed);
+
 router
   .route("/:tableId")
   .get(controller.read)
   .put(controller.update)
   .delete(controller.destroy)
   .all(methodNotAllowed);
+  
 router
-  .route("/:tableId/seat")
-  .put(controller.seat)
-  .delete(controller.unseat)
+  .route("/")
+  .post(controller.create)
+  .get(controller.list)
   .all(methodNotAllowed);
 
 module.exports = router;

@@ -13,11 +13,10 @@ const controller = require("./reservations.controller");
 const methodNotAllowed = require("../../errors/methodNotAllowed");
 
 router
-  .route("/")
-  .get(controller.search)
-  .post(controller.create)
+  .route("/:reservationId/status")
+  .put(controller.statusUpdate)
   .all(methodNotAllowed);
-  
+
 router
   .route("/:reservationId")
   .get(controller.read)
@@ -26,8 +25,9 @@ router
   .all(methodNotAllowed);
 
 router
-  .route("/:reservationId/status")
-  .put(controller.statusUpdate)
+  .route("/")
+  .get(controller.search)
+  .post(controller.create)
   .all(methodNotAllowed);
 
 module.exports = router;
