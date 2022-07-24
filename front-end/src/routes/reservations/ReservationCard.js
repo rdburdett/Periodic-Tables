@@ -73,14 +73,14 @@ function ReservationCard({ reservation, index }) {
           <br />
           {reservation_time}
         </h4>
+        <p className="card-text">Party of {people}</p>
+        <p className="card-text" data-reservation-id-status={reservation_id}>
+          {groomStatus(status)}</p>
+        {/* Status: {groomStatus(status)} */}
         <p className="card-text">
-          Party of {people}
-          <br />
-          Status: {groomStatus(status)}
-          <br />
           Reservation ID: {reservation_id}
-        </p>
-        <p className="card-text">{groomPhone(mobile_number)}</p>
+          <br />
+          {groomPhone(mobile_number)}</p>
       </div>
 
       {/* Action Buttons */}
@@ -107,7 +107,7 @@ function ReservationCard({ reservation, index }) {
         </Link>
 
         {/* Seat button */}
-        {status === "cancelled" ? null : (
+        {status === "seated" ? null : (
           <Link
             to={`/reservations/${reservation_id}/seat`}
             className="p-1 btn rounded-right btn-secondary btn-shade"

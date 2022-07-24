@@ -72,7 +72,7 @@ function Dashboard({ date }) {
   return (
     <main>
       {/* Dashboard */}
-      <div className="container my-2 p-2">
+      <div id="dashboard" className="container my-3 p-3">
         <div className="row">
           <h1 className="col headingBar mb-0">Dashboard</h1>
 
@@ -90,7 +90,7 @@ function Dashboard({ date }) {
         </div>
 
         {/* Prev, today, next */}
-        <div className="d-flex rounded btn-group">
+        <div id="prev-today-next" className="d-flex rounded btn-group">
           <Link
             to={`/dashboard?date=${dateTime.previous(date)}`}
             className="btn btn-secondary"
@@ -110,7 +110,7 @@ function Dashboard({ date }) {
       </div>
 
       {/* Reservations List */}
-      <div className="container my-3">
+      <div id="reservations-list" className="container my-3 p-3">
         <div className="headingBar">
           <h2>Reservations for {dateString}</h2>
         </div>
@@ -122,7 +122,7 @@ function Dashboard({ date }) {
       </div>
 
       {/* Tables List */}
-      <div className="container">
+      <div id="tables-list" className="container my-3 p-3">
         <div className="headingBar my-3 p-2">
           <h2>Tables</h2>
         </div>
