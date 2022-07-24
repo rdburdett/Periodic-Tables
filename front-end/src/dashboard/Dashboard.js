@@ -66,6 +66,9 @@ function Dashboard({ date }) {
     return () => abortController.abort();
   }, []);
 
+  console.log("Reservations: ", reservations)
+  console.log("Tables: ", tables)
+
   return (
     <main>
       {/* Dashboard */}
