@@ -200,8 +200,9 @@ async function isOccupied(req, res, next) {
 
 // LIST ALL TABLES
 async function list(req, res, next) {
-  log && console.log("list()")
-  res.json({ data: await tablesService.list() });
+  const tables = await tablesService.list()
+  log && console.log("tables.controller.list() - tables: ", tables)
+  res.json({ data: tables });
 }
 
 // CREATE NEW TABLE

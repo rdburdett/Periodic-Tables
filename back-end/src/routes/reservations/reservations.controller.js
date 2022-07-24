@@ -235,15 +235,15 @@ async function searchMobile(req, res, next) {
 async function searchDate(req, res, next) {
   let { date } = req.query;
 
-  log && console.log("req.query.date:", date)
   const response = await service.searchDate(date)
   const filteredResponse = response.filter((reservation) => {
     return (reservation.status !== "finished")
   }) 
   // log && console.log(
-  //   "searchdate(date): ", date,
-  //   "\n filtered search response: ", filteredResponse
-  // )
+    //   "searchdate(date): ", date,
+    //   "\n filtered search response: ", filteredResponse
+    // )
+  log && console.log("reservations.controller.searchDate() - reservations: ", filteredResponse)
   res.json({ data: filteredResponse });
 }
 
