@@ -20,7 +20,7 @@ function Menu() {
           </div>
         </Link>
         <hr className="sidebar-divider my-0" />
-        <ul className="nav navbar-nav text-light d-flex flex-row" id="accordionSidebar">
+        <ul className="nav navbar-nav text-light d-flex flex-row flex-lg-column flex-xl-column" id="accordionSidebar">
           <li className="nav-item p-1">
             <Link className="nav-link text-light" to="/dashboard">
               <span className="oi oi-dashboard brand-color" />
