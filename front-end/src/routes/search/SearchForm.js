@@ -7,7 +7,7 @@ const SearchForm = ({ formData, handleChange }) => {
       <div className="form-group">
         <label>Mobile Number</label> <br />
         <input
-          className="form-control"
+          className="form-control bg-secondary text-light border-secondary input-custom"
           id="mobile_number"
           type="text"
           name="mobile_number"
@@ -16,7 +16,6 @@ const SearchForm = ({ formData, handleChange }) => {
           // pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}" // do not require pattern
           onChange={handleChange}
           value={formData.mobile_number}
-          style={{ width: "50%" }}
           // required
         />
         <small id="phoneNumberHelp" className="form-text text-muted">

@@ -59,38 +59,35 @@ function Dashboard({ date }) {
     }, []);
 
     return (
-        <main className="container my-3 p-3">
-				
-				{/* Dashboard */}
-                <div id="dashboard" className="row">
-                    <h1 className="col headingBar text-center">My Dashboard</h1>
-                </div>
+        <div id="dashboard-page" className="w-100">
+            {/* Dashboard */}
+                <h1 className="text-center mt-5">My Dashboard</h1>
 
-                {/* Prev, today, next */}
-                <div
-                    id="prev-today-next"
-                    className="d-flex rounded btn-group my-3 p-3"
+
+            {/* Prev, today, next */}
+            <div
+                id="prev-today-next"
+                className="w-100 rounded btn-group mb-3 p-3"
+            >
+                <Link
+                    to={`/dashboard?date=${dateTime.previous(date)}`}
+                    className="border border-dark btn btn-secondary"
                 >
-                    <Link
-                        to={`/dashboard?date=${dateTime.previous(date)}`}
-                        className="border border-dark btn btn-secondary"
-                    >
-                        Previous
-                    </Link>
-                    <Link
-                        to={`/dashboard`}
-                        className="border border-dark btn btn-secondary btn-primary"
-                    >
-                        Today
-                    </Link>
-                    <Link
-                        to={`/dashboard?date=${dateTime.next(date)}`}
-                        className="border border-dark btn btn-secondary"
-                    >
-                        Next
-                    </Link>
-                </div>
-
+                    Previous
+                </Link>
+                <Link
+                    to={`/dashboard`}
+                    className="border border-dark btn btn-secondary btn-primary"
+                >
+                    Today
+                </Link>
+                <Link
+                    to={`/dashboard?date=${dateTime.next(date)}`}
+                    className="border border-dark btn btn-secondary"
+                >
+                    Next
+                </Link>
+            </div>
 
             {/* Reservations List */}
             <div id="reservations-list" className="container my-3 p-3">
@@ -99,9 +96,7 @@ function Dashboard({ date }) {
                     <h6>{dateString}</h6>
                 </div>
                 <ErrorAlert error={reservationsError} />
-                <ReservationsList
-                    reservations={reservations}
-                />
+                <ReservationsList reservations={reservations} />
             </div>
 
             {/* Tables List */}
@@ -112,7 +107,7 @@ function Dashboard({ date }) {
                 <ErrorAlert error={tablesError} />
                 <TablesList tables={tables} reservations={reservations} />
             </div>
-        </main>
+        </div>
     );
 }
 

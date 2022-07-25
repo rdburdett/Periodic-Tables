@@ -5,7 +5,7 @@ import ReservationForm from "./ReservationForm";
 
 import ErrorAlert from "../../layout/ErrorAlert";
 import { today, now } from "../../utils/date-time";
-import { enforceFormat, formatToPhone } from "../../utils/tools"
+import { enforceFormat, formatToPhone } from "../../utils/tools";
 
 function NewReservation() {
     const abortController = new AbortController();
@@ -63,8 +63,8 @@ function NewReservation() {
     };
 
     return (
-        <div className="container my-3">
-            <h2>Create a New Reservation</h2>
+        <main id="new-reservation-page">
+            <h1 className="text-center my-5">Create a New Reservation</h1>
 
             <form onSubmit={handleSubmit}>
                 {/* Reservation Form */}
@@ -74,20 +74,22 @@ function NewReservation() {
                 />
 
                 {/* Buttons */}
-                <button
-                    type="button"
-                    onClick={() => history.goBack()}
-                    className="btn btn-secondary mr-2"
-                >
-                    Cancel
-                </button>
-                <button type="submit" className="btn btn-success">
-                    Submit
-                </button>
+                <div className="btn-group mt-4 w-100">
+                    <button
+                        type="button"
+                        onClick={() => history.goBack()}
+                        className="btn btn-outline-secondary mr-2"
+                    >
+                        Cancel
+                    </button>
+                    <button type="submit" className="btn btn-proceed">
+                        Submit
+                    </button>
+                </div>
             </form>
 
             <ErrorAlert error={reservationsError} />
-        </div>
+        </main>
     );
 }
 

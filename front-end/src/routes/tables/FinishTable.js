@@ -38,7 +38,7 @@ function FinishTable({ table_id, reservation_id }) {
   return (
     <button
       type="button"
-      className="btn btn-secondary btn-shade"
+      className="btn hover-brand-color animate btn-secondary btn-shade"
       data-table-id-finish={table_id}
       onClick={(e) => finishClickHandler(e)}
     >

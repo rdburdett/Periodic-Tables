@@ -1,8 +1,8 @@
 import { formatAsTime, formatAsDate } from "./date-time";
 
 export function generateAvatar(reservation_id) {
-    return `https://avatars.dicebear.com/api/bottts/reservation${
-        reservation_id * 1357
+    return `https://avatars.dicebear.com/api/personas/reservation${
+        reservation_id * 135735 + "avsrdev"
     }.svg`;
 }
 

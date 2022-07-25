@@ -93,8 +93,8 @@ function EditReservation() {
   // );
 
   return (
-    <div className="container my-3">
-      <h2>Edit Reservation</h2>
+    <div className="">
+      <h1 className="text-center">Edit Reservation</h1>
       <form onSubmit={handleSubmit}>
         <ReservationForm formData={formData} handleChange={handleChange} />
         <button
@@ -104,7 +104,7 @@ function EditReservation() {
         >
           Cancel
         </button>
-        <button type="submit" className="btn btn-success">
+        <button type="submit" className="btn btn-proceed">
           Submit
         </button>
       </form>

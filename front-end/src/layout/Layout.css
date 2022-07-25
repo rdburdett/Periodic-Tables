@@ -3,11 +3,24 @@
 
 :root {
   --brand-color: rgb(193, 255, 87);
+  --brand-color-transparent: rgb(193, 255, 87, 0.5);
   --brand-color-secondary: rgb(255, 204, 0);
 }
 
 .brand-color{
   color: var(--brand-color);
+}
+
+.hover-brand-color:hover {
+  color: var(--brand-color);
+}
+
+.hover-warning:hover {
+  color: yellow;
+}
+
+.hover-danger:hover {
+  color: rgb(255, 98, 98);
 }
 
 .btn-shade {
@@ -23,8 +36,15 @@
   /* background-color: red !important; */
 }
 
-.input-custom:focus {
-  border: 3px solid var(--brand-color-secondary) !important;
+.btn-proceed:hover {
+  color: black !important;
+  background-color: var(--brand-color) !important;
+}
+
+.btn-proceed {
+  border: 2px solid var(--brand-color-transparent) !important;
+  color: var(--brand-color-transparent) !important;
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 *, html, li>a>span {
@@ -39,4 +59,25 @@ h1, h2, h3, h4, h5, h6 {
 .side-bar {
   /* background-color: #393a44; */
   min-width: 200px;
+}
+
+
+textarea:focus,
+input[type="text"]:focus,
+input[type="password"]:focus,
+input[type="datetime"]:focus,
+input[type="datetime-local"]:focus,
+input[type="date"]:focus,
+input[type="month"]:focus,
+input[type="time"]:focus,
+input[type="week"]:focus,
+input[type="number"]:focus,
+input[type="email"]:focus,
+input[type="url"]:focus,
+input[type="search"]:focus,
+input[type="tel"]:focus,
+input[type="color"]:focus,
+.uneditable-input:focus {   
+  border-color: var(--brand-color);
+  box-shadow: 2 1px 1px var(--brand-color);
 }

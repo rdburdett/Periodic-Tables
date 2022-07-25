@@ -51,15 +51,14 @@ function ReservationCard({ reservation }) {
         <div className="card bg-secondary border-0 rounded-bottom my-3">
             {/* Last name as header */}
             <div className="card-header">
-                <h2 className=" card-link">{last_name}</h2>
+                <h2 className="card-title">{last_name}</h2>
+                {/* Card avatar image */}
+                <img
+                    src={generateAvatar(reservation_id)}
+                    className=" card-img-top"
+                    alt="reservation avatar"
+                />
             </div>
-
-            {/* Card avatar image */}
-            <img
-                src={generateAvatar(reservation_id)}
-                className="w-25 float-right p-2"
-                alt="reservation avatar"
-            />
 
             {/* Card main body */}
             <div className="card-body">
@@ -68,16 +67,16 @@ function ReservationCard({ reservation }) {
                     <br />
                     {reservation_time}
                 </h4>
-                <p className="card-text">Party of {people}</p>
+                {/* Card title with status */}
+                <h5 className="text-light">{groomStatus(status)}</h5>
                 <p
                     className="card-text"
                     data-reservation-id-status={reservation_id}
                 >
-                    {groomStatus(status)}
-                </p>
+                    Party of {people}
+                    <br />
 
-                {/* Status: {groomStatus(status)} */}
-                <p className="card-text">
+
                     Reservation ID: {reservation_id}
                     <br />
                     {groomPhone(mobile_number)}
@@ -90,7 +89,7 @@ function ReservationCard({ reservation }) {
                 {status === "seated" ? null : (
                     <button
                         onClick={handleCancel}
-                        className="p-1 btn btn-secondary btn-shade"
+                        className="p-1 btn btn-secondary btn-shade hover-danger animate"
                         value={reservation_id}
                         data-reservation-id-cancel={reservation_id}
                     >
@@ -101,7 +100,7 @@ function ReservationCard({ reservation }) {
                 {/* Edit button */}
                 <Link
                     to={`/reservations/${reservation_id}/edit`}
-                    className="p-1 btn btn-secondary btn-shade"
+                    className="p-1 btn btn-secondary btn-shade hover-warning animate"
                 >
                     Edit
                 </Link>
@@ -110,7 +109,7 @@ function ReservationCard({ reservation }) {
                 {status === "seated" ? null : (
                     <Link
                         to={`/reservations/${reservation_id}/seat`}
-                        className="p-1 btn rounded-right btn-secondary btn-shade"
+                        className="p-1 btn rounded-right btn-secondary btn-shade hover-brand-color animate"
                     >
                         Seat
                     </Link>

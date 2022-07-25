@@ -6,27 +6,25 @@ const TableForm = ({ formData, handleChange }) => {
       <div className="form-group">
         <label>Table Name</label>
         <input
-          className="form-control"
+          className="form-control bg-secondary text-light border-secondary input-custom"
           id="table_name"
           type="text"
           name="table_name"
           placeholder={`ex. "Patio Table"`}
           onChange={handleChange}
           value={formData.table_name}
-          style={{ width: "50%" }}
           required
         />
       </div>
       <div className="form-group">
         <label>Table Capacity</label>
         <input
-          className="form-control"
+          className="form-control bg-secondary text-light border-secondary input-custom"
           id="capacity"
           type="number"
           name="capacity"
           onChange={handleChange}
           value={Number(formData.capacity)}
-          style={{ width: "50%" }}
           required
         />
         <small id="capacityHelp" className="form-text text-muted">

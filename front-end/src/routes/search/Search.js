@@ -68,14 +68,16 @@ function NewTable() {
     };
 
     return (
-        <div className="container my-3">
-            <h2>Search for a Reservation</h2>
+        <div id="search-page">
+            <h1 className="text-center my-5">Search for a Reservation</h1>
 
             <form onSubmit={handleSubmit}>
                 <SearchForm formData={formData} handleChange={handleChange} />
-                <button type="submit" className="btn btn-success">
-                    Find
-                </button>
+                <div className="btn-group mt-4 w-100">
+                    <button type="submit" className="btn btn-proceed">
+                        Find
+                    </button>
+                </div>
             </form>
 
             <ErrorAlert error={reservationsError} />
@@ -84,7 +86,6 @@ function NewTable() {
                 {reservations.length ? <h5>Matching Reservations:</h5> : null}
                 <ReservationList reservations={reservations} />
             </div>
-
         </div>
     );
 }

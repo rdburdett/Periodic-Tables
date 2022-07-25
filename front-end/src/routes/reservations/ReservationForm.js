@@ -15,7 +15,6 @@ const ReservationForm = ({ formData, handleChange }) => {
           placeholder={`ex. John`}
           onChange={handleChange}
           value={formData.first_name}
-          style={{ width: "50%" }}
           required
         />
       </div>
@@ -31,7 +30,6 @@ const ReservationForm = ({ formData, handleChange }) => {
           placeholder={`ex. Doe`}
           onChange={handleChange}
           value={formData.last_name}
-          style={{ width: "50%" }}
           required
         />
       </div>
@@ -49,7 +47,6 @@ const ReservationForm = ({ formData, handleChange }) => {
           pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
           onChange={handleChange}
           value={formData.mobile_number}
-          style={{ width: "50%" }}
           required
         />
         <small id="phoneNumberHelp" className="form-text text-muted">
@@ -67,7 +64,6 @@ const ReservationForm = ({ formData, handleChange }) => {
           name="reservation_date"
           onChange={handleChange}
           value={formData.reservation_date}
-          style={{ width: "50%" }}
           required
         />
       </div>
@@ -82,7 +78,6 @@ const ReservationForm = ({ formData, handleChange }) => {
           name="reservation_time"
           onChange={handleChange}
           value={formData.reservation_time}
-          style={{ width: "50%" }}
           required
         />
       </div>
@@ -97,7 +92,6 @@ const ReservationForm = ({ formData, handleChange }) => {
           name="people"
           onChange={handleChange}
           value={formData.people}
-          style={{ width: "50%" }}
           required
         />
         <small id="capacityHelp" className="form-text text-muted">

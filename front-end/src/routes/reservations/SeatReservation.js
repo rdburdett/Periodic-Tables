@@ -135,8 +135,8 @@ function SeatReservation() {
     };
 
     return (
-        <main>
-            <h1>Seat Party</h1>
+        <main id="seat-reservation-page">
+            <h1 className="text-center">Seat Party</h1>
             <ErrorAlert error={reservationsError} />
             <ErrorAlert error={tablesError} />
             <ErrorAlert error={seatingError} />
@@ -192,7 +192,7 @@ function SeatReservation() {
                                     </button>
                                     <button
                                         type="submit"
-                                        className="btn btn-success"
+                                        className="btn btn-proceed"
                                     >
                                         Save
                                     </button>
