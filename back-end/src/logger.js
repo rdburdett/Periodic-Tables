@@ -1,6 +1,6 @@
 function logger(req, res, next)  {
   // console.clear()
-  console.log("\n",
+  log && console.log("\n",
     "-----------------------------\n",
     "<//////    Request    //////>\n",
     "-----------------------------\n",
@@ -14,7 +14,7 @@ function logger(req, res, next)  {
 }
 
 ///////////////////////////////////
-//   RESERVATIONS ROUTE LOGGER   //
+//          ROUTE LOGGER         //
 ///////////////////////////////////
 
 const log = false

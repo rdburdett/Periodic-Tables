@@ -1,14 +1,7 @@
-// React imports
 import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
-import {
-    Link,
-    // useQuery
-} from "react-router-dom";
-
-// API imports
 import { listTables, readByDate } from "../utils/api";
-
 import * as dateTime from "../utils/date-time";
 import ErrorAlert from "../layout/ErrorAlert";
 import ReservationsList from "../routes/reservations/ReservationsList.js";
@@ -20,6 +13,7 @@ import TablesList from "../routes/tables/TablesList";
  *  the date for which the user wants to view reservations.
  * @returns {JSX.Element}
  */
+
 function Dashboard({ date }) {
     const [reservations, setReservations] = useState([]);
     const [tables, setTables] = useState([]);
@@ -37,7 +31,6 @@ function Dashboard({ date }) {
             setReservationsError(null);
             try {
                 const data = await readByDate(date, abortController.signal);
-                // console.log("Data: ", data);
                 setReservations(data);
             } catch (error) {
                 setReservationsError(error);
@@ -64,9 +57,6 @@ function Dashboard({ date }) {
         loadTables();
         return () => abortController.abort();
     }, []);
-
-    console.log("Reservations: ", reservations);
-    console.log("Tables: ", tables);
 
     return (
         <main className="container my-3 p-3">

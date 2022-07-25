@@ -1,12 +1,14 @@
-import React from "react";
-
 import FinishTable from "./FinishTable";
 import { groomStatus } from "../../utils/tools";
 
-function TableCard({ table, index, reservationName }) {
+function TableCard({ table, index, reservations }) {
     const { table_name, capacity, status, reservation_id } = table;
 
-    const show = Boolean(table.reservation_id);
+    // Get reservation name from table's reservation_id
+    const resName = reservations.filter((reservation) => reservation.reservation_id === table.reservation_id
+    )[0];
+
+    const show = Boolean(table.reservation_id) && reservations.length;
     return (
         <div className="card bg-secondary border-0 rounded-bottom my-3">
             {/* Last name as header */}
@@ -33,7 +35,7 @@ function TableCard({ table, index, reservationName }) {
 
                 {/* Card text */}
                 <p className="card-text">
-                    {show && `Name: ${reservationName}`}
+                    {show && `Name: ${resName && resName.last_name}`}
                     <br />
                     {show && `Reservation ID: ${reservation_id}`}
                     <br />
