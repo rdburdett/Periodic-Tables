@@ -5,7 +5,8 @@ import ReservationForm from "./ReservationForm";
 
 import ErrorAlert from "../../layout/ErrorAlert";
 import { today, now } from "../../utils/date-time";
-import * as format from "../../utils/format-phone-number"
+import { enforceFormat, formatToPhone } from "../../utils/tools"
+
 
 
 function EditReservation() {
@@ -46,8 +47,8 @@ function EditReservation() {
   // Fix mobile_number formatting during user input
   useEffect(() => {
     const inputElement = document.getElementById('mobile_number');
-    inputElement.addEventListener('keydown', format.enforceFormat);
-    inputElement.addEventListener('keyup', format.formatToPhone);
+    inputElement.addEventListener('keydown', enforceFormat);
+    inputElement.addEventListener('keyup', formatToPhone);
   })
 
   // Submit

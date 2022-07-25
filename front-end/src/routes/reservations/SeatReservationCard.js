@@ -1,15 +1,8 @@
 import React from "react";
 
-import groomPhone from "../../utils/groomPhone";
-import groomStatus from "../../utils/groomStatus";
-
-// import deleteReservation from "../../utils/deleteReservation";
+import { groomPhone, groomStatus, generateAvatar } from "../../utils/tools"
 
 function SeatReservationCard({ reservation }) {
-  const avatarUrl = `https://avatars.dicebear.com/api/bottts/reservation${
-    reservation.reservation_id * 17
-  }.svg`;
-
   return (
     <div className="card bg-secondary border-0 rounded-bottom my-3">
       {/* Last name as header */}
@@ -17,7 +10,7 @@ function SeatReservationCard({ reservation }) {
 
       {/* Card avatar image */}
       <img
-        src={avatarUrl}
+        src={generateAvatar(reservation.reservation_id)}
         className="p-3 card-img-top"
         alt="reservation avatar"
       />

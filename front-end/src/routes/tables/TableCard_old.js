@@ -2,9 +2,9 @@ import React from "react";
 import { Link, useHistory } from "react-router-dom";
 
 import { updateReservationStatus } from "../../utils/api";
-import { groomPhone, groomStatus, generateAvatar } from "../../utils/tools";
+import { generateAvatar, groomPhone, groomStatus } from "../../utils/tools";
 
-function ReservationCard({ reservation }) {
+function TableCard({ reservation, index }) {
     const {
         first_name,
         last_name,
@@ -51,18 +51,17 @@ function ReservationCard({ reservation }) {
         <div className="card bg-secondary border-0 rounded-bottom my-3">
             {/* Last name as header */}
             <div className="card-header">
-                <h2 className=" card-link">{last_name}</h2>
+                {/* Card avatar image */}
+                <h2 className="">{reservation.last_name}</h2>
+                <img
+                    src={generateAvatar(reservation_id)}
+                    className="p-0 w-25 float-right"
+                    alt="reservation avatar"
+                />
             </div>
 
-            {/* Card avatar image */}
-            <img
-                src={generateAvatar(reservation_id)}
-                className="w-25 float-right p-2"
-                alt="reservation avatar"
-            />
-
             {/* Card main body */}
-            <div className="card-body">
+            <div className="card-footer">
                 <h4 className="card-title">
                     {first_name} {last_name}
                     <br />
@@ -75,7 +74,6 @@ function ReservationCard({ reservation }) {
                 >
                     {groomStatus(status)}
                 </p>
-
                 {/* Status: {groomStatus(status)} */}
                 <p className="card-text">
                     Reservation ID: {reservation_id}
@@ -85,9 +83,10 @@ function ReservationCard({ reservation }) {
             </div>
 
             {/* Action Buttons */}
-            <div className="btn-group w-100">
+            {/* <div className="card-header"> */}
+            <div className="btn-group">
                 {/* Cancel button */}
-                {status === "seated" ? null : (
+                {status === "cancelled" ? null : (
                     <button
                         onClick={handleCancel}
                         className="p-1 btn btn-secondary btn-shade"
@@ -120,4 +119,4 @@ function ReservationCard({ reservation }) {
     );
 }
 
-export default ReservationCard;
+export default TableCard;

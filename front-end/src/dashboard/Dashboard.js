@@ -2,8 +2,8 @@
 import React, { useEffect, useState } from "react";
 
 import {
-  Link,
-  // useQuery
+    Link,
+    // useQuery
 } from "react-router-dom";
 
 // API imports
@@ -21,116 +21,109 @@ import TablesList from "../routes/tables/TablesList";
  * @returns {JSX.Element}
  */
 function Dashboard({ date }) {
-  const [reservations, setReservations] = useState([]);
-  const [tables, setTables] = useState([]);
-  const [hideCancelled, setHideCancelled] = useState(true);
+    const [reservations, setReservations] = useState([]);
+    const [tables, setTables] = useState([]);
 
-  const [reservationsError, setReservationsError] = useState(null);
-  const [tablesError, setTablesError] = useState(null);
+    const [reservationsError, setReservationsError] = useState(null);
+    const [tablesError, setTablesError] = useState(null);
 
-  const dateString = new Date(`${date} PDT`).toDateString();
+    const dateString = new Date(`${date} PDT`).toDateString();
 
-  // Get reservations
-  useEffect(() => {
-    const abortController = new AbortController();
+    // Get reservations
+    useEffect(() => {
+        const abortController = new AbortController();
 
-    async function loadReservations() {
-      setReservationsError(null);
-      try {
-        const data = await readByDate(date, abortController.signal);
-        // console.log("Data: ", data);
-        setReservations(data);
-      } catch (error) {
-        setReservationsError(error);
-      }
-    }
-    loadReservations();
-    return () => abortController.abort();
-  }, [date]);
+        async function loadReservations() {
+            setReservationsError(null);
+            try {
+                const data = await readByDate(date, abortController.signal);
+                // console.log("Data: ", data);
+                setReservations(data);
+            } catch (error) {
+                setReservationsError(error);
+            }
+        }
+        loadReservations();
+        return () => abortController.abort();
+    }, [date]);
 
-  // Get all tables
-  useEffect(() => {
-    const abortController = new AbortController();
+    // Get all tables
+    useEffect(() => {
+        const abortController = new AbortController();
 
-    async function loadTables() {
-      setReservationsError(null);
-      try {
-        const data = await listTables(abortController.signal);
-        setTables(data);
-      } catch (error) {
-        setTablesError(error);
-      }
-    }
+        async function loadTables() {
+            setReservationsError(null);
+            try {
+                const data = await listTables(abortController.signal);
+                setTables(data);
+            } catch (error) {
+                setTablesError(error);
+            }
+        }
 
-    loadTables();
-    return () => abortController.abort();
-  }, []);
+        loadTables();
+        return () => abortController.abort();
+    }, []);
 
-  console.log("Reservations: ", reservations)
-  console.log("Tables: ", tables)
+    console.log("Reservations: ", reservations);
+    console.log("Tables: ", tables);
 
-  return (
-    <main>
-      {/* Dashboard */}
-      <div id="dashboard" className="container my-3 p-3">
-        <div className="row">
-          <h1 className="col headingBar mb-0">Dashboard</h1>
+    return (
+        <main className="container my-3 p-3">
+				
+				{/* Dashboard */}
+                <div id="dashboard" className="row">
+                    <h1 className="col headingBar text-center">My Dashboard</h1>
+                </div>
 
-          <div className="col m-0 align-self-end">
-            <label
-              onClick={(event) => setHideCancelled(!hideCancelled)}
-              id="hideCancelled"
-              className={`animate float-right form-text ${
-                hideCancelled ? "text-light" : "text-warning"
-              }`}
-            >
-              {hideCancelled ? "Show" : "Hide"} cancelled reservations
-            </label>
-          </div>
-        </div>
+                {/* Prev, today, next */}
+                <div
+                    id="prev-today-next"
+                    className="d-flex rounded btn-group my-3 p-3"
+                >
+                    <Link
+                        to={`/dashboard?date=${dateTime.previous(date)}`}
+                        className="border border-dark btn btn-secondary"
+                    >
+                        Previous
+                    </Link>
+                    <Link
+                        to={`/dashboard`}
+                        className="border border-dark btn btn-secondary btn-primary"
+                    >
+                        Today
+                    </Link>
+                    <Link
+                        to={`/dashboard?date=${dateTime.next(date)}`}
+                        className="border border-dark btn btn-secondary"
+                    >
+                        Next
+                    </Link>
+                </div>
 
-        {/* Prev, today, next */}
-        <div id="prev-today-next" className="d-flex rounded btn-group">
-          <Link
-            to={`/dashboard?date=${dateTime.previous(date)}`}
-            className="btn btn-secondary"
-          >
-            Previous
-          </Link>
-          <Link to={`/dashboard`} className="btn btn-primary">
-            Today
-          </Link>
-          <Link
-            to={`/dashboard?date=${dateTime.next(date)}`}
-            className="btn btn-secondary"
-          >
-            Next
-          </Link>
-        </div>
-      </div>
 
-      {/* Reservations List */}
-      <div id="reservations-list" className="container my-3 p-3">
-        <div className="headingBar">
-          <h2>Reservations for {dateString}</h2>
-        </div>
-        <ErrorAlert error={reservationsError} />
-        <ReservationsList
-          hideCancelled={hideCancelled}
-          reservations={reservations}
-        />
-      </div>
+            {/* Reservations List */}
+            <div id="reservations-list" className="container my-3 p-3">
+                <div className="headingBar text-center">
+                    <h2>Reservations</h2>
+                    <h6>{dateString}</h6>
+                </div>
+                <ErrorAlert error={reservationsError} />
+                <ReservationsList
+                    reservations={reservations}
+                />
+            </div>
 
-      {/* Tables List */}
-      <div id="tables-list" className="container my-3 p-3">
-        <div className="headingBar my-3 p-2">
-          <h2>Tables</h2>
-        </div>
-        <ErrorAlert error={tablesError} />
-        <TablesList tables={tables} reservations={reservations} />
-      </div>
-    </main>
-  );
+            {/* Tables List */}
+            <div id="tables-list" className="container my-3 p-3">
+                <div className="headingBar text-center">
+                    <h2>Tables</h2>
+                </div>
+                <ErrorAlert error={tablesError} />
+                <TablesList tables={tables} reservations={reservations} />
+            </div>
+        </main>
+    );
 }
 
 export default Dashboard;
