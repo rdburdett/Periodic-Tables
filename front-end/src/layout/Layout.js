@@ -14,12 +14,12 @@ import "./Layout.css";
 function Layout() {
     return (
         <div className="container-fluid bg-dark text-light min-vh-100">
-            <div className="row h-100">
-                <div className="col-lg-2 col-xl-2 mw-100">
+            <div className="row h-100 py-2">
+                <div className="col-lg-2 col-xl-2 mw-100 px-4">
                     <Menu />
                 </div>
                 <div className="col col-lg-8">
-                    <div className="my-3 row mx-auto justify-content-center">
+                    <div className="px-3 row mx-auto justify-content-center">
                         <Routes />
                     </div>
                 </div>

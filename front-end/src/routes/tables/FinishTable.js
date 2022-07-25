@@ -38,7 +38,7 @@ function FinishTable({ table_id, reservation_id }) {
   return (
     <button
       type="button"
-      className="btn hover-brand-color animate btn-secondary btn-shade"
+      className="py-2 p-1 btn hover-brand-color animate btn-secondary shade"
       data-table-id-finish={table_id}
       onClick={(e) => finishClickHandler(e)}
     >

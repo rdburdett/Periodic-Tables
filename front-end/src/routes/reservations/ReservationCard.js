@@ -54,7 +54,7 @@ function ReservationCard({ reservation }) {
                 <h2 className="card-title">{last_name}</h2>
                 {/* Card avatar image */}
                 <img
-                    src={generateAvatar(reservation_id)}
+                    src={generateAvatar(reservation)}
                     className=" card-img-top"
                     alt="reservation avatar"
                 />
@@ -75,8 +75,6 @@ function ReservationCard({ reservation }) {
                 >
                     Party of {people}
                     <br />
-
-
                     Reservation ID: {reservation_id}
                     <br />
                     {groomPhone(mobile_number)}
@@ -89,7 +87,7 @@ function ReservationCard({ reservation }) {
                 {status === "seated" ? null : (
                     <button
                         onClick={handleCancel}
-                        className="p-1 btn btn-secondary btn-shade hover-danger animate"
+                        className="py-2 p-1 btn btn-secondary shade hover-danger animate"
                         value={reservation_id}
                         data-reservation-id-cancel={reservation_id}
                     >
@@ -100,7 +98,7 @@ function ReservationCard({ reservation }) {
                 {/* Edit button */}
                 <Link
                     to={`/reservations/${reservation_id}/edit`}
-                    className="p-1 btn btn-secondary btn-shade hover-warning animate"
+                    className="py-2 p-1 btn btn-secondary shade hover-warning animate"
                 >
                     Edit
                 </Link>
@@ -109,7 +107,7 @@ function ReservationCard({ reservation }) {
                 {status === "seated" ? null : (
                     <Link
                         to={`/reservations/${reservation_id}/seat`}
-                        className="p-1 btn rounded-right btn-secondary btn-shade hover-brand-color animate"
+                        className="py-2 p-1 btn rounded-right btn-secondary shade hover-brand-color animate"
                     >
                         Seat
                     </Link>

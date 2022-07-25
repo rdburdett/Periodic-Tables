@@ -11,20 +11,28 @@
   color: var(--brand-color);
 }
 
+.hover-white:hover {
+  color: white !important;
+}
+
 .hover-brand-color:hover {
-  color: var(--brand-color);
+  color: var(--brand-color) !important;
 }
 
 .hover-warning:hover {
-  color: yellow;
+  color: yellow !important;
 }
 
 .hover-danger:hover {
-  color: rgb(255, 98, 98);
+  color: rgb(255, 98, 98) !important;
 }
 
-.btn-shade {
+.shade {
   background-color: rgba(0, 0, 0, 0.1);
+}
+
+.light {
+  background-color: rgba(255, 255, 255, 0.1);
 }
 
 .animate {
@@ -54,6 +62,11 @@
 h1, h2, h3, h4, h5, h6 {
   font-family: 'Ubuntu', sans-serif;
   /* color: var(--brand-color-secondary); */
+}
+
+.form-control {
+  padding-top: 5% !important;
+  padding-bottom: 5% !important;
 }
 
 .side-bar {

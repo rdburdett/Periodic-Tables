@@ -186,7 +186,7 @@ function SeatReservation() {
                                     <button
                                         type="button"
                                         onClick={() => history.goBack()}
-                                        className="btn btn-secondary btn-shade mr-2"
+                                        className="btn btn-secondary shade mr-2"
                                     >
                                         Cancel
                                     </button>

@@ -72,19 +72,19 @@ function Dashboard({ date }) {
                 >
                     <Link
                         to={`/dashboard?date=${dateTime.previous(date)}`}
-                        className="border border-dark btn btn-secondary"
+                        className="py-2 p-1 border border-dark btn btn-secondary"
                     >
                         Previous
                     </Link>
                     <Link
                         to={`/dashboard`}
-                        className="border border-dark btn btn-secondary btn-primary"
+                        className="py-2 p-1 border border-dark btn btn-secondary btn-primary"
                     >
                         Today
                     </Link>
                     <Link
                         to={`/dashboard?date=${dateTime.next(date)}`}
-                        className="border border-dark btn btn-secondary"
+                        className="py-2 p-1 border border-dark btn btn-secondary"
                     >
                         Next
                     </Link>

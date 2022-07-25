@@ -11,7 +11,7 @@ function TableCard({ table, index, reservations }) {
 
   const show = Boolean(table.reservation_id) && reservations.length;
   return (
-    <div className="card bg-secondary border-0 rounded-bottom my-3">
+    <div className="card bg-secondary border-0 rounded-bottom my-4">
       {/* Last name as header */}
       <div className="card-header">
         <h3 className="">{table_name}</h3>
@@ -24,11 +24,11 @@ function TableCard({ table, index, reservations }) {
           <span
             className={`oi ${
               !table.reservation_id
-                ? "oi-circle-check brand-color"
-                : "oi-person text-warning"
+                ? "oi-circle-check brand-color mr-2"
+                : "oi-person text-warning mr-2"
             }`}
           />
-          {` ${groomStatus(status)}`}
+          {`${groomStatus(status)}`}
         </h5>
 
         {/* Card text */}
@@ -49,7 +49,7 @@ function TableCard({ table, index, reservations }) {
             reservation_id={table.reservation_id}
           />
         ) : (
-          <span className="btn text-white disabled">Unoccupied</span>
+          <span className="py-2 p-1 btn text-white disabled">Unoccupied</span>
         )}
       </div>
     </div>
