@@ -54,7 +54,6 @@ function NewTable() {
             [target.name]: target.name === "capacity" ? Number(value) : value,
         });
 
-        // console.log("Form Data: ", formData, typeof formData.capacity);
     };
 
     return (

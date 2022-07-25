@@ -61,36 +61,36 @@ function Dashboard({ date }) {
     return (
         <div id="dashboard-page" className="w-100">
             {/* Dashboard */}
-                <h1 className="text-center mt-5">My Dashboard</h1>
+            <h1 className="text-center mt-5">My Dashboard</h1>
 
-
-            {/* Prev, today, next */}
-            <div
-                id="prev-today-next"
-                className="w-100 rounded btn-group mb-3 p-3"
-            >
-                <Link
-                    to={`/dashboard?date=${dateTime.previous(date)}`}
-                    className="border border-dark btn btn-secondary"
-                >
-                    Previous
-                </Link>
-                <Link
-                    to={`/dashboard`}
-                    className="border border-dark btn btn-secondary btn-primary"
-                >
-                    Today
-                </Link>
-                <Link
-                    to={`/dashboard?date=${dateTime.next(date)}`}
-                    className="border border-dark btn btn-secondary"
-                >
-                    Next
-                </Link>
-            </div>
-
-            {/* Reservations List */}
+            {/* Reservations */}
             <div id="reservations-list" className="container my-3 p-3">
+                {/* Prev, today, next */}
+                <div
+                    id="prev-today-next"
+                    className="w-100 rounded btn-group mb-3"
+                >
+                    <Link
+                        to={`/dashboard?date=${dateTime.previous(date)}`}
+                        className="border border-dark btn btn-secondary"
+                    >
+                        Previous
+                    </Link>
+                    <Link
+                        to={`/dashboard`}
+                        className="border border-dark btn btn-secondary btn-primary"
+                    >
+                        Today
+                    </Link>
+                    <Link
+                        to={`/dashboard?date=${dateTime.next(date)}`}
+                        className="border border-dark btn btn-secondary"
+                    >
+                        Next
+                    </Link>
+                </div>
+
+                {/* Reservations List */}
                 <div className="headingBar text-center">
                     <h2>Reservations</h2>
                     <h6>{dateString}</h6>
