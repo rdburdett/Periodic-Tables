@@ -3,12 +3,12 @@ import React from "react";
 
 const ReservationForm = ({ formData, handleChange }) => {
   return (
-    <div>
+    <div className="text-white">
       {/* First Name */}
       <div className="form-group">
         <label>First Name</label>
         <input
-          className="form-control"
+          className="form-control bg-secondary text-light border-secondary input-custom"
           id="first_name"
           type="text"
           name="first_name"
@@ -24,7 +24,7 @@ const ReservationForm = ({ formData, handleChange }) => {
       <div className="form-group">
         <label>Last Name</label> <br />
         <input
-          className="form-control"
+          className="form-control bg-secondary text-light border-0 input-custom"
           id="last_name"
           type="text"
           name="last_name"
@@ -40,7 +40,7 @@ const ReservationForm = ({ formData, handleChange }) => {
       <div className="form-group">
         <label>Mobile Number</label> <br />
         <input
-          className="form-control"
+          className="form-control bg-secondary text-light border-secondary input-custom"
           id="mobile_number"
           type="text"
           name="mobile_number"
@@ -61,7 +61,7 @@ const ReservationForm = ({ formData, handleChange }) => {
       <div className="form-group">
         <label>Reservation Date</label>
         <input
-          className="form-control"
+          className="form-control bg-secondary text-light border-secondary input-custom"
           id="reservation_date"
           type="date"
           name="reservation_date"
@@ -76,7 +76,7 @@ const ReservationForm = ({ formData, handleChange }) => {
       <div className="form-group">
         <label>Reservation Time</label>
         <input
-          className="form-control"
+          className="form-control bg-secondary text-light border-secondary input-custom"
           id="reservation_time"
           type="time"
           name="reservation_time"
@@ -91,7 +91,7 @@ const ReservationForm = ({ formData, handleChange }) => {
       <div className="form-group">
         <label>Number of people in the party</label>
         <input
-          className="form-control"
+          className="form-control bg-secondary text-light border-secondary input-custom"
           id="people"
           type="number"
           name="people"
