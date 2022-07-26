@@ -15,9 +15,7 @@ Periodic Tables is a web application which can be used by restaurants to track r
 
 #### Dashboard
 
-<img src="./media/screenshots/mobile-dashboard.png" alt="mobile-dashboard" width="200"/>
-<img src="./media/screenshots/mobile-reservation-scroll.png" alt="mobile-reservation-scroll" width="200"/>
-<img src="./media/screenshots/mobile-tables.png" alt="mobile-tables" width="200"/>
+<img src="./media/screenshots/mobile-dashboard.png" alt="mobile-dashboard" width="200"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./media/screenshots/mobile-reservation-scroll.png" alt="mobile-reservation-scroll" width="200"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./media/screenshots/mobile-tables.png" alt="mobile-tables" width="200"/>
 
 #### Pages
 
@@ -31,7 +29,7 @@ Periodic Tables is a web application which can be used by restaurants to track r
 
 #### Dashboard
 
-<img src="./media/screenshots/desktop-dashboard.png" alt="desktop-dashboard" width="500"/>
+<img src="./media/screenshots/desktop-dashboard.png" alt="desktop-dashboard" width="50%"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./media/screenshots/desktop-dashboard.png" alt="desktop-dashboard" width="50%"/>
 
 #### Reservations List
 
