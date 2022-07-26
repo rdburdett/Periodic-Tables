@@ -143,7 +143,7 @@ function SeatReservation() {
 
             <div className="d-md-flex mb-3">
                 {/* Reservation Card */}
-                <div className="col-sm-6">
+                <div className="col">
                     {reservation ? (
                         <SeatReservationCard reservation={reservation} />
                     ) : (
@@ -152,7 +152,7 @@ function SeatReservation() {
                 </div>
 
                 {/* Select Table */}
-                <div className="col-sm-6">
+                <div className="col">
                     <div className="card text-white bg-secondary my-3">
                         {/* Card Header */}
                         <div className="card-header">
