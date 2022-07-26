@@ -31,11 +31,11 @@ Periodic Tables is a web application which can be used by restaurants to track r
 
 #### Dashboard
 
-<img src="./media/screenshots/desktop-dashboard.png" alt="desktop-dashboard" width="300"/>
+<img src="./media/screenshots/desktop-dashboard.png" alt="desktop-dashboard" width="500"/>
 
 #### Reservations List
 
-<img src="./media/screenshots/desktop-reservations-list.png" alt="drawing" width="300"/>
+<img src="./media/screenshots/desktop-reservations-list.png" alt="drawing" width="500"/>
 
 ## API
 
@@ -45,19 +45,18 @@ Visit [API documentation](./back-end//README.md) for detailed instructions.
 ## Technologies
 > *Technologies used in this app*
 
-## Frontend:
+### Frontend:
 - [Javascript](http://knexjs.org/)
 - [React](http://knexjs.org/)
 - [Bootstrap](http://knexjs.org/)
 - [HTML5](http://knexjs.org/)
 - [CSS](http://knexjs.org/)
 
-## Backend:
+### Backend:
 - [Node](http://knexjs.org/)
 - [Express](http://knexjs.org/)
 - [Knex](http://knexjs.org/)
 - [PostgreSQL](http://knexjs.org/)
-
 
 ## Installation
 
