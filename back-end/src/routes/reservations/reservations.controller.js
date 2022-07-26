@@ -216,7 +216,6 @@ async function searchDate(req, res, next) {
 // CREATE NEW RESERVATION
 // POST "/"
 async function create(req, res, next) {
-  log && console.log("create()...")
   const { status } = req.body.data
 
   // Returns 400 if status is 'seated'

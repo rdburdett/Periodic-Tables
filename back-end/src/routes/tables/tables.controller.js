@@ -25,8 +25,6 @@ function validateTableName(req, res, next, data) {
       message: "Request 'table_name' must be longer than one character.",
     });
   }
-
-  log && console.log("'table_name' is valid", tableName,)
 }
 
 // VALIDATE CAPACITY
