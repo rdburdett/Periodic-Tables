@@ -8,7 +8,7 @@ Periodic Tables is a web application which can be used by restaurants to track r
 
 ### Desktop
 
-<img src="./media/screenshots/desktop-dashboard.png" alt="desktop-dashboard" width="48%"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./media/screenshots/desktop-dashboard.png" alt="desktop-dashboard" width="48%"/>
+<img src="./media/screenshots/desktop-dashboard.png" alt="desktop-dashboard" width="48%"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./media/screenshots/desktop-tables.png" alt="desktop-tables" width="48%"/>
 
 ### Tablet
 
@@ -16,15 +16,11 @@ Periodic Tables is a web application which can be used by restaurants to track r
 
 ### Mobile
 
-<img src="./media/screenshots/mobile-dashboard.png" alt="mobile-dashboard" width="200"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./media/screenshots/mobile-reservation-scroll.png" alt="mobile-reservation-scroll" width="200"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./media/screenshots/mobile-tables.png" alt="mobile-tables" width="200"/>
-
-### Reservations List
-
-<img src="./media/screenshots/desktop-reservations-list.png" alt="drawing" width="500"/>
+<img src="./media/screenshots/mobile-dashboard.png" alt="mobile-dashboard" width="23%"/>&nbsp;&nbsp;&nbsp;<img src="./media/screenshots/mobile-dashboard-empty.png" alt="mobile-dashboard-empty" width="23%"/>&nbsp;&nbsp;&nbsp;<img src="./media/screenshots/mobile-reservations.png" alt="mobile-reservation" width="23%"/>&nbsp;&nbsp;&nbsp;<img src="./media/screenshots/mobile-tables.png" alt="mobile-tables" width="23%"/>
 
 #### Additional Pages
 
-<img src="./media/screenshots/create-reservation.png" alt="create-reservation" width="23%"/>&nbsp;&nbsp;&nbsp;<img src="./media/screenshots/create-table.png" alt="mobile-reservation-scroll" width="23%"/>&nbsp;&nbsp;&nbsp;<img src="./media/screenshots/search.png" alt="mobile-dashboard" width="23%"/>&nbsp;&nbsp;&nbsp;<img src="./media/screenshots/search.png" alt="mobile-dashboard" width="23%"/>
+<img src="./media/screenshots/page-reservation-create.png" alt="page-reservation-create" width="23%"/>&nbsp;&nbsp;&nbsp;<img src="./media/screenshots/page-reservation-edit.png" alt="page-reservation-edit" width="23%"/>&nbsp;&nbsp;&nbsp;<img src="./media/screenshots/page-reservation-search.png" alt="page-reservation-search" width="23%"/>&nbsp;&nbsp;&nbsp;<img src="./media/screenshots/page-table-create.png" alt="page-table-create" width="23%"/>
 
 
 ## API
