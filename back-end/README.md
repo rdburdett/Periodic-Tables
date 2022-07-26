@@ -1,106 +1,36 @@
 # Capstone: Restaurant Reservation System Backend
 
-See [../README.md](../README.md) for detailed instructions.
+See main project info [here](../README.md).
 
-# Routes
+# API
+## Reservations Route
 
-<!-- Reservations -->
-GET `/reservations` 
-POST `/reservations` 
-GET `/reservations/search` 
-GET `/reservations/:reservationId`
-PUT `/reservations/:reservationId`
-DELETE `/reservations/:reservationId`
-PUT `/reservations/:reservationId/status`
+The reservations route allows for create, read, update, and delete functionality as well as the ability to search by mobile_number and by date.
 
-<!-- Tables -->
-POST `/tables`
-GET `/tables`
-GET `/tables/:tableId`
-PUT `/tables/:tableId`
-DELETE `/tables/:tableId`
-PUT `/tables/:tableId/seat`
-DELETE `/tables/:tableId/seat`
+All existing `/reservations` endpoints and their CRUD functionality:
 
-## Reservations
-All existing '/reservations' endpoints and their CRUD functionality and subfunction names.
+| Request | Route | Description |
+| ------- | ----- | ----------- |
+| GET | `/reservations` | List all reservations 
+| POST | `/reservations` | Create new reservation
+| GET | `/reservations/search` | Search for an existing reservation by mobile or date
+| GET | `/reservations/:reservationId` | Get a reservation by ID
+| PUT | `/reservations/:reservationId` | Modify an existing reservation
+| DELETE | `/reservations/:reservationId` | Delete a reservation
+| PUT | `/reservations/:reservationId/status` | Modify the status of an existing reservation
 
-<!-- List all reservations -->
-GET `/reservations` 
-[list]
+## Tables Route
 
-<!-- Create a new reservation -->
-POST `/reservations` 
-[dataValidation] 
-[create]
+The tables route allows for create, read, update, delete functionality as well as the ability to 'seat' and 'unseat' a reservation from a table.
 
-<!-- Search for reservation by either date or phone number -->
-<!-- NOTE: GET requests to /reservations require a query parameter of 'date' or 'mobile_number' -->
-GET `/reservations/search` 
-[search]
+All existing `/tables` endpoints and their CRUD functionality:
 
-<!-- Get a specific reservation by id -->
-GET `/reservations/:reservationId`
-[reservationExists]
-[read]
-
-<!-- Modify an existing reservation by id -->
-PUT `/reservations/:reservationId`
-[dataValidation]
-[reservationExists]
-[update] 
-
-<!-- Delete a reservation by id -->
-DELETE `/reservations/:reservationId`
-[reservationExists]
-[destroy]
-
-<!-- Update a reservation status by id -->
-PUT `/reservations/:reservationId/status`
-[validateStatus]
-[reservationExists]
-[statusUpdate]
-
-## Tables
-All existing '/tables' endpoints and their CRUD functionality.
-
-<!-- Create a new table -->
-POST `/tables`
-[tablesDataValidation]
-[create]
-
-<!-- List all tables -->
-GET `/tables`
-[list]
-
-<!-- Find a specific table by id -->
-GET `/tables/:tableId`
-[tableExists]
-[read]
-
-<!-- Update a table by id -->
-PUT `/tables/:tableId`
-[seatsDataValidation]
-[tableExists]
-[update]
-
-<!-- Delete a table by id -->
-DELETE `/tables/:tableId`
-[tablesDataValidation]
-[tableExists]
-[destroy]
-
-<!-- Seat a reservation at a table -->
-PUT `/tables/:tableId/seat`
-[seatsDataValidation]
-[reservationExists]
-[tableExists]
-[hasCapacity]
-[seat]
-
-<!-- Unseat a reservation from a table -->
-DELETE `/tables/:tableId/seat`
-[tableExists]
-[isOccupied]
-[unseat]
-
+| Request | Route | Description |
+| ------- | ----- | ----------- |
+| GET | `/tables` | List all tables
+| POST | `/tables` | Create a new table
+| GET | `/tables/:tableId` | Get a table by ID
+| PUT | `/tables/:tableId` | Modify an existing table
+| DELETE | `/tables/:tableId` | Delete a table
+| PUT | `/tables/:tableId/seat` | Seat a reservation at a table
+| DELETE | `/tables/:tableId/seat` | Unseat a reservation from a table
