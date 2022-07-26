@@ -68,10 +68,13 @@ function ReservationCard({ reservation }) {
                     {reservation_time}
                 </h4>
                 {/* Card title with status */}
-                <h5 className="text-light">{groomStatus(status)}</h5>
+                <h5
+                    className="text-light"
+                    data-reservation-id-status={reservation_id}
+                >{groomStatus(status)}
+                </h5>
                 <p
                     className="card-text"
-                    data-reservation-id-status={reservation_id}
                 >
                     Party of {people}
                     <br />

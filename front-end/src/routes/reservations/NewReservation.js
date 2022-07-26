@@ -66,6 +66,7 @@ function NewReservation() {
         <main id="new-reservation-page">
             <h1 className="text-center my-5">Create a New Reservation</h1>
 
+            <ErrorAlert error={reservationsError} />
             <form onSubmit={handleSubmit}>
                 {/* Reservation Form */}
                 <ReservationForm
@@ -88,7 +89,6 @@ function NewReservation() {
                 </div>
             </form>
 
-            <ErrorAlert error={reservationsError} />
         </main>
     );
 }

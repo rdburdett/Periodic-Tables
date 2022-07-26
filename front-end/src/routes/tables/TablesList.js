@@ -1,6 +1,6 @@
 import TableCard from "./TableCard";
 
-const log = true;
+const log = false;
 
 function TablesList({ tables, reservations }) {
   log && console.log("tables: ", tables);
