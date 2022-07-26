@@ -2,7 +2,7 @@ import React from "react";
 import ReservationCard from "./ReservationCard";
 import NewCard from "./NewCard";
 
-function ReservationsList({ reservations = [] }) {
+function ReservationsList({ reservations = [], hideNew = false }) {
     const reservationList = (
         // Main list column
         <div>
@@ -18,18 +18,16 @@ function ReservationsList({ reservations = [] }) {
                             />
                         )
                 )}
-            <NewCard />
             </div>
-
         </div>
     );
 
     const addNewCard = (
-        <div id="add-card" className="card-columns">
+        <div id="add-card" className="col">
             <p className="text-secondary">
                 No reservations found for this date.
             </p>
-            <NewCard />
+            {!hideNew && <NewCard />}
         </div>
     );
 

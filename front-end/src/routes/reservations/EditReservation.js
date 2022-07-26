@@ -93,8 +93,10 @@ function EditReservation() {
   // );
 
   return (
-    <div className="">
+    <main id="edit-reservation-page">
       <h1 className="text-center">Edit Reservation</h1>
+      <ErrorAlert error={reservationsError} />
+
       <form onSubmit={handleSubmit}>
         <ReservationForm formData={formData} handleChange={handleChange} />
         <button
@@ -109,8 +111,7 @@ function EditReservation() {
         </button>
       </form>
 
-      <ErrorAlert error={reservationsError} />
-    </div>
+    </main>
   );
 }
 
