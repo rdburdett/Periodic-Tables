@@ -3,12 +3,6 @@ const asyncErrorBoundary = require("../../errors/asyncErrorBoundary");
 const logger = require("../../logger.js")
 
 ////////////////////////////
-//      ROUTE LOGGER      //
-////////////////////////////
-
-const log = false
-
-////////////////////////////
 //       VALIDATION       //
 ////////////////////////////
 
@@ -21,12 +15,10 @@ function isADate(dateString){
 // VALIDATE STATUS
 function validateStatus(req, res, next) {
   const { data } = req.body
-  // log && console.log("\nvalidateStatus()")
   const validStatus = ["booked", "seated", "finished", "cancelled"];
 
   // Returns 400 if 'status' is not valid
   if (!validStatus.includes(data.status)) {
-    log && console.log(`validateStatus() - 400 ${data.status} is not a valid status.`)
     return next({
       status: 400,
       message: `${data.status} is not a valid status.`
@@ -35,14 +27,12 @@ function validateStatus(req, res, next) {
 
   // Returns 400 if 'status' is empty
   if (!data.status) {
-    log && console.log("validateStatus() - 400 Status is empty.")
     return next({
       status: 400,
       message: "Status is empty."
     })
   }
   
-  log && console.log("\nvalidateStatus() - Status valid.")
   return next()
 }
 
@@ -52,7 +42,6 @@ function validateName(req, res, next, data){
   const reqLastName = data.last_name;
   // Validate first_name
   if (!reqFirstName || reqFirstName.length <= 0) {
-    log && console.log("\nvalidateName() - 400 Reservation must include a first_name field.")
     return next({
       status: 400,
       message: "Reservation must include a first_name field."
@@ -60,7 +49,6 @@ function validateName(req, res, next, data){
   }
   // Validate last_name
   if (!reqLastName || reqLastName.length <= 0) {
-    log && console.log("\nvalidateName() - 400 Reservation must include a last_name field.")
     return next({
       status: 400,
       message: "Reservation must include a last_name field."
@@ -72,7 +60,6 @@ function validateName(req, res, next, data){
 function validateMobilePhone(req, res, next, data) {
   const mobileNumber = data.mobile_number;
   if (!mobileNumber) {
-    log && console.log("\nvalidateMobilePhone() - 400 Reservation must include a mobile_number.")
     return next({
       status: 400,
       message: "Reservation must include a mobile_number."  
@@ -82,11 +69,8 @@ function validateMobilePhone(req, res, next, data) {
 
 // VALIDATE PEOPLE
 function validatePeople(req, res, next, data) {
-  // log && console.log("\nvalidPeople()")
-
   // Returns 400 if party size is zero
   if (data.people <= 0) {
-    log && console.log(`validatePeople() - 400 Your party cannot have zero people.`)
     return next({
       status: 400,
       message: `Your party cannot have zero people.`
@@ -95,7 +79,6 @@ function validatePeople(req, res, next, data) {
 
   // Returns 400 if party size is not a number
   if (typeof data.people !== "number") {
-    log && console.log(`validatePeople() - 400 Property 'people' must be a number.`)
     return next({
       status: 400,
       message: `Property 'people' must be a number.`,
@@ -112,7 +95,6 @@ function validateDate(req, res, next, data) {
   
   // Returns 400 if reservation_date is missing or empty
   if (!data.reservation_date) {
-    log && console.log(`validateDate() - 400 Request 'reservation_date' empty.`)
     return next({
       status: 400,
       message: `Request 'reservation_date' empty.`,
@@ -121,7 +103,6 @@ function validateDate(req, res, next, data) {
 
   // Returns 400 if reservation_date is not a date
   if (!isADate(data.reservation_date)) {
-    log && console.log(`validateDate() - 400 Request 'reservation_date' must be a date.`)
     return next({
       status: 400,
       message: `Request 'reservation_date' must be a date.`,
@@ -130,7 +111,6 @@ function validateDate(req, res, next, data) {
 
   // Returns 400 if reservation_date is not in the future
   if (inputDate < compareDate) {
-    log && console.log(`validateDate() - 400 Reservation must be made for a day in the future.`)
     return next({
       status: 400,
       message: `Reservation must be made for a day in the future.`,
@@ -139,7 +119,6 @@ function validateDate(req, res, next, data) {
   
   // Returns 400 if user attempts to make reservation on a Tuesday 
   if (inputDate.getUTCDay() === 2) {
-    log && console.log(`validateDate() - 400 Reservation cannot be made. The restaurant is closed on Tuesdays.`)
     return next({
       status: 400,
       message: `Reservation cannot be made. The restaurant is closed on Tuesdays.`
@@ -148,7 +127,6 @@ function validateDate(req, res, next, data) {
 
   // Returns 400 if reservation_time is missing or empty
   if (!data.reservation_time) {
-    log && console.log(`400 Request 'reservation_time' empty.`)
     return next({
       status: 400,
       message: `Request 'reservation_time' empty.`,
@@ -157,7 +135,6 @@ function validateDate(req, res, next, data) {
   
   // Returns 400 if reservation_time is not between 10:30AM & 9:30PM
   if (data.reservation_time < "10:30" || data.reservation_time > "21:30") {
-    log && console.log(`400 Request 'reservation_time' must be between 10:30AM & 9:30PM.`)
     return next({
       status: 400,
       message: `Request 'reservation_time' must be between 10:30AM & 9:30PM.`,
@@ -167,10 +144,8 @@ function validateDate(req, res, next, data) {
 
 //  VALIDATE REQUEST DATA
 function dataValidation(req, res, next) {
-  log && console.log("\ndataValidation()")
   const { data } = req.body;
   if (!data) {
-    log && console.log("\ndataValidation() - 400 Please fill in required fields.")
     return next({
       status: 400,
       message: "Please fill in required fields."
@@ -183,7 +158,6 @@ function dataValidation(req, res, next) {
   validatePeople(req, res, next, data)
   validateDate(req, res, next, data)
 
-  log && console.log("\ndataValidation() - All tables data is valid.")
   return next()
 }
 
@@ -193,14 +167,12 @@ async function reservationExists(req, res, next) {
   const reservation = await service.read(reservationId);
 
   if (!reservation) {
-    log && console.log(`reservationExists() - 400 Reservation ${reservationId} cannot be found.`)
     return next({
       status: 404,
       message: `Reservation ${reservationId} cannot be found.`
     })
   } else {
     res.locals.reservation = reservation
-    log && console.log("reservationExists() - Reservation exists.\nres.locals.reservation assigned: ", reservation)
     return next()
   }
 }
@@ -234,16 +206,10 @@ async function searchMobile(req, res, next) {
 // HELPER - SEARCH FOR RESERVATION BY DATE
 async function searchDate(req, res, next) {
   let { date } = req.query;
-
   const response = await service.searchDate(date)
   const filteredResponse = response.filter((reservation) => {
     return (reservation.status !== "finished")
   }) 
-  // log && console.log(
-    //   "searchdate(date): ", date,
-    //   "\n filtered search response: ", filteredResponse
-    // )
-  log && console.log("reservations.controller.searchDate() - reservations: ", filteredResponse)
   res.json({ data: filteredResponse });
 }
 
@@ -255,7 +221,6 @@ async function create(req, res, next) {
 
   // Returns 400 if status is 'seated'
   if (status === "seated") {
-    log && console.log("create() - 400 Status seated.")
     return next({
       status: 400,
       message: `Status seated.`
@@ -265,7 +230,6 @@ async function create(req, res, next) {
 
   // Returns 400 if status is 'finished'
   if (status === "finished") {
-    log && console.log("create() - 400 Status finished.")
     return next({
       status: 400,
       message: `Status finished.`
@@ -277,7 +241,6 @@ async function create(req, res, next) {
     status: "booked"
   }
   // Returns 201 if status is 'booked'
-  log && console.log("create() - 201 Status booked.", newReservation)
   res.status(201).json({
     data: await service.create(newReservation)
   });
@@ -301,7 +264,6 @@ async function update(req, res, next) {
 
   // send 400 if reservation is not in the future
   if (inputDate < compareDate) {
-    log && console.log("400 Reservation must occur in the future to be updated.")
     next({
       status: 400,
       message: `Reservation must occur in the future to be updated.`
@@ -313,7 +275,6 @@ async function update(req, res, next) {
     ...req.body.data,
     reservation_id: res.locals.reservation.reservation_id
   }
-  log && console.log("\nupdate() - Reservation updated: ", updatedReservation)
   res
     .status(200)
     .json({
@@ -327,17 +288,12 @@ async function statusUpdate(req, res, next) {
   const reqReservationStatus = req.body.data.status
   const currentReservationStatus = res.locals.reservation.status
 
-  ///////////////////////////////
-  // !!!!!! IMPORTANT !!!!!!!! //
-  ///////////////////////////////
   // Return 400 if status is currently finished (a finished reservation cannot be updated)
   if (currentReservationStatus === "finished") {
-    log && console.log("statusUpdate() - 400 Status finished. Cannot update a finished reservation.")
     return next({
       status: 400,
       message: 'Status finished. Cannot update a finished reservation.'
     });
-
   }
 
 
@@ -347,7 +303,6 @@ async function statusUpdate(req, res, next) {
     status: reqReservationStatus
   }
   const response = await service.update(updatedStatus)
-  log && console.log("statusUpdate() - 200 Status updated: ", response)
   res.status(200).json({
     data: response[0]
   })

@@ -1,10 +1,7 @@
 import TableCard from "./TableCard";
 
-const log = false;
 
 function TablesList({ tables, reservations }) {
-  log && console.log("tables: ", tables);
-  log && console.log("reservations: ", reservations);
 
   return (
     <div className="card-columns">
