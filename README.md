@@ -1,4 +1,42 @@
-# Capstone: Restaurant Reservation System
+The name of your application at the top of the file
+# Periodic Tables: Restaurant Reservation System
+
+
+
+A link to the live application deployed on Vercel:
+
+https://restaurant-reservation-app-kappa.vercel.app/dashboard
+
+
+
+Documentation of your API
+
+
+Screenshots of your application; this makes your application description much easier to understand
+
+A summary section that concisely explains what your application does; try to frame this from the standpoint of what the user does or how the application benefits the user
+
+A section on the technology used
+
+Installation instructions
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 > You have been hired as a full stack developer at _Periodic Tables_, a startup that is creating a reservation system for fine dining restaurants.
 > The software is used only by restaurant personnel when a customer calls to request a reservation.
