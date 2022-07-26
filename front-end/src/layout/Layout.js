@@ -22,6 +22,7 @@ function Layout() {
                     <div className="px-3 row mx-auto justify-content-center">
                         <Routes />
                     </div>
+                    <div className="my-5"/>
                 </div>
             </div>
         </div>
