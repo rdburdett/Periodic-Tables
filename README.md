@@ -6,34 +6,26 @@ Periodic Tables is a web application which can be used by restaurants to track r
 
 ## Design
 
+### Desktop
+
+<img src="./media/screenshots/desktop-dashboard.png" alt="desktop-dashboard" width="48%"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./media/screenshots/desktop-dashboard.png" alt="desktop-dashboard" width="48%"/>
+
 ### Tablet
 
 <img src="./media/screenshots/ipad-dashboard.png" alt="ipad-dashboard" width="300"/>
 
-
 ### Mobile
-
-#### Dashboard
 
 <img src="./media/screenshots/mobile-dashboard.png" alt="mobile-dashboard" width="200"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./media/screenshots/mobile-reservation-scroll.png" alt="mobile-reservation-scroll" width="200"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./media/screenshots/mobile-tables.png" alt="mobile-tables" width="200"/>
 
-#### Pages
-
-<img src="./media/screenshots/create-reservation.png" alt="mobile-tables" width="300"/>
-
-<img src="./media/screenshots/create-table.png" alt="mobile-reservation-scroll" width="300"/>
-
-<img src="./media/screenshots/search.png" alt="mobile-dashboard" width="300"/>
-
-### Desktop
-
-#### Dashboard
-
-<img src="./media/screenshots/desktop-dashboard.png" alt="desktop-dashboard" width="50%"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<img src="./media/screenshots/desktop-dashboard.png" alt="desktop-dashboard" width="50%"/>
-
-#### Reservations List
+### Reservations List
 
 <img src="./media/screenshots/desktop-reservations-list.png" alt="drawing" width="500"/>
+
+#### Additional Pages
+
+<img src="./media/screenshots/create-reservation.png" alt="create-reservation" width="23%"/>&nbsp;&nbsp;&nbsp;<img src="./media/screenshots/create-table.png" alt="mobile-reservation-scroll" width="23%"/>&nbsp;&nbsp;&nbsp;<img src="./media/screenshots/search.png" alt="mobile-dashboard" width="23%"/>&nbsp;&nbsp;&nbsp;<img src="./media/screenshots/search.png" alt="mobile-dashboard" width="23%"/>
+
 
 ## API
 
