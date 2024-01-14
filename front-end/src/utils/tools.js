@@ -4,16 +4,15 @@ import { bottts } from "@dicebear/collection";
 
 export function generateAvatar({ reservation_id, last_name }) {
 	const avatar = createAvatar(bottts, {
-        // seed: "John Doe",
-        seed: reservation_id * 135735 + last_name
+		// seed: "John Doe",
+		seed: reservation_id * 135735 + last_name,
 	});
 
-    // const svg = avatar.toString();
-    // console.log(svg)
-    // return svg
-
-    return `https://api.dicebear.com/7.x/pixel-art/svg?seed=${reservation_id * 135735 + last_name
-        }`;
+	// const svg = avatar.toString();
+	// console.log(svg)
+	// return svg
+	const seed = reservation_id * 135735 + last_name;
+	return `https://api.dicebear.com/7.x/bottts-neutral/svg?seed=${seed}`;
 }
 
 export function groomPhone(phone) {
