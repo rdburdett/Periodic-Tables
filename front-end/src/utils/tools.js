@@ -3,10 +3,10 @@ import { formatAsTime, formatAsDate } from "./date-time";
 // import { bottts } from "@dicebear/collection";
 
 export function generateAvatar({ reservation_id, last_name }) {
-	const avatar = createAvatar(bottts, {
-		// seed: "John Doe",
-		seed: reservation_id * 135735 + last_name,
-	});
+	// const avatar = createAvatar(bottts, {
+	// 	// seed: "John Doe",
+	// 	seed: reservation_id * 135735 + last_name,
+	// });
 
 	// const svg = avatar.toString();
 	// console.log(svg)
