@@ -1,6 +1,6 @@
 import { formatAsTime, formatAsDate } from "./date-time";
-import { createAvatar } from "@dicebear/core";
-import { bottts } from "@dicebear/collection";
+// import { createAvatar } from "@dicebear/core";
+// import { bottts } from "@dicebear/collection";
 
 export function generateAvatar({ reservation_id, last_name }) {
 	const avatar = createAvatar(bottts, {
