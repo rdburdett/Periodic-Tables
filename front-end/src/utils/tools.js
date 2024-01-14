@@ -1,19 +1,19 @@
 import { formatAsTime, formatAsDate } from "./date-time";
 import { createAvatar } from "@dicebear/core";
-import { adventurer } from "@dicebear/collection";
+import { bottts } from "@dicebear/collection";
 
 export function generateAvatar({ reservation_id, last_name }) {
-	const avatar = createAvatar(adventurer, {
+	const avatar = createAvatar(bottts, {
         // seed: "John Doe",
-        seed: `${reservation_id * 135735 + last_name}`
+        seed: reservation_id * 135735 + last_name
 	});
 
-    const svg = avatar.toString();
-    console.log(svg)
-    return svg
-	// return `https://avatars.dicebear.com/api/personas/reservation${
-	// 	reservation_id * 135735 + last_name
-	// }.svg`;
+    // const svg = avatar.toString();
+    // console.log(svg)
+    // return svg
+
+    return `https://api.dicebear.com/7.x/pixel-art/svg?seed=${reservation_id * 135735 + last_name
+        }`;
 }
 
 export function groomPhone(phone) {
